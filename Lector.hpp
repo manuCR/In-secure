@@ -18,13 +18,6 @@ class Lector {
 
   int read(std::string flname) ;
 
-  private: 
-
-  int open(std::string flname);
-
-  void reader(std::string entry);
-
-  void close();
 
 };
 #endif  // LECTOR_H

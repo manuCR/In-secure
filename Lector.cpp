@@ -11,7 +11,7 @@ Lector::Lector() {
 }
 
 int Lector::read(string flname) {
-    std::ifstream archivo(flname); // abre el archivo Ej: "archivo.txt"
+    std::ifstream archivo(flname); // abre el archivo Ej: "src/archivo.txt"
 
     if (!archivo.is_open()) { // verifica si el archivo se abrió correctamente
         std::cerr << "No se pudo abrir el archivo" << std::endl;
@@ -40,27 +40,4 @@ int Lector::read(string flname) {
 }
 
 
-int Lector::open(string flname){
-    std::ifstream archivo(flname); // abre el archivo Ej: "archivo.txt"
 
-    if (!archivo.is_open()) { // verifica si el archivo se abrió correctamente
-        std::cerr << "No se pudo abrir el archivo" << std::endl;
-        return 1;
-    }
-    return 0;
-  }
-
-void Lector::reader(string entry){
-    std::string linea;
-    while (std::getline(archivo, linea)) { // lee cada línea del archivo
-        //deberia llamar a la caja negra para que cifre la linea.
-        //debe enviar la linea por un socket. 
-        std::cout << linea << std::endl; // imprime la línea en la consola
-        
-    }
-  }
-
-void Lector::close(){
-    archivo.close(); // cierra el archivo
-    cout<< "Se cerró el archivo" <<endl;
-  }
