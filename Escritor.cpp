@@ -14,7 +14,7 @@ Escritor::Escritor() {
 void Escritor::add(string entry, string flname) {
     ofstream archivo;
     filename=flname;
-    archivo.open(filename.c_str(), fstream::out);
+    archivo.open(filename.c_str(), fstream::app);
     auto now = std::chrono::system_clock::now();
     std::time_t end_time = std::chrono::system_clock::to_time_t(now);
     archivo << std::ctime(&end_time);
@@ -27,7 +27,7 @@ void Escritor::add(string entry, string flname) {
 
 void Escritor::open(string flname){
     filename=flname;
-    archivo.open(filename.c_str(), fstream::out);
+    archivo.open(filename.c_str(), fstream::add);
     cout<< "Se abrió el archivo" <<endl;
     auto now = std::chrono::system_clock::now();
     std::time_t end_time = std::chrono::system_clock::to_time_t(now);
