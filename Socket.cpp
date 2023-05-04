@@ -25,6 +25,34 @@ void Socket::connectTo(const std::string &address, int port) {
   }
 }
 
+void Socket::bindTo(const std::string &address, int port) {
+  int opt = 1;
+  if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1) {
+    std::cerr << "Failed to reuse the port" << std::endl;
+    exit(EXIT_FAILURE);
+  }
+  struct sockaddr_in server_addr;
+  server_addr.sin_family = AF_INET;
+  server_addr.sin_port = htons(port);
+  server_addr.sin_addr.s_addr = inet_addr(address.c_str());
+  int addrlen = sizeof(address);
+
+  if (bind(sockfd, (struct sockaddr *)&server_addr, addrlen) == -1) {
+    std::cerr << "Failed to connect to server" << std::endl;
+    exit(EXIT_FAILURE);
+  }
+
+  if (listen(sockfd, 3) == -1) {
+    std::cerr << "Failed to listen to server" << std::endl;
+    exit(EXIT_FAILURE);
+  }
+  new_socket =
+      accept(sockfd, (struct sockaddr *)&server_addr, (socklen_t *)&addrlen);
+  if (new_socket == -1) {
+    std::cerr << "Failed to accept to server" << std::endl;
+  }
+}
+
 void Socket::send(const std::string &message) {
   if (::send(sockfd, message.c_str(), message.size(), 0) == -1) {
     std::cerr << "Failed to send message" << std::endl;
@@ -34,7 +62,7 @@ void Socket::send(const std::string &message) {
 
 std::string Socket::receive(int buffer_size) {
   char buffer[buffer_size];
-  if (recv(sockfd, buffer, buffer_size, 0) == -1) {
+  if (read(new_socket, buffer, buffer_size) == -1) {
     std::cerr << "Failed to receive message" << std::endl;
     exit(EXIT_FAILURE);
   }
