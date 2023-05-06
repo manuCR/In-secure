@@ -12,7 +12,7 @@ Lector::Lector() {
 
   int Lector::open(string flname) {
     filename = flname;
-    archivo.open(flname); // abre el archivo Ej: "src/archivo.txt"
+    archivo.open(filename); // abre el archivo Ej: "src/archivo.txt"
 
     if (!archivo.is_open()) { // verifica si el archivo se abrió correctamente
         std::cerr << "No se pudo abrir el archivo" << std::endl;
