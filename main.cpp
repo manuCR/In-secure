@@ -6,7 +6,7 @@
 
 int main() {
   Lector *lector = new Lector();
-  Client *client = new Client("172.24.3.84", 8283);
+  Client *client = new Client("172.24.3.83", 8283);
   lector->open("enviar.txt");
   std::string texto = "";
   std::string temp = lector->read();
