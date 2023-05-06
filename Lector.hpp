@@ -16,7 +16,9 @@ class Lector {
   */
   Lector();
 
-  int read(std::string flname) ;
+  int open(std::string flname) ;
+  std::string read() ;
+  int close() ;
 
 
 };
