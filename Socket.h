@@ -1,19 +1,27 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
+#include <arpa/inet.h>
 #include <string>
 
 class Socket {
 public:
-  Socket();
-  void connectTo(const std::string &address, int port);
-  void bindTo(const std::string &address, int port);
-  void send(const std::string &message);
-  std::string receive(int buffer_size);
+  struct mess {
+    bool end;
+    std::string mes;
+  };
+  Socket(std::string address, int port);
+  void connectTo();
+  void bindTo();
+  void send(std::string message);
+  int acceptConection();
+  mess receive(int socket, int buffer_size);
   ~Socket();
 
 private:
-  int sockfd, new_socket;
+  int sockfd, port, addrlen;
+  std::string address;
+  struct sockaddr_in server_addr;
 };
 
 #endif
