@@ -15,6 +15,7 @@ int main() {
     client->send(temp);
     temp = lector->read();
   }
+  client->end();
   lector->close();
   delete client;
   std::cout << "lectura final:" << texto << std::endl;
