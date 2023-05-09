@@ -20,17 +20,17 @@ void Server::start() {
 void Server::stop() { active = false; }
 
 void Server::getMessages(int id) {
-  Socket::mess message = receive(id, 1024);
+  Socket::mess message = receive(id);
   std::string texto = "";
   while (!message.end) {
     texto += message.mes;
-    message = receive(id, 1024);
+    message = receive(id);
   }
   std::cout << "lectura final:" << texto << std::endl;
 }
 
-Socket::mess Server::receive(int id, int buffer_size) {
-  return socket->receive(id, buffer_size);
+Socket::mess Server::receive(int id) {
+  return socket->receive(id);
 }
 
 Server::~Server() { delete socket; }

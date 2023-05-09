@@ -8,7 +8,7 @@ class Server {
 public:
   Server(std::string address, int port);
   void getMessages(int id);
-  Socket::mess receive(int id, int buffer_size);
+  Socket::mess receive(int id);
   void start();
   void stop();
   ~Server();
