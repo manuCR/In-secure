@@ -31,11 +31,6 @@ void Socket::connectTo() {
 
 void Socket::bindTo() {
   int opt = 1;
-  if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1) {
-    std::cerr << "Failed to reuse the port" << std::endl;
-    exit(EXIT_FAILURE);
-  }
-
   if (bind(sockfd, (struct sockaddr *)&server_addr, addrlen) == -1) {
     std::cerr << "Failed to connect to server: " << std::strerror(errno)
               << std::endl;
