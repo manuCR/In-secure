@@ -9,15 +9,15 @@ int main() {
   Client *client = new Client("172.24.3.83", 8283);
   lector->open("enviar.txt");
   std::string texto = "";
-  std::string temp = lector->read();
-  while(temp.length() > 0){
-    texto += temp;
+  std::string temp = "";
+  while (lector->read() > 0) {
+    temp = lector->getText();
     client->send(temp);
-    temp = lector->read();
+    texto += temp;
   }
   lector->close();
   delete client;
-  std::cout << "lectura final:" << texto << std::endl;
+  std::cout << "lectura final:" << std::endl << texto << std::endl;
   delete lector;
   return 0;
 }

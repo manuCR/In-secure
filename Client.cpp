@@ -1,10 +1,10 @@
 #include "Client.h"
 
-Client::Client(const std::string &address, int port) {
-  socket = new Socket();
-  socket->connectTo(address, port);
+Client::Client(std::string address, int port) {
+  socket = new Socket(address, port);
+  socket->connectTo();
 }
 
-void Client::send(const std::string &message) { return socket->send(message); }
+void Client::send(std::string message) { return socket->send(message); }
 
 Client::~Client() { delete socket; }

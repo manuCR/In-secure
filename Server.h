@@ -6,12 +6,16 @@
 
 class Server {
 public:
-  Server(const std::string &address, int port);
-  std::string receive(int buffer_size);
+  Server(std::string address, int port);
+  void getMessages(int id);
+  Socket::mess receive(int id);
+  void start();
+  void stop();
   ~Server();
 
 private:
   Socket *socket;
+  bool active;
 };
 
 #endif

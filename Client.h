@@ -6,8 +6,8 @@
 
 class Client {
 public:
-  Client(const std::string &address, int port);
-  void send(const std::string &message);
+  Client(std::string address, int port);
+  void send(std::string message);
   ~Client();
 
 private:
