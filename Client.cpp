@@ -6,6 +6,5 @@ Client::Client(std::string address, int port) {
 }
 
 void Client::send(std::string message) { return socket->send(message); }
-void Client::end() { return socket->end(); }
 
 Client::~Client() { delete socket; }

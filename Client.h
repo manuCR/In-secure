@@ -8,7 +8,6 @@ class Client {
 public:
   Client(std::string address, int port);
   void send(std::string message);
-  void end();
   ~Client();
 
 private:
