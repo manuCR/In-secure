@@ -77,7 +77,6 @@ Socket::mess Socket::receive(int socket) {
   } else {
     comunication.end = true;
   }
-  std::cout << "comunication end: " << comunication.end << " mes: " << comunication.mes << std::endl;
   return comunication;
 }
 

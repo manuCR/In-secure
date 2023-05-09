@@ -11,7 +11,6 @@ int main() {
   std::string texto = "";
   std::string temp = lector->read();
   while(temp.length() > 0){
-    std::cout << "lectura temp:" << temp << std::endl;
     texto += temp;
     client->send(temp);
     temp = lector->read();
