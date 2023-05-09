@@ -63,14 +63,6 @@ void Socket::send(std::string message) {
   }
 }
 
-void Socket::end() {
-  if (::send(sockfd, 0, sizeof(0), 0) == -1) {
-    std::cerr << "Failed to send 0: " << std::strerror(errno)
-              << std::endl;
-    exit(EXIT_FAILURE);
-  }
-}
-
 Socket::mess Socket::receive(int socket, int buffer_size) {
   char buffer[buffer_size];
   mess comunication;
@@ -79,12 +71,11 @@ Socket::mess Socket::receive(int socket, int buffer_size) {
               << std::endl;
     exit(EXIT_FAILURE);
   }
-  if (buffer == 0) {
-    comunication.end = true;
-    comunication.mes = std::string();
-  } else {
+  comunication.mes = std::string(buffer);
+  if (comunication.mes.length() > 0) {
     comunication.end = false;
-    comunication.mes = std::string(buffer);
+  } else {
+    comunication.end = true;
   }
   std::cout << "comunication end: " << comunication.end << " mes: " << comunication.mes << std::endl;
   return comunication;

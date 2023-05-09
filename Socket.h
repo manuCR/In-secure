@@ -14,7 +14,6 @@ public:
   void connectTo();
   void bindTo();
   void send(std::string message);
-  void end();
   int acceptConection();
   mess receive(int socket, int buffer_size);
   ~Socket();
