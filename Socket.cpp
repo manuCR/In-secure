@@ -12,7 +12,7 @@ Socket::Socket(std::string address, int port) {
   server_addr.sin_family = AF_INET;
   server_addr.sin_port = htons(port);
   server_addr.sin_addr.s_addr = inet_addr(address.c_str());
-  this->addrlen = sizeof(address);
+  this->addrlen = sizeof(server_addr);
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
   if (sockfd == -1) {
     std::cerr << "Failed to create socket" << std::endl;
