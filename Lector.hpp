@@ -1,7 +1,7 @@
 #ifndef LECTOR_H
 #define LECTOR_H
 
-#include <fstream>
+#include <cstdio>
 #include <string>
 
 
@@ -9,7 +9,8 @@ class Lector {
 
  public:
   std::string filename;
-  std::ifstream archivo;
+  FILE * archivo;
+  char * buffer = new char[1024];
 
   /**
   * @brief Class constructor.
@@ -17,7 +18,8 @@ class Lector {
   Lector();
 
   int open(std::string flname) ;
-  std::string read() ;
+  int read();
+  std::string getText();
   int close() ;
 
 
