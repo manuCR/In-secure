@@ -21,11 +21,6 @@ Socket::Socket(std::string address, int port) {
 }
 
 void Socket::connectTo() {
-  struct sockaddr_in server_addr;
-  server_addr.sin_family = AF_INET;
-  server_addr.sin_port = htons(port);
-  server_addr.sin_addr.s_addr = inet_addr(address.c_str());
-
   if (connect(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr)) ==
       -1) {
     std::cerr << "Failed to connect to server: " << std::strerror(errno)
