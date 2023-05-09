@@ -5,8 +5,7 @@
 #include <unistd.h>
 
 int main() {
-  Server *server = new Server("172.31.128.46", 8283);
-  std::string response = server->receive(1024);
+  Server *server = new Server("172.24.3.83", 8283);
   new std::thread(&Server::start, server);
   getchar();
   server->stop();
