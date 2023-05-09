@@ -66,7 +66,7 @@ void Socket::send(std::string message) {
 Socket::mess Socket::receive(int socket) {
   char buffer[1024] = { 0 };
   mess comunication;
-  if (read(socket, buffer, buffer_size) == -1) {
+  if (read(socket, buffer, 1024) == -1) {
     std::cerr << "Failed to receive message: " << std::strerror(errno)
               << std::endl;
     exit(EXIT_FAILURE);
