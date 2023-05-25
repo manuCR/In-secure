@@ -1,8 +1,9 @@
-
+Comando para compilar
+g++ -o cifrado Cifrado.cpp -lssl -lcrypto
 
     Generate RSA key:
 
-    $ openssl genrsa -out key.pem 1024 
+    $ openssl genrsa -out key.pem 4096 
     $ openssl rsa -in key.pem -text -noout
 
     Save public key in pub.pem file:
@@ -19,3 +20,31 @@
 
     $ openssl rsautl -decrypt -inkey key.pem -in file.bin 
 
+
+int main() {
+    std::string message = "un patito muy feito, era muy queridito";
+    std::string publicKeyPath = "/home/valery.murcia/In-secure/pub.pem";
+    std::string privateKeyPath = "/home/valery.murcia/In-secure/key.pem";
+
+    // Encriptar el mensaje
+    std::string encryptedMessage = encryptMessage(message, publicKeyPath);
+
+    if (encryptedMessage.empty()) {
+        std::cerr << "Error al encriptar el mensaje" << std::endl;
+        return 1;
+    }
+
+    std::cout << "Mensaje encriptado: " << encryptedMessage << std::endl;
+
+    // Descifrar el mensaje
+    std::string decryptedMessage = decryptMessage(encryptedMessage, privateKeyPath);
+
+    if (decryptedMessage.empty()) {
+        std::cerr << "Error al descifrar el mensaje" << std::endl;
+        return 1;
+    }
+
+    std::cout << "Mensaje descifrado: " << decryptedMessage << std::endl;
+
+    return 0;
+}
