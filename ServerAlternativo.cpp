@@ -1,6 +1,7 @@
 #include "ServerAlternativo.h"
 #include "ProcesadorFinal.h"
 #include "ProcesadorIntermediario.h"
+#include "Cifrado.hpp"
 #include <iostream>
 #include <thread>
 
@@ -36,14 +37,19 @@ void ServerAlternativo::start() {
 void ServerAlternativo::stop() { active = false; }
 
 void ServerAlternativo::getMessages(int id) {
+  Cifrado cifrado;
   Socket::mess tok = receive(id);
-  if (tok.mes == token) {
+  //Aqui descifrar tok.mes llave1 
+  std::string tolkien = cifrado.decryptMessage(tok.mes, "/home/valery.murcia/In-secure/key.pem");
+
+
+  if (tolkien == token) {
     Socket::mess path = receive(id);
     Socket::mess titulo = receive(id);
     ceroPriv->iniciar(priv + path.mes);
     if (ceroPriv->getArchivoActual() < stoi(titulo.mes) &&
         ceroPriv->cambiarArchivoActual(path.mes, stoi(titulo.mes))) {
-      if (procesador->abrir(token, path.mes, titulo.mes)) {
+      if (procesador->abrir(tok.mes, path.mes, titulo.mes)) {
         std::string texto = "";
         Socket::mess message = receive(id);
         while (!message.end) {

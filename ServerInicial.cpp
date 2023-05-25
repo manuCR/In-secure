@@ -1,5 +1,6 @@
 #include "ServerInicial.h"
 #include "Lector.hpp"
+#include "Cifrado.hpp"
 #include <iostream>
 
 ServerInicial::ServerInicial(std::string tok) { token = tok; }
@@ -26,6 +27,7 @@ void ServerInicial::iniciarProcesador(std::string address, int port, bool fin) {
 
 void ServerInicial::start() {
   active = true;
+  Cifrado cifrado;
   while (active) {
     abrirCero();
     int tituloNumero = ceroPriv->getArchivoActual();
@@ -34,12 +36,16 @@ void ServerInicial::start() {
     if (lector.open(getPath(false) + titulo + ".txt")) {
       if (ceroPriv->cambiarArchivoActual(getPath(true), tituloNumero + 1)) {
         ceroPub->cambiarArchivoActual(getPath(false), tituloNumero + 1);
-        if (procesador->abrir(token, getPath(false), titulo)) {
+        //Aqui Token // Llave 1
+        std::string tolkien = cifrado.encryptMessage(token, "/home/valery.murcia/In-secure/pub.pem");
+        if (procesador->abrir(tolkien, getPath(false), titulo)) {
           std::string texto = "";
           while (lector.read()) {
             std::string chunk = lector.getText();
             texto += chunk;
-            procesador->enviar(chunk);
+            //Aqui Chunk // Llave 2 
+            std::string chunkie = cifrado.encryptMessage(chunk, "/home/valery.murcia/In-secure/pub2.pem");
+            procesador->enviar(chunkie);
           }
           std::cout << "lectura final:" << texto << std::endl;
           lector.close();

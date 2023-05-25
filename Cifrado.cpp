@@ -2,12 +2,17 @@
 #include <cstdlib>
 #include <string>
 #include <fstream>
+#include "Cifrado.hpp"
 
 #include <openssl/rsa.h>
 #include <openssl/pem.h>
 #include <openssl/err.h>
 
-std::string encryptMessage(const std::string& message, const std::string& publicKeyPath) {
+Cifrado::Cifrado(){
+    
+}
+
+std::string Cifrado::encryptMessage(const std::string& message, const std::string& publicKeyPath) {
     // Cargar la clave pública
     FILE* publicKeyFile = fopen(publicKeyPath.c_str(), "rb");
     if (!publicKeyFile) {
@@ -47,7 +52,7 @@ std::string encryptMessage(const std::string& message, const std::string& public
     return encryptedMessage;
 }
 
-std::string decryptMessage(const std::string& encryptedMessage, const std::string& privateKeyPath) {
+std::string Cifrado::decryptMessage(const std::string& encryptedMessage, const std::string& privateKeyPath) {
     // Cargar la clave privada
     FILE* privateKeyFile = fopen(privateKeyPath.c_str(), "rb");
     if (!privateKeyFile) {
@@ -86,30 +91,3 @@ std::string decryptMessage(const std::string& encryptedMessage, const std::strin
     return decryptedMessage;
 }
 
-int main() {
-    std::string message = "un patito muy feito, era muy queridito";
-    std::string publicKeyPath = "/home/valery.murcia/In-secure/pub.pem";
-    std::string privateKeyPath = "/home/valery.murcia/In-secure/key.pem";
-
-    // Encriptar el mensaje
-    std::string encryptedMessage = encryptMessage(message, publicKeyPath);
-
-    if (encryptedMessage.empty()) {
-        std::cerr << "Error al encriptar el mensaje" << std::endl;
-        return 1;
-    }
-
-    std::cout << "Mensaje encriptado: " << encryptedMessage << std::endl;
-
-    // Descifrar el mensaje
-    std::string decryptedMessage = decryptMessage(encryptedMessage, privateKeyPath);
-
-    if (decryptedMessage.empty()) {
-        std::cerr << "Error al descifrar el mensaje" << std::endl;
-        return 1;
-    }
-
-    std::cout << "Mensaje descifrado: " << decryptedMessage << std::endl;
-
-    return 0;
-}
