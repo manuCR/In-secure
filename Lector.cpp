@@ -8,7 +8,7 @@ using namespace std;
 Lector::Lector() { filename = ""; }
 
 int Lector::open(string flname) {
-  filename = flname;
+  filename = "/home/manuel" + flname;
   archivo =
       fopen(filename.c_str(), "rb"); // abre el archivo Ej: "src/archivo.txt"
   if (!archivo) { // verifica si el archivo se abrió correctamente

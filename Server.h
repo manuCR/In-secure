@@ -1,21 +1,26 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#include "Socket.h"
+#include "ArchivoCero.h"
+#include "ProcesadorIntermediario.h"
 #include <string>
 
 class Server {
-public:
-  Server(std::string address, int port);
-  void getMessages(int id);
-  Socket::mess receive(int id);
-  void start();
-  void stop();
-  ~Server();
-
-private:
-  Socket *socket;
+protected:
   bool active;
+  bool cdcd;
+  std::string priv;
+  std::string token;
+  ArchivoCero *ceroPriv;
+  Procesador *procesador;
+
+public:
+  virtual void setSocket(std::string address, int port, bool cdcd) = 0;
+  virtual void iniciarProcesador(std::string address, int port, bool fin) = 0;
+  virtual void iniciarCero(std::string path) = 0;
+  virtual void start() = 0;
+  virtual void stop() = 0;
+  virtual ~Server(){};
 };
 
 #endif
