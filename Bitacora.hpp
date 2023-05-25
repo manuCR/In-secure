@@ -9,7 +9,7 @@ class Bitacora {
 
  public:
   std::string filename;
-  ofstream archivo;
+  std::ofstream archivo;
 
   /**
   * @brief Class constructor.

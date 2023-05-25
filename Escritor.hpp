@@ -7,24 +7,15 @@
 
 class Escritor {
 
- public:
-  std::string filename;
-  std::ofstream archivo;
-
-  /**
-  * @brief Class constructor.
-  */
+public:
   Escritor();
-
-  void add(std::string entry, std::string flname) ;
-
-  private: 
-
-  void open(std::string flname);
-
+  bool open(std::string flname);
   void write(std::string entry);
-
+  void inicio();
   void close();
+
+private: 
+  FILE * archivo;
 
 };
 #endif  // ESCRITOR_H
