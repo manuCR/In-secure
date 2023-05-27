@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
   std::string arg9 = argv[9];
   // vamos a manejar los canales con dos procesos separados
   // canales?
-  if (!(arg1 && arg2)) {
+  if (arg1 && arg2) {
     return 0;
   }
   Server *server;
