@@ -10,7 +10,7 @@ Lector::Lector() { filename = ""; }
 int Lector::open(string flname) {
   filename = "/home/manuel.arroyoportilla" + flname;
   archivo =
-      fopen("/home/manuel.arroyoportilla/priv/cdcd/000000.txt", "rb"); // abre el archivo Ej: "src/archivo.txt"
+      fopen("/home/manuel.arroyoportilla/priv/cdcd/000000.txt", "r"); // abre el archivo Ej: "src/archivo.txt"
   if (!archivo) { // verifica si el archivo se abrió correctamente
     std::cerr << "No se pudo abrir el archivo " << filename << std::endl;
     return 1;
