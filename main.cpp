@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
   bool arg7 = atoi(argv[7]);
   std::string arg8 = argv[8];
   std::string arg9 = argv[9];
-  std::cout << "ipServer " << arg3 << endl << "puertoServer " << arg4 <<endl;
+  std::cout << "ipServer " << arg3 << std::endl << "puertoServer " << arg4 << std::endl;
   // vamos a manejar los canales con dos procesos separados
   // canales?
   if (arg1 && arg2) {
