@@ -1,4 +1,5 @@
 #include "ProcesadorIntermediario.h"
+#include <iostream>
 
 ProcesadorIntermediario::ProcesadorIntermediario(std::string address,
                                                  int port) {
@@ -9,6 +10,7 @@ ProcesadorIntermediario::ProcesadorIntermediario(std::string address,
 bool ProcesadorIntermediario::abrir(std::string token, std::string shaFile, std::string path,
                                     std::string archivo) {
   bitacora->add(shaFile);
+  std::cout << "token size:" << token.length() << std::endl;
   client->send(token);
   client->send(shaFile);
   client->send(path);
