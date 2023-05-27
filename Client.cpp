@@ -1,7 +1,9 @@
 #include "Client.h"
+#include <iostream>
 
 Client::Client(std::string address, int port) {
   socket = new Socket(address, port);
+  std::cout << "Cliente" << address << " " << port << std::endl;
   socket->connectTo();
 }
 
