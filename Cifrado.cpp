@@ -52,8 +52,9 @@ std::string Cifrado::encryptMessage(const std::string& message, const std::strin
 
     // Ajustar el tamaño del mensaje encriptado
     encryptedMessage.resize(encryptedLength);
-    std::cout << "encryptedLenght: " << encryptedLength << std::endl;
-    std::cout << "encryptedMessage: " << encryptedMessage.length() << std::endl;
+    std::cout << "encrypted message lenght: " << message.length() << std::endl;
+    std::cout << "encrypted lenght: " << encryptedLength << std::endl;
+    std::cout << "encrypted message: " << encryptedMessage.length() << std::endl;
 
     return encryptedMessage;
 }
@@ -64,7 +65,7 @@ std::string Cifrado::decryptMessage(const std::string& encryptedMessage, const s
     FILE* privateKeyFile = fopen(privateKeyPath.c_str(), "rb");
     if (!privateKeyFile) {
         std::cerr << "Error al abrir el archivo de clave privada" << std::endl;
-        return "";5
+        return "";
     }
 
     RSA* rsa = PEM_read_RSA_PUBKEY(privateKeyFile, NULL, NULL, NULL);
