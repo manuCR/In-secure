@@ -1,7 +1,7 @@
 #include "Socket.h"
 #include <cerrno>
 #include <cstdlib>
-#include <cstring>
+#include <string>
 #include <iostream>
 #include <sys/socket.h>
 #include <unistd.h>
@@ -57,8 +57,8 @@ int Socket::acceptConection() {
 
 void Socket::send(std::string message) {
   std::cout << "send message size:" << message.length() << std::endl;
-  std::cout << "send message cstr size:" << message.length() << std::endl;
-  if (::send(sockfd, message.c_str(), message.c_str().length(), 0) == -1) {
+  std::cout << "send message cstr size:" << sizeof(message.c_str()) << std::endl;
+  if (::send(sockfd, message.c_str(), message.length(), 0) == -1) {
     std::cerr << "Failed to send message: " << std::strerror(errno)
               << std::endl;
     exit(EXIT_FAILURE);
