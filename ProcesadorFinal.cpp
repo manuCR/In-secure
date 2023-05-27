@@ -14,7 +14,7 @@ bool ProcesadorFinal::abrir(std::string token, std::string shaFile, std::string 
 void ProcesadorFinal::enviar(std::string mensaje) { 
   //Aqui Desencriptar Mensaje chunk con llave 2 
   Cifrado cifrado;
-  std::string chunkie = cifrado.decryptMessage(mensaje, "/home/valery.murcia/In-secure/key2.pem");
+  std::string chunkie = cifrado.decryptMessage(mensaje, "/home/manuel.arroyoportilla/In-secure/key2.pem");
 
   escritor->write(chunkie); 
   }

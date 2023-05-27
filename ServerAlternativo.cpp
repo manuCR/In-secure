@@ -40,7 +40,7 @@ void ServerAlternativo::getMessages(int id) {
   Cifrado cifrado;
   Socket::mess tok = receive(id);
   //Aqui descifrar tok.mes llave1 
-  std::string tolkien = cifrado.decryptMessage(tok.mes, "/home/valery.murcia/In-secure/key.pem");
+  std::string tolkien = cifrado.decryptMessage(tok.mes, "/home/manuel.arroyoportilla/In-secure/key.pem");
 
 
   if (tolkien == token) {
