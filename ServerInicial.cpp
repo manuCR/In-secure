@@ -34,7 +34,7 @@ void ServerInicial::start() {
     abrirCero();
     int tituloNumero = ceroPriv->getArchivoActual();
     std::string titulo = ceroPriv->getFileName();
-    std::string shaFile = sha.shaFile(getPath(false) + titulo + ".txt");
+    std::string shaFile = "shatemporal"; //sha.shaFile(getPath(false) + titulo + ".txt");
     Lector lector;
     if (lector.open(getPath(false) + titulo + ".txt")) {
       if (ceroPriv->cambiarArchivoActual(getPath(true), tituloNumero + 1)) {
