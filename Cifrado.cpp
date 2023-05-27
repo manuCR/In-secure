@@ -49,6 +49,7 @@ std::string Cifrado::encryptMessage(const std::string& message, const std::strin
     // Ajustar el tamaño del mensaje encriptado
     encryptedMessage.resize(encryptedLength);
     std::cout << "encryptedLenght: " << encryptedLength << std::endl;
+    std::cout << "encryptedMessage: " << encryptedMessage.length() << std::endl;
 
     return encryptedMessage;
 }
