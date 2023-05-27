@@ -75,7 +75,7 @@ Socket::mess Socket::receive(int socket) {
               << std::endl;
     exit(EXIT_FAILURE);
   }
-  comunication.mes = std::string(buffer);
+  comunication.mes = std::string(buffer, 0, len);
   std::cout << "socket receive length: " << len << " message length: " << comunication.mes.length() << std::endl;
   if (comunication.mes.length() > 0) {
     comunication.end = false;
