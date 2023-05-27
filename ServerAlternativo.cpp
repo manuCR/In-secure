@@ -40,7 +40,7 @@ void ServerAlternativo::getMessages(int id) {
   Cifrado cifrado;
   Socket::mess tok = receive(id);
   //Aqui descifrar tok.mes llave1 
-  std::string tolkien = cifrado.decryptMessage(tok.mes, "/home/valery.murcia/In-secure/key.pem");
+  std::string tolkien = cifrado.decryptMessage(tok.mes, "/home/manuel.arroyoportilla/In-secure/key.pem");
 
 
   if (tolkien == token) {
@@ -50,7 +50,7 @@ void ServerAlternativo::getMessages(int id) {
     ceroPriv->iniciar(priv + path.mes);
     if (ceroPriv->getArchivoActual() < stoi(titulo.mes) &&
         ceroPriv->cambiarArchivoActual(path.mes, stoi(titulo.mes))) {
-      if (procesador->abrir(token, shaFile.mes, getPath(false), titulo)) {
+      if (procesador->abrir(tolkien, shaFile.mes, path.mes, titulo.mes)) {
         std::string texto = "";
         Socket::mess message = receive(id);
         while (!message.end) {
