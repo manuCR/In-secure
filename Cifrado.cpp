@@ -34,6 +34,10 @@ std::string Cifrado::encryptMessage(const std::string& message, const std::strin
     int maxLength = RSA_size(rsa) - 42; // RSA_PKCS1_PADDING
 
     // Preparar el buffer de salida
+    std::cout << "maxLength encrypt : " << maxLength << std::endl;
+
+    std::cout << "RSA_size(rsa) encrypt : " << RSA_size(rsa) << std::endl;
+
     std::string encryptedMessage;
     encryptedMessage.resize(RSA_size(rsa));
 
