@@ -29,9 +29,9 @@ std::string Cifrado::encryptMessage(const std::string& message, const std::strin
     }
 
     std::cout << "Tamaño máximo  antes " << std::endl;
-    int maxLength = RSA_public_encrypt(0, nullptr, nullptr, rsa, RSA_PKCS1_PADDING);
+    // int maxLength = RSA_public_encrypt(0, nullptr, nullptr, rsa, RSA_PKCS1_PADDING);
 
-    std::cout << "Tamaño máximo del bloque de encriptación: " << maxLength << " bytes" << std::endl;
+    // std::cout << "Tamaño máximo del bloque de encriptación: " << maxLength << " bytes" << std::endl;
 
     std::string encryptedMessage;
     encryptedMessage.resize(RSA_size(rsa));
