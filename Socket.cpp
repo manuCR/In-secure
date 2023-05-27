@@ -32,7 +32,7 @@ void Socket::connectTo() {
 void Socket::bindTo() {
   int opt = 1;
   if (bind(sockfd, (struct sockaddr *)&server_addr, addrlen) == -1) {
-    std::cerr << "Failed to connect to server: " << std::strerror(errno)
+    std::cerr << "Failed to bind to server: " << std::strerror(errno)
               << std::endl;
     exit(EXIT_FAILURE);
   }

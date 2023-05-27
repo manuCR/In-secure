@@ -8,7 +8,7 @@ using namespace std;
 Escritor::Escritor() { ofstream archivo; }
 
 bool Escritor::open(string flname) {
-  std::string filename = "/home/manuel" + flname;
+  std::string filename = "/home/manuel.arroyoportilla" + flname;
   archivo = fopen(filename.c_str(), "w");
   if (!archivo) {
     return 1;

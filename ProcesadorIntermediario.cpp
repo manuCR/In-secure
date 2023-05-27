@@ -7,7 +7,7 @@ ProcesadorIntermediario::ProcesadorIntermediario(std::string address,
 }
 
 bool ProcesadorIntermediario::abrir(std::string token, std::string shaFile, std::string path,
-                                    std::string archivo) {\
+                                    std::string archivo) {
   bitacora->add(shaFile);
   client->send(token);
   client->send(shaFile);
