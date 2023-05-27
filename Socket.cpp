@@ -1,7 +1,7 @@
 #include "Socket.h"
 #include <cerrno>
 #include <cstdlib>
-#include <string>
+#include <cstring>
 #include <iostream>
 #include <sys/socket.h>
 #include <unistd.h>
