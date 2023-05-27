@@ -3,6 +3,8 @@
 #include "Cifrado.hpp"
 #include "Sha.h"
 #include <iostream>
+#include <chrono>
+#include <thread>
 
 ServerInicial::ServerInicial(std::string tok) { token = tok; }
 
@@ -31,6 +33,7 @@ void ServerInicial::start() {
   Cifrado cifrado;
   Sha sha;
   while (active) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     abrirCero();
     int tituloNumero = ceroPriv->getArchivoActual();
     std::string titulo = ceroPriv->getFileName();
