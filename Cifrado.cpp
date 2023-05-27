@@ -13,7 +13,8 @@ Cifrado::Cifrado(){
 }
 
 std::string Cifrado::encryptMessage(const std::string& message, const std::string& publicKeyPath) {
-    std::cout << "encryptedLenght: " << message.length() << std::endl;
+    std::cout << "message before encrypt Lenght: " << message.length() << std::endl;
+    std::cout << "message before encrypt : " << message << std::endl;
     // Cargar la clave pública
     FILE* publicKeyFile = fopen(publicKeyPath.c_str(), "rb");
     if (!publicKeyFile) {
