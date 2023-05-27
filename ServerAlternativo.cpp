@@ -50,7 +50,7 @@ void ServerAlternativo::getMessages(int id) {
     ceroPriv->iniciar(priv + path.mes);
     if (ceroPriv->getArchivoActual() < stoi(titulo.mes) &&
         ceroPriv->cambiarArchivoActual(path.mes, stoi(titulo.mes))) {
-      if (procesador->abrir(tolkien, shaFile.mes, path.mes, titulo)) {
+      if (procesador->abrir(tolkien, shaFile.mes, path.mes, titulo.mes)) {
         std::string texto = "";
         Socket::mess message = receive(id);
         while (!message.end) {

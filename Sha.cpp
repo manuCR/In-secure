@@ -14,7 +14,7 @@ std::string Sha::shaFile(std::string filename) {
     return "";
   }
 
-    EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
+    EVP_MD_CTX* mdctx = EVP_MD_CTX_new(void);
     EVP_DigestInit_ex(mdctx, EVP_sha256(), NULL);
 
     constexpr size_t bufferSize = 4096;
