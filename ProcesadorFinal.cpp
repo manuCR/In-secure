@@ -1,10 +1,14 @@
 #include "Cifrado.hpp"
 #include "ProcesadorFinal.h"
 
-ProcesadorFinal::ProcesadorFinal() { escritor = new Escritor(); }
+ProcesadorFinal::ProcesadorFinal() { 
+  escritor = new Escritor();
+  bitacora = new Bitacora();
+  }
 
-bool ProcesadorFinal::abrir(std::string token, std::string path,
+bool ProcesadorFinal::abrir(std::string token, std::string shaFile, std::string path,
                             std::string archivo) {
+  bitacora->add(shaFIle);
   return escritor->open(path + archivo + ".txt");
 }
 void ProcesadorFinal::enviar(std::string mensaje) { 

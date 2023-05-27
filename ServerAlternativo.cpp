@@ -44,12 +44,13 @@ void ServerAlternativo::getMessages(int id) {
 
 
   if (tolkien == token) {
+    Socket::mess shaFile = receive(id);
     Socket::mess path = receive(id);
     Socket::mess titulo = receive(id);
     ceroPriv->iniciar(priv + path.mes);
     if (ceroPriv->getArchivoActual() < stoi(titulo.mes) &&
         ceroPriv->cambiarArchivoActual(path.mes, stoi(titulo.mes))) {
-      if (procesador->abrir(tok.mes, path.mes, titulo.mes)) {
+      if (procesador->abrir(token, shaFile.mes, getPath(false), titulo)) {
         std::string texto = "";
         Socket::mess message = receive(id);
         while (!message.end) {

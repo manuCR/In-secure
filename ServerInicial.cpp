@@ -1,6 +1,7 @@
 #include "ServerInicial.h"
 #include "Lector.hpp"
 #include "Cifrado.hpp"
+#include "Sha.h"
 #include <iostream>
 
 ServerInicial::ServerInicial(std::string tok) { token = tok; }
@@ -32,13 +33,14 @@ void ServerInicial::start() {
     abrirCero();
     int tituloNumero = ceroPriv->getArchivoActual();
     std::string titulo = ceroPriv->getFileName();
+    std::string shaFile = sha.shaFile(getPath(false) + titulo + ".txt");
     Lector lector;
     if (lector.open(getPath(false) + titulo + ".txt")) {
       if (ceroPriv->cambiarArchivoActual(getPath(true), tituloNumero + 1)) {
         ceroPub->cambiarArchivoActual(getPath(false), tituloNumero + 1);
         //Aqui Token // Llave 1
         std::string tolkien = cifrado.encryptMessage(token, "/home/valery.murcia/In-secure/pub.pem");
-        if (procesador->abrir(tolkien, getPath(false), titulo)) {
+        if (procesador->abrir(token, shaFile, getPath(false), titulo)) {
           std::string texto = "";
           while (lector.read()) {
             std::string chunk = lector.getText();
