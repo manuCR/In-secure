@@ -57,7 +57,6 @@ int Socket::acceptConection() {
 
 void Socket::send(std::string message) {
   std::cout << "send message size:" << message.length() << std::endl;
-  std::cout << "send message cstr size:" << sizeof(message.c_str()) << std::endl;
   if (::send(sockfd, message.c_str(), message.length(), 0) == -1) {
     std::cerr << "Failed to send message: " << std::strerror(errno)
               << std::endl;
@@ -74,6 +73,7 @@ Socket::mess Socket::receive(int socket) {
     exit(EXIT_FAILURE);
   }
   comunication.mes = std::string(buffer);
+  std::cout << "receive message size:" << comunication.mes.length() << std::endl;
   if (comunication.mes.length() > 0) {
     comunication.end = false;
   } else {
