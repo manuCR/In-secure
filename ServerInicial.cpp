@@ -66,7 +66,7 @@ std::string ServerInicial::getPath(bool secret) {
     path = path + priv;
   }
   if (cdcd) {
-    path = path + "/cdcd";
+    path = path + "/cdcd/";
   } else {
     if (usersIndex >= carpetas) {
       usersIndex = usersIndex % carpetas;
