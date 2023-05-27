@@ -13,8 +13,6 @@ Cifrado::Cifrado(){
 }
 
 std::string Cifrado::encryptMessage(const std::string& message, const std::string& publicKeyPath) {
-    std::cout << "message before encrypt Lenght: " << message.length() << std::endl;
-    std::cout << "message before encrypt : " << message << std::endl;
     // Cargar la clave pública
     FILE* publicKeyFile = fopen(publicKeyPath.c_str(), "rb");
     if (!publicKeyFile) {
@@ -22,7 +20,7 @@ std::string Cifrado::encryptMessage(const std::string& message, const std::strin
         return "";
     }
 
-    RSA* rsa = PEM_read_RSA_PUBKEY(publicKeyFile, NULL, NULL, NULL);
+    RSA* rsa = PEM_read_RSAPrivateKey(publicKeyFile, NULL, NULL, NULL);
     fclose(publicKeyFile);
 
     if (!rsa) {
@@ -69,7 +67,7 @@ std::string Cifrado::decryptMessage(const std::string& encryptedMessage, const s
         return "";
     }
 
-    RSA* rsa = PEM_read_RSAPrivateKey(privateKeyFile, NULL, NULL, NULL);
+    RSA* rsa = PEM_read_RSA_PUBKEY(privateKeyFile, NULL, NULL, NULL);
     fclose(privateKeyFile);
 
     if (!rsa) {
