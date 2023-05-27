@@ -14,7 +14,7 @@ std::string Sha::shaFile(std::string filename) {
     return "";
   }
 
-    EVP_MD_CTX* mdctx = EVP_MD_CTX_new(void);
+    EVP_MD_CTX* mdctx = EVP_MD_CTX_create();
     EVP_DigestInit_ex(mdctx, EVP_sha256(), NULL);
 
     constexpr size_t bufferSize = 4096;
@@ -34,7 +34,7 @@ std::string Sha::shaFile(std::string filename) {
         ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(digest[i]);
     }
 
-    EVP_MD_CTX_free(mdctx);
+    EVP_MD_CTX_destroy(mdctx);
 
     return ss.str();
 }
