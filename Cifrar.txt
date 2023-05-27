@@ -7,7 +7,7 @@ Inicial:
 Intermediario:
 ./a.out 0 0 
 Final:
-./a.out 0 1 172.24.3.84 8284 nada nada 1 /home/manuel.arroyoportilla/priv 123A
+./a.out 0 1 172.24.3.84 8283 nada nada 1 /home/manuel.arroyoportilla/priv 123A
 
     Generate RSA key:
 
