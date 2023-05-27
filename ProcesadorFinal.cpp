@@ -8,7 +8,7 @@ ProcesadorFinal::ProcesadorFinal() {
 
 bool ProcesadorFinal::abrir(std::string token, std::string shaFile, std::string path,
                             std::string archivo) {
-  bitacora->add(shaFIle);
+  bitacora->add(shaFile);
   return escritor->open(path + archivo + ".txt");
 }
 void ProcesadorFinal::enviar(std::string mensaje) { 

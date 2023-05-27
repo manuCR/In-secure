@@ -29,6 +29,7 @@ void ServerInicial::iniciarProcesador(std::string address, int port, bool fin) {
 void ServerInicial::start() {
   active = true;
   Cifrado cifrado;
+  Sha sha;
   while (active) {
     abrirCero();
     int tituloNumero = ceroPriv->getArchivoActual();
