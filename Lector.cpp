@@ -1,8 +1,7 @@
 #include "Lector.hpp"
-#include <cstdlib>
 #include <iostream>
+#include <stdio>
 #include <string>
-#include <unistd.h>
 
 using namespace std;
 
