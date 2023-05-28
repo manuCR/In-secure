@@ -59,12 +59,13 @@ void Socket::send(std::vector<unsigned char> message) {
   int len = 512;
   ::send(sockfd, &len, sizeof(len), 0);
   int result=::send(sockfd, &message[0], len, 0);
-  std::cout << "send" << result << std::endl;
   for (char i: message) std::cout << i;
   if (result== -1) {
     std::cerr << "Failed to send message: " << std::strerror(errno) << std::endl;
     exit(EXIT_FAILURE);
   }
+  std::cout << "mes send";
+  for (char i: message) std::cout << i;
 }
 
 void Socket::send(std::string message) {
@@ -93,6 +94,7 @@ std::vector<unsigned char> Socket::receive(int socket) {
     exit(EXIT_FAILURE);
   }
   memcpy(&mes[0], buffer, len);
+  std::cout << "mes reeive";
   for (char i: mes) std::cout << i;
 
   //comunication.mes = std::vector<unsigned char>(buffer, buffer + sizeof(buffer) / sizeof(unsigned char) );
