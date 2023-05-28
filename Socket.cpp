@@ -70,6 +70,7 @@ Socket::mess Socket::receive(int socket) {
   recv(socket, &len, sizeof(len), 0);
   std::cout << "socket receive length: " << len << std::endl;
   char buffer[512] = { 0 };
+  mess comunication;
   if (recv(socket, buffer, len, 0) == -1) {
     std::cerr << "Failed to receive message: " << std::strerror(errno) << std::endl;
     exit(EXIT_FAILURE);
