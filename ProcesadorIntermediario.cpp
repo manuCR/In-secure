@@ -1,4 +1,6 @@
 #include "ProcesadorIntermediario.h"
+#include <stdio.h>
+#include <string.h>
 #include <iostream>
 
 ProcesadorIntermediario::ProcesadorIntermediario(std::string address,
