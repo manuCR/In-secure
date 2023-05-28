@@ -47,8 +47,10 @@ void ServerInicial::start() {
         if (procesador->abrir(tolkien, shaFile, getPath(false), titulo)) {
           while (lector.read()) {
             std::string chunk = lector.getText();
+            std::cout << "chunk "<< chunk << std::endl;
             //Aqui Chunk // Llave 2 
             std::string chunkie = cifrado.encryptMessage(chunk, "/home/manuel.arroyoportilla/In-secure/key2.pem");
+            std::cout << "chunkie "<< chunkie << std::endl;
             procesador->enviar(&chunkie[0]);
           }
           lector.close();
