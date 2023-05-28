@@ -13,7 +13,7 @@ public:
   Socket(std::string address, int port);
   void connectTo();
   void bindTo();
-  void send(std::string message);
+  void send(char * message);
   int acceptConection();
   mess receive(int socket);
   ~Socket();

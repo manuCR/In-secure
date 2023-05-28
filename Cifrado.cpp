@@ -18,7 +18,7 @@ void Cifrado::encryptMessage(const std::string& message, const std::string& publ
     FILE* publicKeyFile = fopen(publicKeyPath.c_str(), "rb");
     if (!publicKeyFile) {
         std::cerr << "Error al abrir el archivo de clave pública" << std::endl;
-        return "";
+        result[0] = 0;
     }
 
     RSA* rsa = PEM_read_RSAPrivateKey(publicKeyFile, NULL, NULL, NULL);
@@ -26,7 +26,7 @@ void Cifrado::encryptMessage(const std::string& message, const std::string& publ
 
     if (!rsa) {
         std::cerr << "Error al leer la clave pública" << std::endl;
-        return "";
+        result[0] = 0;
     }
 
     std::string encryptedMessage;

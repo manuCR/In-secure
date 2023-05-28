@@ -54,7 +54,7 @@ void ServerAlternativo::getMessages(int id) {
     ceroPriv->iniciar(priv + mesPath);
     if (ceroPriv->getArchivoActual() < stoi(mesTitulo) &&
         ceroPriv->cambiarArchivoActual(mesPath, stoi(mesTitulo))) {
-      if (procesador->abrir(tolkien, mesSha, mesPath, mesTitulo)) {
+      if (procesador->abrir(tok.mes, mesSha, mesPath, mesTitulo)) {
         Socket::mess message = receive(id);
         while (!message.end) {
           procesador->enviar(message.mes);
