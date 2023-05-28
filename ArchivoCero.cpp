@@ -42,6 +42,8 @@ bool ArchivoCero::cambiarArchivoActual(std::string path, int numero) {
 std::string ArchivoCero::getFileName() {
   std::stringstream ss;
   ss << std::setw(6) << std::setfill('0') << actual;
+  std::cout << "actual " << actual << std::endl;
+  std::cout << "ss " << ss.str() << std::endl;
   return ss.str();
 }
 
