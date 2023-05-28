@@ -55,7 +55,7 @@ void ServerAlternativo::getMessages(int id) {
         Socket::mess message = receive(id);
         std::string mesMessage = std::string(message.mes);
         while (!message.end) {
-          procesador->enviar(mesMessage;
+          procesador->enviar(mesMessage);
           message = receive(id);
         }
       }

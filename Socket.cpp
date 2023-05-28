@@ -73,8 +73,8 @@ Socket::mess Socket::receive(int socket) {
     std::cerr << "Failed to receive message: " << std::strerror(errno) << std::endl;
     exit(EXIT_FAILURE);
   }
-  strncpy(buffer,comunication.mes,len)
-  std::cout << "socket receive length: " << len << " message length: " << comunication.mes.length() << std::endl;
+  strncpy(buffer, comunication.mes, len);
+  std::cout << "socket receive length: " << len << std::endl;
   if (len > 0) {
     comunication.end = false;
   } else {

@@ -12,7 +12,7 @@ Cifrado::Cifrado(){
     
 }
 
-std::string Cifrado::encryptMessage(const unsigned char* message, const std::string& publicKeyPath) {
+std::string Cifrado::encryptMessage(const std::string& message, const std::string& publicKeyPath) {
     // Cargar la clave pública
     FILE* publicKeyFile = fopen(publicKeyPath.c_str(), "rb");
     if (!publicKeyFile) {
@@ -37,8 +37,8 @@ std::string Cifrado::encryptMessage(const unsigned char* message, const std::str
     encryptedMessage.resize(RSA_size(rsa));
 
     // Encriptar el mensaje
-    int encryptedLength = RSA_private_encrypt(message.size(), message,
-                                             reinterpret_cast<unsigned char*>(&encryptedMessage[0]), rsa, RSA_PKCS1_PADDING);
+    int encryptedLength = RSA_private_encrypt(message.size(), reinterpret_cast<const unsigned char>(message.data()),
+                                             reinterpret_cast<unsigned char>(&encryptedMessage[0]), rsa, RSA_PKCS1_PADDING);                                             
 
     RSA_free(rsa);
 
@@ -78,10 +78,9 @@ std::string Cifrado::decryptMessage(const unsigned char*  encryptedMessage, cons
     decryptedMessage.resize(RSA_size(rsa));
 
     // Descifrar el mensaje
-    int decryptedLength = RSA_public_decrypt(encryptedMessage.size(), encryptedMessage,
-                                               reinterpret_cast<unsigned char*>(&decryptedMessage[0]), rsa,
+     int decryptedLength = RSA_public_decrypt(2048, encryptedMessage,
+                                               reinterpret_cast<unsigned char>(&decryptedMessage[0]), rsa,
                                                RSA_PKCS1_PADDING);
-
     RSA_free(rsa);
 
     if (decryptedLength == -1) {
