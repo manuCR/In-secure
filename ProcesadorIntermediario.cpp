@@ -9,20 +9,17 @@ ProcesadorIntermediario::ProcesadorIntermediario(std::string address,
   bitacora = new Bitacora();
 }
 
-bool ProcesadorIntermediario::abrir(std::string token, std::string shaFile, std::string path,
+bool ProcesadorIntermediario::abrir(char * token, std::string shaFile, std::string path,
                                     std::string archivo) {
   bitacora->add(shaFile);
   client->send(token);
-  client->send(shaFile);
-  client->send(path);
-  client->send(archivo);
+  client->send(shaFile.c_str());
+  client->send(path.c_str());
+  client->send(archivo.c_str());
   return true;
 }
 void ProcesadorIntermediario::enviar(char * mensaje) {
   // tal vez funciona?
-  std::string mes;
-  mes.resize(512);
-  memcpy(&mes[0], mensaje, 512);
   client->send(mensaje);
 }
 

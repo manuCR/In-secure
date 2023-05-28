@@ -57,7 +57,6 @@ void ServerAlternativo::getMessages(int id) {
       if (procesador->abrir(tolkien, mesSha, mesPath, mesTitulo)) {
         Socket::mess message = receive(id);
         while (!message.end) {
-          cifrado.decryptMessage(message.mes, "/home/manuel.arroyoportilla/In-secure/pub2.pem");
           procesador->enviar(message.mes);
           message = receive(id);
         }

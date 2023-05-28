@@ -54,10 +54,10 @@ int Socket::acceptConection() {
   return socket;
 }
 
-void Socket::send(std::string message) {
-  int len = message.length() * sizeof(message[0]);
+void Socket::send(char * message) {
+  int len = 512;
   ::send(sockfd, &len, sizeof(len), 0);
-  int result = ::send(sockfd, message.c_str(), len, 0);
+  int result = ::send(sockfd, message, len, 0);
   std::cout << "socket send result: " << result << std::endl;
   if (result == -1) {
     std::cerr << "Failed to send message: " << std::strerror(errno) << std::endl;

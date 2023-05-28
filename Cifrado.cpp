@@ -13,7 +13,7 @@ Cifrado::Cifrado(){
     
 }
 
-std::string Cifrado::encryptMessage(const std::string& message, const std::string& publicKeyPath) {
+void Cifrado::encryptMessage(const std::string& message, const std::string& publicKeyPath, char * result) {
     // Cargar la clave pública
     FILE* publicKeyFile = fopen(publicKeyPath.c_str(), "rb");
     if (!publicKeyFile) {
@@ -34,18 +34,15 @@ std::string Cifrado::encryptMessage(const std::string& message, const std::strin
 
     // Encriptar el mensaje
     int encryptedLength = RSA_private_encrypt(message.size(), reinterpret_cast<const unsigned char*>(message.data()),
-                                             reinterpret_cast<unsigned char*>(&encryptedMessage[0]), rsa, RSA_PKCS1_PADDING);                                             
+                                             reinterpret_cast<unsigned char*>(result), rsa, RSA_PKCS1_PADDING);                                             
 
     RSA_free(rsa);
-
+    std::cout << "encrypt: " << encryptedLength << std::endl;
     if (encryptedLength == -1) {
         std::cerr << "Error al encriptar el mensaje" << std::endl;
-        return "";
+        result[0] = 0;
     }
-    std::cout << "encrypt: " << encryptedLength << std::endl;
-    // Ajustar el tamaño del mensaje encriptado
-    encryptedMessage.resize(encryptedLength);
-    return encryptedMessage;
+    
 }
 
 std::string Cifrado::decryptMessage(char*  encryptedMessage, const std::string& privateKeyPath) {

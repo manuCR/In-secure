@@ -8,7 +8,7 @@ class Socket {
 public:
   struct mess {
     bool end;
-    char mes[512];
+    char mes[512] = {0};
   };
   Socket(std::string address, int port);
   void connectTo();
