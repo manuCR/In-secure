@@ -68,6 +68,7 @@ void Socket::send(std::string message) {
 Socket::mess Socket::receive(int socket) {
   int len = 0;
   recv(socket, &len, sizeof(len), 0);
+  std::cout << "socket receive length: " << len << std::endl;
   char buffer[512] = { 0 };
   mess comunication;
   if (recv(socket, buffer, len, 0) == -1) {
@@ -76,7 +77,6 @@ Socket::mess Socket::receive(int socket) {
   }
   std::cout << "socket buffer: " << buffer << std::endl;
   strncpy(comunication.mes, buffer, len);
-  std::cout << "socket receive length: " << len << std::endl;
   std::cout << "socket receive: " << comunication.mes << std::endl;
   if (len > 0) {
     comunication.end = false;
