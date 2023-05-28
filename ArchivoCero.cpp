@@ -14,6 +14,7 @@ void ArchivoCero::iniciar(std::string pato) {
   Lector lector;
   std::cout << "archivo cero iniciar pato: " <<  pato << std::endl;
   std::cout << "archivo cero iniciar path: " <<  path << std::endl;
+  std::string full = path + NOMBRE;
   std::cout << "archivo cero iniciar full: " <<  path << NOMBRE << std::endl;
   if(lector.open(path + NOMBRE) == 0){
     int posicion = lector.read();
