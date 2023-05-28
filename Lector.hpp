@@ -15,6 +15,6 @@ class Lector {
   private:
     std::string filename;
     FILE * archivo;
-    char * buffer = new char[1024];
+    char buffer[512];
 };
 #endif  // LECTOR_H
