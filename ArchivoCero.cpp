@@ -27,14 +27,14 @@ int ArchivoCero::getArchivoActual() { return actual; }
 bool ArchivoCero::cambiarArchivoActual(std::string path, int numero) {
   std::lock_guard<std::mutex> lock(mutex);
   escritor->open(path + NOMBRE);
-  if (actual + 1 != numero) {
-    return false;
+  if (actual + 1 == numero) {
+    actual++;
+    escritor->inicio();
+    escritor->write(getFileName());
+    escritor->close();
+    return true;
   }
-  actual++;
-  escritor->inicio();
-  escritor->write(getFileName());
-  escritor->close();
-  return true;
+  return false;
 }
 
 std::string ArchivoCero::getFileName() {
