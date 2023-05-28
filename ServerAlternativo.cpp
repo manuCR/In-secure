@@ -50,9 +50,9 @@ void ServerAlternativo::getMessages(int id) {
     std::vector<unsigned char> titulo = receive(id);
     std::string mesSha (shaFile.begin(), shaFile.end());
     std::string mesPath (path.begin(), path.end());
-    std::cout << "mesSha" << mesSha << std::endl;
+    std::cout << "mesPath: " << mesPath << std::endl;
     std::string mesTitulo (titulo.begin(), titulo.end());
-    std::cout << "mesTitulo" << mesTitulo << std::endl;
+    std::cout << "mesTitulo: " << mesTitulo << std::endl;
     int tituloNum = stoi(mesTitulo);
     ceroPriv->iniciar(priv + mesPath);
     if (ceroPriv->getArchivoActual() == tituloNum &&
