@@ -36,10 +36,11 @@ void ServerInicial::start() {
     abrirCero();
     int tituloNumero = ceroPriv->getArchivoActual();
     std::string titulo = ceroPriv->getFileName();
+    std::cout << "tratando de enviar " << titulo << std::endl;
     std::string shaFile = sha.shaFile(getPath(false) + titulo + ".txt");
     Lector lector;
     if (lector.open(getPath(false) + titulo + ".txt") == 0) {
-      if (true || ceroPriv->cambiarArchivoActual(getPath(true), tituloNumero + 1)) {
+      if (ceroPriv->cambiarArchivoActual(getPath(true), tituloNumero + 1)) {
         ceroPub->cambiarArchivoActual(getPath(false), tituloNumero + 1);
         //Aqui Token // Llave 1
         char tolkien[512] = {0};
