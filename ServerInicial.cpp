@@ -48,7 +48,7 @@ void ServerInicial::start() {
           while (lector.read()) {
             std::string chunk = lector.getText();
             //Aqui Chunk // Llave 2 
-            std::string chunkie = cifrado.encryptMessage(chunk, "/home/manuel.arroyoportilla/In-secure/key2.pem");
+            std::string chunkie = cifrado.encryptMessage(chunk, "/home/manuel.arroyoportilla/In-secure/key.pem");
             procesador->enviar(&chunkie[0]);
           }
           lector.close();
