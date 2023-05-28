@@ -3,17 +3,20 @@
 
 #include <arpa/inet.h>
 #include <string>
-
+#include <vector>
 class Socket {
 public:
   struct mess {
     bool end;
-    char mes[512] = {0};
+    std::vector<unsigned char> mes{std::vector<unsigned char>(512, 0)};
+
   };
   Socket(std::string address, int port);
   void connectTo();
   void bindTo();
-  void send(char * message);
+  void send(std::vector<unsigned char> message);
+  void send(std::string message);
+
   int acceptConection();
   mess receive(int socket);
   ~Socket();

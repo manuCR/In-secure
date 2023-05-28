@@ -5,6 +5,7 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include <vector>
 
 ServerInicial::ServerInicial(std::string tok) { token = tok; }
 
@@ -43,13 +44,14 @@ void ServerInicial::start() {
       if (ceroPriv->cambiarArchivoActual(getPath(true), tituloNumero + 1)) {
         ceroPub->cambiarArchivoActual(getPath(false), tituloNumero + 1);
         //Aqui Token // Llave 1
-        char tolkien[512] = {0};
+        std::vector<unsigned char> tolkien{std::vector<unsigned char>(512, 0)};
         cifrado.encryptMessage(token, "/home/manuel.arroyoportilla/In-secure/key.pem", tolkien);
         if (procesador->abrir(tolkien, shaFile, getPath(false), titulo)) {
           while (lector.read()) {
             std::string chunk = lector.getText();
             //Aqui Chunk // Llave 2 
-            char chunkie[512] = {0};
+            std::vector<unsigned char> chunkie{std::vector<unsigned char>(512, 0)};
+
             cifrado.encryptMessage(chunk, "/home/manuel.arroyoportilla/In-secure/key2.pem", chunkie);
             procesador->enviar(chunkie);
           }

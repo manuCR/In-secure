@@ -48,9 +48,9 @@ void ServerAlternativo::getMessages(int id) {
     Socket::mess shaFile = receive(id);
     Socket::mess path = receive(id);
     Socket::mess titulo = receive(id);
-    std::string mesSha = std::string(shaFile.mes);
-    std::string mesPath = std::string(path.mes);
-    std::string mesTitulo = std::string(titulo.mes);
+    std::string mesSha (shaFile.mes.begin(), shaFile.mes.end());
+    std::string mesPath (path.mes.begin(), path.mes.end());
+    std::string mesTitulo (titulo.mes.begin(), titulo.mes.end());
     int tituloNum = stoi(mesTitulo);
     ceroPriv->iniciar(priv + mesPath);
     if (ceroPriv->getArchivoActual() == tituloNum &&

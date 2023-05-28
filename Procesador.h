@@ -3,16 +3,17 @@
 
 #include <string>
 #include "Bitacora.hpp"
+#include <vector>
 
 class Procesador {
 protected:
   Bitacora *bitacora;
 
 public:
-  virtual bool abrir(char * token, std::string shaFile,
+  virtual bool abrir(std::vector<unsigned char> token, std::string shaFile,
                      std::string path,
                      std::string archivo) = 0;
-  virtual void enviar(char* mensaje) = 0;
+  virtual void enviar(std::vector<unsigned char>  mensaje) = 0;
   virtual ~Procesador(){};
 };
 

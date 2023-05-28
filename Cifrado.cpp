@@ -4,7 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include "Cifrado.hpp"
-
+#include <vector>
 #include <openssl/rsa.h>
 #include <openssl/pem.h>
 #include <openssl/err.h>
@@ -13,7 +13,7 @@ Cifrado::Cifrado(){
     
 }
 
-void Cifrado::encryptMessage(const std::string& message, const std::string& publicKeyPath, char * result) {
+void Cifrado::encryptMessage(const std::string& message, const std::string& publicKeyPath, std::vector<unsigned char> result) {
     // Cargar la clave pública
     FILE* publicKeyFile = fopen(publicKeyPath.c_str(), "rb");
     if (!publicKeyFile) {
@@ -34,7 +34,7 @@ void Cifrado::encryptMessage(const std::string& message, const std::string& publ
 
     // Encriptar el mensaje
     int encryptedLength = RSA_private_encrypt(message.size(), reinterpret_cast<const unsigned char*>(message.data()),
-                                             reinterpret_cast<unsigned char*>(result), rsa, RSA_PKCS1_PADDING);                                             
+                                             &result[0], rsa, RSA_PKCS1_PADDING);                                             
 
     RSA_free(rsa);
     if (encryptedLength == -1) {
@@ -44,7 +44,7 @@ void Cifrado::encryptMessage(const std::string& message, const std::string& publ
     
 }
 
-std::string Cifrado::decryptMessage(char*  encryptedMessage, const std::string& privateKeyPath) {
+std::string Cifrado::decryptMessage(std::vector<unsigned char> encryptedMessage, const std::string& privateKeyPath) {
     // Cargar la clave privada
     FILE* privateKeyFile = fopen(privateKeyPath.c_str(), "rb");
     if (!privateKeyFile) {
@@ -65,7 +65,7 @@ std::string Cifrado::decryptMessage(char*  encryptedMessage, const std::string& 
     decryptedMessage.resize(RSA_size(rsa));
 
     // Descifrar el mensaje
-     int decryptedLength = RSA_public_decrypt(512, reinterpret_cast<const unsigned char*>(encryptedMessage),
+     int decryptedLength = RSA_public_decrypt(512, reinterpret_cast<const unsigned char*>(&encryptedMessage[0]),
                                                reinterpret_cast<unsigned char*>(&decryptedMessage[0]), rsa,
                                                RSA_PKCS1_PADDING);
     RSA_free(rsa);

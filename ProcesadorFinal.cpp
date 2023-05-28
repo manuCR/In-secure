@@ -1,18 +1,19 @@
 #include "Cifrado.hpp"
 #include "ProcesadorFinal.h"
 #include <iostream>
+#include <vector>
 
 ProcesadorFinal::ProcesadorFinal() { 
   escritor = new Escritor();
   bitacora = new Bitacora();
   }
 
-bool ProcesadorFinal::abrir(char * token, std::string shaFile, std::string path,
+bool ProcesadorFinal::abrir(std::vector<unsigned char>  token, std::string shaFile, std::string path,
                             std::string archivo) {
   bitacora->add(shaFile);
   return escritor->open(path + archivo + ".txt") == 0;
 }
-void ProcesadorFinal::enviar(char * mensaje) { 
+void ProcesadorFinal::enviar(std::vector<unsigned char>  mensaje) { 
   //Aqui Desencriptar Mensaje chunk con llave 2
   Cifrado cifrado;
   std::string chunkie = cifrado.decryptMessage(mensaje, "/home/manuel.arroyoportilla/In-secure/pub2.pem");
