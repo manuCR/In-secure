@@ -17,7 +17,11 @@ bool ProcesadorIntermediario::abrir(std::string token, std::string shaFile, std:
   client->send(archivo);
   return true;
 }
-void ProcesadorIntermediario::enviar(std::string mensaje) {
+void ProcesadorIntermediario::enviar(char * mensaje) {
+  // tal vez funciona?
+  std::string mes;
+  mes.resize(512);
+  memcpy(&mes[0], mensaje, 512);
   client->send(mensaje);
 }
 

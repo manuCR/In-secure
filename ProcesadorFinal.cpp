@@ -11,10 +11,10 @@ bool ProcesadorFinal::abrir(std::string token, std::string shaFile, std::string 
   bitacora->add(shaFile);
   return escritor->open(path + archivo + ".txt") == 0;
 }
-void ProcesadorFinal::enviar(std::string mensaje) { 
+void ProcesadorFinal::enviar(char * mensaje) { 
   //Aqui Desencriptar Mensaje chunk con llave 2 
   Cifrado cifrado;
-  std::string chunkie = cifrado.decryptMessage(&mensaje[0], "/home/manuel.arroyoportilla/In-secure/pub2.pem");
+  std::string chunkie = cifrado.decryptMessage(mensaje, "/home/manuel.arroyoportilla/In-secure/pub2.pem");
 
   escritor->write(chunkie); 
   }

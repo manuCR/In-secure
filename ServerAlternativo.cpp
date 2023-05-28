@@ -63,11 +63,10 @@ void ServerAlternativo::getMessages(int id) {
         std::cout << "hola4"<< std::endl;
         Socket::mess message = receive(id);
         std::cout << "hola5"<< std::endl;
-        std::string mesMessage = std::string(message.mes);
         std::cout << "hola6"<< std::endl;
         while (!message.end) {
           std::cout << "hola7"<< std::endl;
-          procesador->enviar(mesMessage);
+          procesador->enviar(message.mes);
           std::cout << "hola8"<< std::endl;
           message = receive(id);
           std::cout << "hola9"<< std::endl;

@@ -10,7 +10,7 @@ class ProcesadorFinal : public Procesador {
 public:
   ProcesadorFinal();
   bool abrir(std::string token, std::string shaFile, std::string path, std::string archivo);
-  void enviar(std::string mesaje);
+  void enviar(char * mensaje);
   ~ProcesadorFinal();
 
 private:

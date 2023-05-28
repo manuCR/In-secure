@@ -12,7 +12,7 @@ public:
   virtual bool abrir(std::string token, std::string shaFile,
                      std::string path,
                      std::string archivo) = 0;
-  virtual void enviar(std::string mesaje) = 0;
+  virtual void enviar(char* mensaje) = 0;
   virtual ~Procesador(){};
 };
 
