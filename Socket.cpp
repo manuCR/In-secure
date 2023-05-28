@@ -64,8 +64,9 @@ void Socket::send(std::vector<unsigned char> message) {
     std::cerr << "Failed to send message: " << std::strerror(errno) << std::endl;
     exit(EXIT_FAILURE);
   }
-  std::cout << "mes send";
-  for (char i: message) std::cout << i;
+  std::cout << "start send" << std::endl;
+  for (unsigned char i: message) std::cout << (int) i;
+  std::cout << "end send" << std::endl;
 }
 
 void Socket::send(std::string message) {
@@ -94,8 +95,9 @@ std::vector<unsigned char> Socket::receive(int socket) {
     exit(EXIT_FAILURE);
   }
   memcpy(&mes[0], buffer, len);
-  std::cout << "mes reeive";
-  for (char i: mes) std::cout << i;
+  std::cout << "start receive" << std::endl;
+  for (unsigned char i: mes) std::cout << (int) i;
+  std::cout << "end receive" << std::endl;
 
   //comunication.mes = std::vector<unsigned char>(buffer, buffer + sizeof(buffer) / sizeof(unsigned char) );
 
