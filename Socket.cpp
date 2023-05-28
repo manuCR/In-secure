@@ -82,11 +82,10 @@ void Socket::send(std::string message) {
 std::vector<unsigned char> Socket::receive(int socket) {
   int len = 0;
   recv(socket, &len, sizeof(len), 0);
-  
+  std::vector<unsigned char> mes{std::vector<unsigned char>(512)};
   if (len > 512) {
-    return std::vector<unsigned char>(0);
+    return mes;
   }
-  std::vector<unsigned char> mes{std::vector<unsigned char>(512, 0)};
   unsigned char buffer[512] = { 0 };
   int result=::recv(socket, buffer, len, 0);
   std::cout << "received size " << result << std::endl;

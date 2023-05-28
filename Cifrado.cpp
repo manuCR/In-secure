@@ -52,7 +52,6 @@ std::string Cifrado::decryptMessage(std::vector<unsigned char> encryptedMessage,
     if (!privateKeyFile) {
         return "";
     }
-    std::cout << encryptedMessage.size()<< " desencriptar" << std::endl;
     RSA* rsa = PEM_read_RSA_PUBKEY(privateKeyFile, NULL, NULL, NULL);
     fclose(privateKeyFile);
 
