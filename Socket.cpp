@@ -66,7 +66,7 @@ void Socket::send(std::vector<unsigned char> message) {
   }
   std::cout << "start send" << std::endl;
   for (unsigned char i: message) std::cout << (int) i;
-  std::cout << "end send" << std::endl;
+  std::cout << std::endl << "end send" << std::endl;
 }
 
 void Socket::send(std::string message) {
@@ -97,7 +97,7 @@ std::vector<unsigned char> Socket::receive(int socket) {
   memcpy(&mes[0], buffer, len);
   std::cout << "start receive" << std::endl;
   for (unsigned char i: mes) std::cout << (int) i;
-  std::cout << "end receive" << std::endl;
+  std::cout << std::endl << "end receive" << std::endl;
 
   //comunication.mes = std::vector<unsigned char>(buffer, buffer + sizeof(buffer) / sizeof(unsigned char) );
 

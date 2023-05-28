@@ -13,12 +13,13 @@ Cifrado::Cifrado(){
     
 }
 
-void Cifrado::encryptMessage(const std::string& message, const std::string& publicKeyPath, std::vector<unsigned char> result) {
+std::vector<unsigned char> Cifrado::encryptMessage(const std::string& message, const std::string& publicKeyPath) {
     // Cargar la clave pública
+    std::vector<unsigned char> result = {std::vector<unsigned char>(512, 0)}
     FILE* publicKeyFile = fopen(publicKeyPath.c_str(), "rb");
     if (!publicKeyFile) {
         std::cerr << "Error al abrir el archivo de clave pública" << std::endl;
-        result[0] = 0;
+        return result;
     }
 
     RSA* rsa = PEM_read_RSAPrivateKey(publicKeyFile, NULL, NULL, NULL);
@@ -26,7 +27,7 @@ void Cifrado::encryptMessage(const std::string& message, const std::string& publ
 
     if (!rsa) {
         std::cerr << "Error al leer la clave pública" << std::endl;
-        result[0] = 0;
+        return result;
     }
 
     std::string encryptedMessage;
@@ -39,8 +40,9 @@ void Cifrado::encryptMessage(const std::string& message, const std::string& publ
     RSA_free(rsa);
     if (encryptedLength == -1) {
         std::cerr << "Error al encriptar el mensaje" << std::endl;
-        result[0] = 0;
     }
+
+    return result;
     
 }
 
