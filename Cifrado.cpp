@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <string>
 #include <fstream>
+#include <iostream>
 #include "Cifrado.hpp"
 
 #include <openssl/rsa.h>

@@ -1,5 +1,6 @@
 #include "Cifrado.hpp"
 #include "ProcesadorFinal.h"
+#include <iostream>
 
 ProcesadorFinal::ProcesadorFinal() { 
   escritor = new Escritor();
