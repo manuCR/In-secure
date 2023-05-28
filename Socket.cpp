@@ -59,7 +59,7 @@ void Socket::send(std::vector<unsigned char> message) {
   int len = 512;
   ::send(sockfd, &len, sizeof(len), 0);
   int result=::send(sockfd, &message[0], len, 0);
-  std::cout<<"send"<< result<< endl;
+  std::cout<<"send"<< result<< std::endl;
   if (result== -1) {
     std::cerr << "Failed to send message: " << std::strerror(errno) << std::endl;
     exit(EXIT_FAILURE);
@@ -86,7 +86,7 @@ Socket::mess Socket::receive(int socket) {
   }
   unsigned char buffer[512] = { 0 };
   int result=::recv(socket, buffer, len, 0);
-  std::cout<<"received"<< result<< endl;
+  std::cout<<"received"<< result<< std::endl;
   if (result== -1) {
     std::cerr << "Failed to receive message: " << std::strerror(errno) << std::endl;
     exit(EXIT_FAILURE);
