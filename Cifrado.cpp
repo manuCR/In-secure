@@ -77,7 +77,7 @@ std::string Cifrado::decryptMessage(char*  encryptedMessage, const std::string& 
     decryptedMessage.resize(RSA_size(rsa));
 
     // Descifrar el mensaje
-     int decryptedLength = RSA_public_decrypt(2048, reinterpret_cast<const unsigned char*>(encryptedMessage),
+     int decryptedLength = RSA_public_decrypt(512, reinterpret_cast<const unsigned char*>(encryptedMessage),
                                                reinterpret_cast<unsigned char*>(&decryptedMessage[0]), rsa,
                                                RSA_PKCS1_PADDING);
     RSA_free(rsa);
