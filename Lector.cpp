@@ -14,12 +14,11 @@ int Lector::open(string flname) {
     std::cerr << "No se pudo abrir el archivo " << filename << std::endl;
     return 1;
   }
-  rewind(archivo);
   return 0;
 }
 
 int Lector::read() { 
-  buffer = {0};
+  memset(buffer, 0, 512);
   return fread(buffer, sizeof(char), 470, archivo);
 }
 
