@@ -68,7 +68,6 @@ void Socket::send(std::string message) {
 Socket::mess Socket::receive(int socket) {
   int len = 0;
   recv(socket, &len, sizeof(len), 0);
-  std::cout << "socket receive length: " << len << std::endl;
   mess comunication;
   if (len > 512) {
     comunication.end = true;
