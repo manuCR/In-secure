@@ -1,6 +1,6 @@
 #include "Lector.hpp"
 #include <iostream>
-#include <stdio>
+#include <stdio.h>
 #include <string>
 
 using namespace std;
