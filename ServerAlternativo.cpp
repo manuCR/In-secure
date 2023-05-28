@@ -58,6 +58,7 @@ void ServerAlternativo::getMessages(int id) {
     ceroPriv->iniciar(priv + mesPath);
     if (ceroPriv->getArchivoActual() == tituloNum &&
         ceroPriv->cambiarArchivoActual(priv + mesPath, tituloNum + 1)) {
+      std::cout << "pase el if" << std::endl;
       if (procesador->abrir(tok, mesSha, mesPath, mesTitulo)) {
         std::vector<unsigned char> message = receive(id);
         while (message.size()>0) {
