@@ -22,7 +22,7 @@ public:
 private:
   ArchivoCero *ceroPub;
   const static int carpetas = 3;
-  const std::string users[carpetas] = {"carpeta1/", "carpeta2/", "carpeta3/"};
+  const std::string users[carpetas] = {"carpeta1", "carpeta2", "carpeta3"};
   int usersIndex;
 };
 

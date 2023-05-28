@@ -76,7 +76,7 @@ std::string ServerInicial::getPath(bool secret) {
     if (usersIndex >= carpetas) {
       usersIndex = usersIndex % carpetas;
     }
-    path = path + "/eaea/" + users[usersIndex++];
+    path = path + "/eaea/" + users[usersIndex++] + "/";
   }
   return path;
 }
