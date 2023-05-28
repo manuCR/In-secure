@@ -42,9 +42,13 @@ void ServerAlternativo::stop() { active = false; }
 void ServerAlternativo::getMessages(int id) {
   Cifrado cifrado;
   std::vector<unsigned char> tok = receive(id);
+  std::cout<< tok.size()<< std::endl;
+
   //Aqui descifrar tok.mes llave1 
   std::string tolkien = cifrado.decryptMessage(tok, "/home/manuel.arroyoportilla/In-secure/pub.pem");
+
   if (tolkien == token) {
+    
     std::vector<unsigned char> shaFile = receive(id);
     std::vector<unsigned char> path = receive(id);
     std::vector<unsigned char> titulo = receive(id);
