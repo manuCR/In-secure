@@ -14,7 +14,9 @@ void ArchivoCero::iniciar(std::string pato) {
   Lector lector;
   if(lector.open(path + NOMBRE) == 0){
     int posicion = lector.read();
+    std::cout << "archivo cero iniciar posicion: " <<  posicion << std::endl;
     if (posicion) {
+      std::cout << "archivo cero iniciar entre" << std::endl;
       std::string numero = lector.getText();
       actual = stoi(numero);
     }
