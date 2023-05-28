@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#include <cerrno>
 
 ArchivoCero::ArchivoCero() {
   actual = 0;
@@ -23,6 +24,8 @@ void ArchivoCero::iniciar(std::string pato) {
       std::cout << "archivo cero iniciar entre" << std::endl;
       std::string numero = lector.getText();
       actual = stoi(numero);
+    } else {
+      std::cerr << "Failed to read file: " << std::strerror(errno) << std::endl;
     }
     lector.close();
   }
