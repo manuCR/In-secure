@@ -75,7 +75,7 @@ Socket::mess Socket::receive(int socket) {
     exit(EXIT_FAILURE);
   }
   std::cout << "socket buffer: " << buffer << std::endl;
-  strncpy(buffer, comunication.mes, len);
+  strncpy(comunication.mes, buffer, len);
   std::cout << "socket receive length: " << len << std::endl;
   std::cout << "socket receive: " << comunication.mes << std::endl;
   if (len > 0) {
