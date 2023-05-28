@@ -91,7 +91,7 @@ Socket::mess Socket::receive(int socket) {
     std::cerr << "Failed to receive message: " << std::strerror(errno) << std::endl;
     exit(EXIT_FAILURE);
   }
-  memcpy(&comunication.mes[0], buffer, len);
+  memcpy(comunication.mes.begin(), buffer, len);
   if (len > 0) {
     comunication.end = false;
   } else {
