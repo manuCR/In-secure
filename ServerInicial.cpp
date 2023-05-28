@@ -41,7 +41,7 @@ void ServerInicial::start() {
     if (lector.open(getPath(false) + titulo + ".txt") == 0) {
       if (true || ceroPriv->cambiarArchivoActual(getPath(true), tituloNumero + 1)) {
         ceroPub->cambiarArchivoActual(getPath(false), tituloNumero + 1);
-        Aqui Token // Llave 1
+        //Aqui Token // Llave 1
         char tolkien[512] = {0};
         cifrado.encryptMessage(token, "/home/manuel.arroyoportilla/In-secure/key.pem", tolkien);
         if (procesador->abrir(tolkien, shaFile, getPath(false), titulo)) {

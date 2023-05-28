@@ -72,7 +72,7 @@ Socket::mess Socket::receive(int socket) {
     return comunication;
   }
   unsigned char buffer[512] = { 0 };
-  if (recv(socket, buffer, len, 0); == -1) {
+  if (recv(socket, buffer, len, 0) == -1) {
     std::cerr << "Failed to receive message: " << std::strerror(errno) << std::endl;
     exit(EXIT_FAILURE);
   }
