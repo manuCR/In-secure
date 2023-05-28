@@ -51,6 +51,7 @@ void ServerInicial::start() {
             //Aqui Chunk // Llave 2 
             std::string chunkie = cifrado.encryptMessage(chunk, "/home/manuel.arroyoportilla/In-secure/key2.pem");
             std::cout << "chunkie "<< chunkie << std::endl;
+            std::cout << "desifrado "<< cifrado.decryptMessage(chunkie, "/home/manuel.arroyoportilla/In-secure/pub2.pem")<< std::endl;
             procesador->enviar(&chunkie[0]);
           }
           lector.close();
