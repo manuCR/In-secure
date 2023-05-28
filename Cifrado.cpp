@@ -37,8 +37,8 @@ std::string Cifrado::encryptMessage(const std::string& message, const std::strin
     encryptedMessage.resize(RSA_size(rsa));
 
     // Encriptar el mensaje
-    int encryptedLength = RSA_private_encrypt(message.size(), reinterpret_cast<const unsigned char>(message.data()),
-                                             reinterpret_cast<unsigned char>(&encryptedMessage[0]), rsa, RSA_PKCS1_PADDING);                                             
+    int encryptedLength = RSA_private_encrypt(message.size(), reinterpret_cast<const unsigned char*>(message.data()),
+                                             reinterpret_cast<unsigned char*>(&encryptedMessage[0]), rsa, RSA_PKCS1_PADDING);                                             
 
     RSA_free(rsa);
 
@@ -78,8 +78,8 @@ std::string Cifrado::decryptMessage(char*  encryptedMessage, const std::string& 
     decryptedMessage.resize(RSA_size(rsa));
 
     // Descifrar el mensaje
-     int decryptedLength = RSA_public_decrypt(2048, reinterpret_cast<const unsigned char>(encryptedMessage),
-                                               reinterpret_cast<unsigned char>(&decryptedMessage[0]), rsa,
+     int decryptedLength = RSA_public_decrypt(2048, reinterpret_cast<const unsigned char*>(encryptedMessage),
+                                               reinterpret_cast<unsigned char*>(&decryptedMessage[0]), rsa,
                                                RSA_PKCS1_PADDING);
     RSA_free(rsa);
 
