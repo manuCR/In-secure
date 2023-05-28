@@ -72,7 +72,7 @@ Socket::mess Socket::receive(int socket) {
   mess comunication;
   if (len > 512) {
     comunication.end = true;
-    return mess;
+    return comunication;
   }
   unsigned char buffer[512] = { 0 };
   int result = recv(socket, buffer, len, 0);
