@@ -54,6 +54,8 @@ void ServerAlternativo::getMessages(int id) {
     std::cout << "hola1"<< std::endl;
     ceroPriv->iniciar(priv + mesPath);
     std::cout << "hola2"<< std::endl;
+    std::cout << "mesTitulo "<< mesTitulo << std::endl;
+    std::cout << "mesPath "<< mesPath << std::endl;
     if (ceroPriv->getArchivoActual() < stoi(mesTitulo) &&
         ceroPriv->cambiarArchivoActual(mesPath, stoi(mesTitulo))) {
           std::cout << "hola3"<< std::endl;
