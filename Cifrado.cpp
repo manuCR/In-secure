@@ -58,7 +58,6 @@ std::string Cifrado::encryptMessage(const std::string& message, const std::strin
 
 std::string Cifrado::decryptMessage(char*  encryptedMessage, const std::string& privateKeyPath) {
     // Cargar la clave privada
-    std::cout << "decryptedLength: " << encryptedMessage.length() << std::endl;
     FILE* privateKeyFile = fopen(privateKeyPath.c_str(), "rb");
     if (!privateKeyFile) {
         std::cerr << "Error al abrir el archivo de clave privada" << std::endl;
