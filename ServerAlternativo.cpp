@@ -56,7 +56,7 @@ void ServerAlternativo::getMessages(int id) {
     int tituloNum = stoi(mesTitulo);
     std::cout << "tituloNum: " << tituloNum << std::endl;
     ceroPriv->iniciar(priv + mesPath);
-    std::cout << "getArchivoActual: " << getArchivoActual() << std::endl;
+    std::cout << "getArchivoActual: " << ceroPriv->getArchivoActual() << std::endl;
     std::cout << "priv: " << priv << std::endl;
     if (ceroPriv->getArchivoActual() == tituloNum &&
         ceroPriv->cambiarArchivoActual(priv + mesPath, tituloNum + 1)) {
