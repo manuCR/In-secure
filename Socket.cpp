@@ -76,14 +76,16 @@ void Socket::send(std::string message) {
   }
 }
 
-Socket::mess Socket::receive(int socket) {
+std::vector<unsigned char> Socket::receive(int socket) {
   int len = 0;
   recv(socket, &len, sizeof(len), 0);
-  mess comunication;
+  
   if (len > 512) {
-    comunication.end = true;
-    return comunication;
+    return std::vector<unsigned char>(0);
   }
+
+  std::vector<unsigned char> mes{std::vector<unsigned char>(512, 0)};
+
   unsigned char buffer[512] = { 0 };
   int result=::recv(socket, buffer, len, 0);
   std::cout<<"received"<< result<< std::endl;
@@ -91,16 +93,11 @@ Socket::mess Socket::receive(int socket) {
     std::cerr << "Failed to receive message: " << std::strerror(errno) << std::endl;
     exit(EXIT_FAILURE);
   }
-  //memcpy(&comunication.mes[0], buffer, len);
+  memcpy(&mes[0], buffer, len);
 
-  comunication.mes = std::vector<unsigned char>  (buffer, buffer + sizeof(buffer) / sizeof(unsigned char) );
+  //comunication.mes = std::vector<unsigned char>(buffer, buffer + sizeof(buffer) / sizeof(unsigned char) );
 
-  if (len > 0) {
-    comunication.end = false;
-  } else {
-    comunication.end = true;
-  }
-  return comunication;
+  return mes;
 }
 
 Socket::~Socket() { close(sockfd); }

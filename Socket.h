@@ -6,11 +6,7 @@
 #include <vector>
 class Socket {
 public:
-  struct mess {
-    bool end;
-    std::vector<unsigned char> mes{std::vector<unsigned char>(512, 0)};
 
-  };
   Socket(std::string address, int port);
   void connectTo();
   void bindTo();
@@ -18,7 +14,7 @@ public:
   void send(std::string message);
 
   int acceptConection();
-  mess receive(int socket);
+  std::vector<unsigned char> receive(int socket);
   ~Socket();
 
 private:

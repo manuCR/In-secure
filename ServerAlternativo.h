@@ -5,6 +5,7 @@
 #include "Server.h"
 #include "Socket.h"
 #include <string>
+#include <vector>
 
 class ServerAlternativo : public Server {
 public:
@@ -13,7 +14,7 @@ public:
   void iniciarProcesador(std::string address, int port, bool fin);
   void iniciarCero(std::string path);
   void getMessages(int id);
-  Socket::mess receive(int id);
+  std::vector<unsigned char> receive(int id);
   void start();
   void stop();
   ~ServerAlternativo();

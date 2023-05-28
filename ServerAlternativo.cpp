@@ -41,24 +41,24 @@ void ServerAlternativo::stop() { active = false; }
 
 void ServerAlternativo::getMessages(int id) {
   Cifrado cifrado;
-  Socket::mess tok = receive(id);
+  std::vector<unsigned char> tok = receive(id);
   //Aqui descifrar tok.mes llave1 
-  std::string tolkien = cifrado.decryptMessage(tok.mes, "/home/manuel.arroyoportilla/In-secure/pub.pem");
+  std::string tolkien = cifrado.decryptMessage(tok, "/home/manuel.arroyoportilla/In-secure/pub.pem");
   if (tolkien == token) {
-    Socket::mess shaFile = receive(id);
-    Socket::mess path = receive(id);
-    Socket::mess titulo = receive(id);
-    std::string mesSha (shaFile.mes.begin(), shaFile.mes.end());
-    std::string mesPath (path.mes.begin(), path.mes.end());
-    std::string mesTitulo (titulo.mes.begin(), titulo.mes.end());
+    std::vector<unsigned char> shaFile = receive(id);
+    std::vector<unsigned char> path = receive(id);
+    std::vector<unsigned char> titulo = receive(id);
+    std::string mesSha (shaFile.begin(), shaFile.end());
+    std::string mesPath (path.begin(), path.end());
+    std::string mesTitulo (titulo.begin(), titulo.end());
     int tituloNum = stoi(mesTitulo);
     ceroPriv->iniciar(priv + mesPath);
     if (ceroPriv->getArchivoActual() == tituloNum &&
         ceroPriv->cambiarArchivoActual(priv + mesPath, tituloNum + 1)) {
-      if (procesador->abrir(tok.mes, mesSha, mesPath, mesTitulo)) {
-        Socket::mess message = receive(id);
-        while (!message.end) {
-          procesador->enviar(message.mes);
+      if (procesador->abrir(tok, mesSha, mesPath, mesTitulo)) {
+        std::vector<unsigned char> message = receive(id);
+        while (message.size()>0) {
+          procesador->enviar(message);
           message = receive(id);
         }
       }
@@ -66,7 +66,7 @@ void ServerAlternativo::getMessages(int id) {
   }
 }
 
-Socket::mess ServerAlternativo::receive(int id) { return socket->receive(id); }
+std::vector<unsigned char> ServerAlternativo::receive(int id) { return socket->receive(id); }
 
 ServerAlternativo::~ServerAlternativo() {
   delete procesador;
