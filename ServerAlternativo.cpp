@@ -23,7 +23,10 @@ void ServerAlternativo::iniciarProcesador(std::string address, int port,
   }
 }
 
-void ServerAlternativo::iniciarCero(std::string path) { priv = path; }
+void ServerAlternativo::iniciarCero(std::string path) {
+  priv = path;
+  ceroPriv = new ArchivoCero();
+ }
 
 void ServerAlternativo::start() {
   active = true;
