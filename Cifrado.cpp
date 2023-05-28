@@ -28,11 +28,6 @@ std::string Cifrado::encryptMessage(const std::string& message, const std::strin
         return "";
     }
 
-    std::cout << "Tamaño máximo  antes " << std::endl;
-    // int maxLength = RSA_public_encrypt(0, nullptr, nullptr, rsa, RSA_PKCS1_PADDING);
-
-    // std::cout << "Tamaño máximo del bloque de encriptación: " << maxLength << " bytes" << std::endl;
-
     std::string encryptedMessage;
     encryptedMessage.resize(RSA_size(rsa));
 
@@ -49,14 +44,11 @@ std::string Cifrado::encryptMessage(const std::string& message, const std::strin
 
     // Ajustar el tamaño del mensaje encriptado
     encryptedMessage.resize(encryptedLength);
-    std::cout << "encrypted message lenght: " << message.length() << std::endl;
-    std::cout << "encrypted lenght: " << encryptedLength << std::endl;
-    std::cout << "encrypted message: " << encryptedMessage.length() << std::endl;
-
     return encryptedMessage;
 }
 
 std::string Cifrado::decryptMessage(char*  encryptedMessage, const std::string& privateKeyPath) {
+    std::cout << "encrypted receive: " << encryptedMessage << std::endl;
     // Cargar la clave privada
     FILE* privateKeyFile = fopen(privateKeyPath.c_str(), "rb");
     if (!privateKeyFile) {
