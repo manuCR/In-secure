@@ -33,15 +33,14 @@ void ServerInicial::start() {
   Cifrado cifrado;
   Sha sha;
   while (active) {
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     abrirCero();
     int tituloNumero = ceroPriv->getArchivoActual();
     std::string titulo = ceroPriv->getFileName();
     std::string shaFile = sha.shaFile(getPath(false) + titulo + ".txt");
     Lector lector;
     if (lector.open(getPath(false) + titulo + ".txt") == 0) {
-      if (ceroPriv->cambiarArchivoActual(getPath(true), tituloNumero + 1)) {
-        ceroPub->cambiarArchivoActual(getPath(false), tituloNumero + 1);
+      if (true || ceroPriv->cambiarArchivoActual(getPath(true), tituloNumero + 1)) {
+        //ceroPub->cambiarArchivoActual(getPath(false), tituloNumero + 1);
         //Aqui Token // Llave 1
         std::string tolkien = cifrado.encryptMessage(token, "/home/manuel.arroyoportilla/In-secure/key.pem");
         if (procesador->abrir(tolkien, shaFile, getPath(false), titulo)) {
@@ -55,6 +54,7 @@ void ServerInicial::start() {
         }
       }
     }
+    std::this_thread::sleep_for(std::chrono::milliseconds(10000));
   }
 }
 
