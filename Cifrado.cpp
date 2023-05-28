@@ -37,7 +37,6 @@ void Cifrado::encryptMessage(const std::string& message, const std::string& publ
                                              reinterpret_cast<unsigned char*>(result), rsa, RSA_PKCS1_PADDING);                                             
 
     RSA_free(rsa);
-    std::cout << "encrypt: " << encryptedLength << std::endl;
     if (encryptedLength == -1) {
         std::cerr << "Error al encriptar el mensaje" << std::endl;
         result[0] = 0;

@@ -57,9 +57,7 @@ int Socket::acceptConection() {
 void Socket::send(char * message) {
   int len = 512;
   ::send(sockfd, &len, sizeof(len), 0);
-  int result = ::send(sockfd, message, len, 0);
-  std::cout << "socket send result: " << result << std::endl;
-  if (result == -1) {
+  if (::send(sockfd, message, len, 0) == -1) {
     std::cerr << "Failed to send message: " << std::strerror(errno) << std::endl;
     exit(EXIT_FAILURE);
   }
@@ -74,9 +72,7 @@ Socket::mess Socket::receive(int socket) {
     return comunication;
   }
   unsigned char buffer[512] = { 0 };
-  int result = recv(socket, buffer, len, 0);
-  std::cout << "socket receive result: " << result << std::endl;
-  if (result == -1) {
+  if (recv(socket, buffer, len, 0); == -1) {
     std::cerr << "Failed to receive message: " << std::strerror(errno) << std::endl;
     exit(EXIT_FAILURE);
   }

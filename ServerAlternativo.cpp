@@ -53,9 +53,8 @@ void ServerAlternativo::getMessages(int id) {
     std::string mesTitulo = std::string(titulo.mes);
     int tituloNum = stoi(mesTitulo);
     ceroPriv->iniciar(priv + mesPath);
-    std::cout << "archivos:" << std::endl << ceroPriv->getArchivoActual() << std::endl << stoi(mesTitulo) << std::endl;
     if (ceroPriv->getArchivoActual() == tituloNum &&
-        ceroPriv->cambiarArchivoActual(mesPath, tituloNum + 1)) {
+        ceroPriv->cambiarArchivoActual(priv + mesPath, tituloNum + 1)) {
       if (procesador->abrir(tok.mes, mesSha, mesPath, mesTitulo)) {
         Socket::mess message = receive(id);
         while (!message.end) {
