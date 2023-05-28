@@ -6,16 +6,15 @@
 
 
 class Escritor {
+  public:
+    Escritor();
+    bool open(std::string flname);
+    void write(std::string entry);
+    void inicio();
+    void close();
 
-public:
-  Escritor();
-  bool open(std::string flname);
-  void write(std::string entry);
-  void inicio();
-  void close();
-
-private: 
-  FILE * archivo;
+  private: 
+    FILE * archivo;
 
 };
 #endif  // ESCRITOR_H

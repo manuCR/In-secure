@@ -9,7 +9,6 @@ void Bitacora::add(std::string entry) {
   openlog("Main", LOG_CONS | LOG_PID, LOG_LOCAL5);
   // Se escribe un mensaje de prueba en el nivel de severidad 'info'
   syslog(LOG_INFO, "%s", entry.c_str());
-
   // Se cierra la conexión con el servicio syslog
   closelog();
 }

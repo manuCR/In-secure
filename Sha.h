@@ -4,10 +4,10 @@
 #include <string>
 
 class Sha {
-public:
-  Sha();
-  std::string shaFile(std::string fileName);
-  ~Sha();
+  public:
+    Sha();
+    std::string shaFile(std::string fileName);
+    ~Sha();
 };
 
 #endif

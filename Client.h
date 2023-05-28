@@ -6,15 +6,14 @@
 #include <vector>
 
 class Client {
-public:
-  Client(std::string address, int port);
-  void send(std::vector<unsigned char>  message);
-  void send(std::string  message);
+  public:
+    Client(std::string address, int port);
+    void send(std::vector<unsigned char>  message);
+    void send(std::string  message);
+    ~Client();
 
-  ~Client();
-
-private:
-  Socket *socket;
+  private:
+    Socket *socket;
 };
 
 #endif

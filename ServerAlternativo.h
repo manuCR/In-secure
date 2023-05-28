@@ -8,19 +8,19 @@
 #include <vector>
 
 class ServerAlternativo : public Server {
-public:
-  ServerAlternativo(std::string tok);
-  void setSocket(std::string address, int port, bool cdcd);
-  void iniciarProcesador(std::string address, int port, bool fin);
-  void iniciarCero(std::string path);
-  void getMessages(int id);
-  std::vector<unsigned char> receive(int id);
-  void start();
-  void stop();
-  ~ServerAlternativo();
+  public:
+    ServerAlternativo(std::string tok);
+    void setSocket(std::string address, int port, bool cdcd);
+    void iniciarProcesador(std::string address, int port, bool fin);
+    void iniciarCero(std::string path);
+    void getMessages(int id);
+    std::vector<unsigned char> receive(int id);
+    void start();
+    void stop();
+    ~ServerAlternativo();
 
-private:
-  Socket *socket;
+  private:
+    Socket *socket;
 };
 
 #endif
