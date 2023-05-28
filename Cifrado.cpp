@@ -51,7 +51,7 @@ std::string Cifrado::decryptMessage(std::vector<unsigned char> encryptedMessage,
         std::cerr << "Error al abrir el archivo de clave privada" << std::endl;
         return "";
     }
-    std::cout<< encryptMessage.size()<< " encriptar" <<std::endl;
+    std::cout<< encryptedMessage.size()<< " encriptar" <<std::endl;
     RSA* rsa = PEM_read_RSA_PUBKEY(privateKeyFile, NULL, NULL, NULL);
     fclose(privateKeyFile);
 
