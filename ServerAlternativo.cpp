@@ -48,15 +48,24 @@ void ServerAlternativo::getMessages(int id) {
     std::string mesSha = std::string(shaFile.mes);
     std::string mesPath = std::string(path.mes);
     std::string mesTitulo = std::string(titulo.mes);
+    std::cout << "hola1"<< std::endl;
     ceroPriv->iniciar(priv + mesPath);
+    std::cout << "hola2"<< std::endl;
     if (ceroPriv->getArchivoActual() < stoi(mesTitulo) &&
         ceroPriv->cambiarArchivoActual(mesPath, stoi(mesTitulo))) {
+          std::cout << "hola3"<< std::endl;
       if (procesador->abrir(tolkien, mesSha, mesPath, mesTitulo)) {
+        std::cout << "hola4"<< std::endl;
         Socket::mess message = receive(id);
+        std::cout << "hola5"<< std::endl;
         std::string mesMessage = std::string(message.mes);
+        std::cout << "hola6"<< std::endl;
         while (!message.end) {
+          std::cout << "hola7"<< std::endl;
           procesador->enviar(mesMessage);
+          std::cout << "hola8"<< std::endl;
           message = receive(id);
+          std::cout << "hola9"<< std::endl;
         }
       }
     }

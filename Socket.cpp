@@ -57,10 +57,7 @@ int Socket::acceptConection() {
 void Socket::send(std::string message) {
   int len = message.length() * sizeof(message[0]);
   ::send(sockfd, &len, sizeof(len), 0);
-  std::cout << "socket send length: " << len << std::endl;
-  std::cout << "socket send: " << message << std::endl;
   int result = ::send(sockfd, message.c_str(), len, 0);
-  std::cout << "socket send result: " << result << std::endl;
   if (result == -1) {
     std::cerr << "Failed to send message: " << std::strerror(errno) << std::endl;
     exit(EXIT_FAILURE);
@@ -70,18 +67,18 @@ void Socket::send(std::string message) {
 Socket::mess Socket::receive(int socket) {
   int len = 0;
   recv(socket, &len, sizeof(len), 0);
-  std::cout << "socket receive length: " << len << std::endl;
-  unsigned char buffer[512] = { 0 };
   mess comunication;
+  if (len > 512) {
+    comunication.end = true;
+    return mess;
+  }
+  unsigned char buffer[512] = { 0 };
   int result = recv(socket, buffer, len, 0);
-  std::cout << "socket receive result: " << result << std::endl;
   if (result == -1) {
     std::cerr << "Failed to receive message: " << std::strerror(errno) << std::endl;
     exit(EXIT_FAILURE);
   }
-  std::cout << "socket buffer: " << buffer << std::endl;
   memcpy(comunication.mes, buffer, len);
-  std::cout << "socket receive: " << comunication.mes << std::endl;
   if (len > 0) {
     comunication.end = false;
   } else {
