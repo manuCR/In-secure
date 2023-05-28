@@ -14,7 +14,7 @@ void ArchivoCero::iniciar(std::string pato) {
   Lector lector;
   // verificar que se logro abrir?
   std::cout << "path "<< path << std::endl;
-  if(lector.open(path + NOMBRE)){
+  if(lector.open(path + NOMBRE) == 0){
     int posicion = lector.read();
     if (posicion) {
       std::string numero = lector.getText();
