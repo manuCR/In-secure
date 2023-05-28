@@ -24,8 +24,7 @@ Socket::Socket(std::string address, int port) {
 void Socket::connectTo() {
   if (connect(sockfd, (struct sockaddr *)&server_addr, addrlen) ==
       -1) {
-    std::cerr << "Failed to connect to server: " << std::strerror(errno)
-              << std::endl;
+    std::cerr << "Failed to connect to server: " << std::strerror(errno) << std::endl;
     exit(EXIT_FAILURE);
   }
 }

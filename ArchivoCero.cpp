@@ -3,7 +3,10 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+
 #include <cerrno>
+#include <cstdlib>
+#include <unistd.h>
 
 ArchivoCero::ArchivoCero() {
   actual = 0;
