@@ -49,7 +49,7 @@ std::string Cifrado::encryptMessage(const std::string& message, const std::strin
 }
 
 std::string Cifrado::decryptMessage(char*  encryptedMessage, const std::string& privateKeyPath) {
-    std::cout << "decryptMessage "<< decryptMessage << std::endl;
+    std::cout << "decryptMessage "<< encryptedMessage << std::endl;
     // Cargar la clave privada
     FILE* privateKeyFile = fopen(privateKeyPath.c_str(), "rb");
     if (!privateKeyFile) {
