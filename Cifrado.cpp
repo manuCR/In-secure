@@ -15,7 +15,7 @@ Cifrado::Cifrado(){
 
 std::vector<unsigned char> Cifrado::encryptMessage(const std::string& message, const std::string& publicKeyPath) {
     // Cargar la clave pública
-    std::vector<unsigned char> result = {std::vector<unsigned char>(512, 0)}
+    std::vector<unsigned char> result{std::vector<unsigned char>(512, 0)};
     FILE* publicKeyFile = fopen(publicKeyPath.c_str(), "rb");
     if (!publicKeyFile) {
         std::cerr << "Error al abrir el archivo de clave pública" << std::endl;
