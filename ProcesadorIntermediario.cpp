@@ -13,9 +13,9 @@ bool ProcesadorIntermediario::abrir(char * token, std::string shaFile, std::stri
                                     std::string archivo) {
   bitacora->add(shaFile);
   client->send(token);
-  client->send(shaFile.c_str());
-  client->send(path.c_str());
-  client->send(archivo.c_str());
+  client->send(&shaFile[0]);
+  client->send(&path[0]);
+  client->send(&archivo[0]);
   return true;
 }
 void ProcesadorIntermediario::enviar(char * mensaje) {
