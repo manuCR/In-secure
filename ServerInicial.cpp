@@ -36,7 +36,6 @@ void ServerInicial::start() {
     abrirCero();
     int tituloNumero = ceroPriv->getArchivoActual();
     std::string titulo = ceroPriv->getFileName();
-    std::cout << "titulo "<< titulo << std::endl;
     std::string shaFile = sha.shaFile(getPath(false) + titulo + ".txt");
     Lector lector;
     if (lector.open(getPath(false) + titulo + ".txt") == 0) {
