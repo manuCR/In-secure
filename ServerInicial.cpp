@@ -43,12 +43,12 @@ void ServerInicial::start() {
       if (ceroPriv->cambiarArchivoActual(getPath(true), tituloNumero + 1)) {
         ceroPub->cambiarArchivoActual(getPath(false), tituloNumero + 1);
         //Aqui Token // Llave 1
-        std::string tolkien = cifrado.encryptMessage(token, "/home/manuel.arroyoportilla/In-secure/key.pem");
+        std::string tolkien = cifrado.encryptMessage(token.c_str(), "/home/manuel.arroyoportilla/In-secure/key.pem");
         if (procesador->abrir(tolkien, shaFile, getPath(false), titulo)) {
           while (lector.read()) {
             std::string chunk = lector.getText();
             //Aqui Chunk // Llave 2 
-            std::string chunkie = cifrado.encryptMessage(chunk, "/home/manuel.arroyoportilla/In-secure/key2.pem");
+            std::string chunkie = cifrado.encryptMessage(chunk.c_str(), "/home/manuel.arroyoportilla/In-secure/key2.pem");
             procesador->enviar(chunkie);
           }
           lector.close();

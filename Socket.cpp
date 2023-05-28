@@ -45,8 +45,7 @@ void Socket::bindTo() {
 }
 
 int Socket::acceptConection() {
-  int socket =
-      accept(sockfd, (struct sockaddr *)&server_addr, (socklen_t *)&addrlen);
+  int socket = accept(sockfd, (struct sockaddr *)&server_addr, (socklen_t *)&addrlen);
   if (socket == -1) {
     std::cerr << "Failed to accept to server: " << std::strerror(errno)
               << std::endl;
@@ -68,16 +67,15 @@ void Socket::send(std::string message) {
 Socket::mess Socket::receive(int socket) {
   int len = 0;
   recv(socket, &len, sizeof(len), 0);
-  char buffer[4096] = { 0 };
+  char buffer[2048] = { 0 };
   mess comunication;
   if (recv(socket, buffer, len, 0) == -1) {
-    std::cerr << "Failed to receive message: " << std::strerror(errno)
-              << std::endl;
+    std::cerr << "Failed to receive message: " << std::strerror(errno) << std::endl;
     exit(EXIT_FAILURE);
   }
-  comunication.mes = std::string(buffer, 0, len);
+  strncpy(buffer,comunication.mes,len)
   std::cout << "socket receive length: " << len << " message length: " << comunication.mes.length() << std::endl;
-  if (comunication.mes.length() > 0) {
+  if (len > 0) {
     comunication.end = false;
   } else {
     comunication.end = true;

@@ -12,7 +12,7 @@ Cifrado::Cifrado(){
     
 }
 
-std::string Cifrado::encryptMessage(const std::string& message, const std::string& publicKeyPath) {
+std::string Cifrado::encryptMessage(const unsigned char* message, const std::string& publicKeyPath) {
     // Cargar la clave pública
     FILE* publicKeyFile = fopen(publicKeyPath.c_str(), "rb");
     if (!publicKeyFile) {
@@ -37,7 +37,7 @@ std::string Cifrado::encryptMessage(const std::string& message, const std::strin
     encryptedMessage.resize(RSA_size(rsa));
 
     // Encriptar el mensaje
-    int encryptedLength = RSA_private_encrypt(message.size(), reinterpret_cast<const unsigned char*>(message.data()),
+    int encryptedLength = RSA_private_encrypt(message.size(), message,
                                              reinterpret_cast<unsigned char*>(&encryptedMessage[0]), rsa, RSA_PKCS1_PADDING);
 
     RSA_free(rsa);
@@ -56,7 +56,7 @@ std::string Cifrado::encryptMessage(const std::string& message, const std::strin
     return encryptedMessage;
 }
 
-std::string Cifrado::decryptMessage(const std::string& encryptedMessage, const std::string& privateKeyPath) {
+std::string Cifrado::decryptMessage(const unsigned char*  encryptedMessage, const std::string& privateKeyPath) {
     // Cargar la clave privada
     std::cout << "decryptedLength: " << encryptedMessage.length() << std::endl;
     FILE* privateKeyFile = fopen(privateKeyPath.c_str(), "rb");
@@ -78,8 +78,7 @@ std::string Cifrado::decryptMessage(const std::string& encryptedMessage, const s
     decryptedMessage.resize(RSA_size(rsa));
 
     // Descifrar el mensaje
-    int decryptedLength = RSA_public_decrypt(encryptedMessage.size(),
-                                               reinterpret_cast<const unsigned char*>(encryptedMessage.data()),
+    int decryptedLength = RSA_public_decrypt(encryptedMessage.size(), encryptedMessage,
                                                reinterpret_cast<unsigned char*>(&decryptedMessage[0]), rsa,
                                                RSA_PKCS1_PADDING);
 
