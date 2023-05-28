@@ -15,7 +15,7 @@ class Cifrado {
 
 public:
   Cifrado();
-  std::string decryptMessage(const unsigned char*  message, const std::string& privateKeyPath);
+  std::string decryptMessage(char*  message, const std::string& privateKeyPath);
   std::string encryptMessage(const std::string& message, const std::string& publicKeyPath);
 
 

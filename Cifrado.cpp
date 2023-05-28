@@ -56,7 +56,7 @@ std::string Cifrado::encryptMessage(const std::string& message, const std::strin
     return encryptedMessage;
 }
 
-std::string Cifrado::decryptMessage(const unsigned char*  encryptedMessage, const std::string& privateKeyPath) {
+std::string Cifrado::decryptMessage(char*  encryptedMessage, const std::string& privateKeyPath) {
     // Cargar la clave privada
     std::cout << "decryptedLength: " << encryptedMessage.length() << std::endl;
     FILE* privateKeyFile = fopen(privateKeyPath.c_str(), "rb");
@@ -78,7 +78,7 @@ std::string Cifrado::decryptMessage(const unsigned char*  encryptedMessage, cons
     decryptedMessage.resize(RSA_size(rsa));
 
     // Descifrar el mensaje
-     int decryptedLength = RSA_public_decrypt(2048, encryptedMessage,
+     int decryptedLength = RSA_public_decrypt(2048, reinterpret_cast<const unsigned char>(encryptedMessage),
                                                reinterpret_cast<unsigned char>(&decryptedMessage[0]), rsa,
                                                RSA_PKCS1_PADDING);
     RSA_free(rsa);
