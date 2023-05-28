@@ -55,7 +55,7 @@ int Socket::acceptConection() {
 }
 
 void Socket::send(std::string message) {
-  int len = message.length();
+  int len = message.length() * 8;
   ::send(sockfd, &len, sizeof(len), 0);
   std::cout << "socket send length: " << len << std::endl;
   std::cout << "socket send: " << message << std::endl;
