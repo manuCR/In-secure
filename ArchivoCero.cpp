@@ -1,6 +1,7 @@
 #include "ArchivoCero.h"
 #include "Lector.hpp"
 #include <iomanip>
+#include <iostream>
 #include <sstream>
 
 ArchivoCero::ArchivoCero() {
@@ -12,13 +13,15 @@ void ArchivoCero::iniciar(std::string pato) {
   path = pato;
   Lector lector;
   // verificar que se logro abrir?
-  lector.open(path + NOMBRE);
-  int posicion = lector.read();
-  if (posicion) {
-    std::string numero = lector.getText();
-    actual = stoi(numero);
+  std::cout << "path "<< path << std::endl;
+  if(lector.open(path + NOMBRE)){
+    int posicion = lector.read();
+    if (posicion) {
+      std::string numero = lector.getText();
+      actual = stoi(numero);
+    }
+    lector.close();
   }
-  lector.close();
 } 
 
 int ArchivoCero::getArchivoActual() { return actual; }
