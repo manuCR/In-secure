@@ -57,8 +57,7 @@ void ServerAlternativo::getMessages(int id) {
       if (procesador->abrir(tolkien, mesSha, mesPath, mesTitulo)) {
         Socket::mess message = receive(id);
         while (!message.end) {
-          std::cout << "message.mes $$$ "<< std::endl << message.mes << std::endl;
-          std::cout << "desifrado $$$ "<< std::endl << cifrado.decryptMessage(message.mes, "/home/manuel.arroyoportilla/In-secure/pub.pem") << std::endl;
+          cifrado.decryptMessage(message.mes, "/home/manuel.arroyoportilla/In-secure/pub2.pem");
           procesador->enviar(message.mes);
           message = receive(id);
         }
