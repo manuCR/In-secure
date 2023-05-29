@@ -57,15 +57,10 @@ int Socket::acceptConection() {
 void Socket::send(std::vector<unsigned char> message) {
   int len = 512;
   ::send(sockfd, &len, sizeof(len), 0);
-  int result=::send(sockfd, &message[0], len, 0);
-  std::cout << "send size " << result << std::endl;
-  if (result== -1) {
+  if (::send(sockfd, &message[0], len, 0) == -1) {
     std::cerr << "Failed to send message: " << std::strerror(errno) << std::endl;
     exit(EXIT_FAILURE);
   }
-  std::cout << "start send" << std::endl;
-  for (unsigned char i: message) std::cout << (int) i;
-  std::cout << std::endl << "end send" << std::endl;
 }
 
 void Socket::send(std::string message) {
@@ -86,19 +81,11 @@ std::vector<unsigned char> Socket::receive(int socket) {
     return mes;
   }
   unsigned char buffer[512] = { 0 };
-  int result=::recv(socket, buffer, len, 0);
-  std::cout << "received size " << result << std::endl;
-  if (result== -1) {
+  if (recv(socket, buffer, len, 0) == -1) {
     std::cerr << "Failed to receive message: " << std::strerror(errno) << std::endl;
     exit(EXIT_FAILURE);
   }
   memcpy(&mes[0], buffer, len);
-  std::cout << "start receive" << std::endl;
-  for (unsigned char i: mes) std::cout << (int) i;
-  std::cout << std::endl << "end receive" << std::endl;
-
-  //comunication.mes = std::vector<unsigned char>(buffer, buffer + sizeof(buffer) / sizeof(unsigned char) );
-
   return mes;
 }
 

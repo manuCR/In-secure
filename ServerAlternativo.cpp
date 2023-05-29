@@ -50,17 +50,11 @@ void ServerAlternativo::getMessages(int id) {
     std::vector<unsigned char> titulo = receive(id);
     std::string mesSha (reinterpret_cast<char*>(&shaFile[0]));
     std::string mesPath (reinterpret_cast<char*>(&path[0]));
-    std::cout << "mesPath: " << mesPath << std::endl;
     std::string mesTitulo (reinterpret_cast<char*>(&titulo[0]));
-    std::cout << "mesTitulo: " << mesTitulo << std::endl;
     int tituloNum = stoi(mesTitulo);
-    std::cout << "tituloNum: " << tituloNum << std::endl;
     ceroPriv->iniciar(priv + mesPath);
-    std::cout << "getArchivoActual: " << ceroPriv->getArchivoActual() << std::endl;
-    std::cout << "priv: " << priv << std::endl;
     if (ceroPriv->getArchivoActual() == tituloNum &&
         ceroPriv->cambiarArchivoActual(priv + mesPath, tituloNum + 1)) {
-      std::cout << "pase el if" << std::endl;
       if (procesador->abrir(tok, mesSha, mesPath, mesTitulo)) {
         std::vector<unsigned char> message = receive(id);
         while (message.size()>0) {
