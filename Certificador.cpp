@@ -146,10 +146,10 @@ bool verifyCertificate(const std::string& certificateFilePath, const std::string
 
 
 int main() {
-    std::string csrFilePath = "ruta_al_csr.csr";
-    std::string privateKeyFilePath = "ruta_a_la_clave_privada.pem";
-    std::string certificateFilePath = "ruta_al_certificado.crt";
-    std::string publicKeyFilePath = "ruta_a_la_clave_publica.pem";
+    std::string csrFilePath = "/home/valery.murcia/In-secure/Certificados/sofia.csr";
+    std::string privateKeyFilePath = "/home/valery.murcia/In-secure/Certificados/CAGrupo5p.csr.txt";
+    std::string certificateFilePath = "ruta.crt";
+    std::string publicKeyFilePath = "/home/valery.murcia/In-secure/Certificados/CAGrupo5.csr.txt";
 
     // Firma el CSR y guarda el certificado resultante en un archivo CRT
     if (signCSR(csrFilePath, privateKeyFilePath, certificateFilePath)) {
