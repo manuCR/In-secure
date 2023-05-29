@@ -148,14 +148,26 @@ bool verifyCertificate(const std::string& certificateFilePath, const std::string
 int main() {
     std::string csrFilePath = "/home/valery.murcia/In-secure/Certificados/sofia.csr";
     std::string privateKeyFilePath = "/home/valery.murcia/In-secure/Certificados/CAGrupo5p.csr.txt";
-    std::string certificateFilePath = "ruta.crt";
+    std::string certificateFilePath = "/home/valery.murcia/In-secure/Certificados/sofia.crt";
     std::string publicKeyFilePath = "/home/valery.murcia/In-secure/Certificados/CAGrupo5.csr.txt";
 
-    // Firma el CSR y guarda el certificado resultante en un archivo CRT
-    if (signCSR(csrFilePath, privateKeyFilePath, certificateFilePath)) {
-        std::cout << "El certificado ha sido firmado y guardado exitosamente." << std::endl;
+    std::ofstream file("/home/valery.murcia/In-secure/Certificados/sofia.crt");
+
+    if (file.is_open()) {
+        // Cierra el archivo
+        file.close();
+        std::cout << "Archivo CRT creado exitosamente." << std::endl;
+
+        // Firma el CSR y guarda el certificado resultante en un archivo CRT
+        if (signCSR(csrFilePath, privateKeyFilePath, certificateFilePath)) {
+            std::cout << "El certificado ha sido firmado y guardado exitosamente." << std::endl;
+        } else {
+            std::cerr << "Error al firmar el CSR y guardar el certificado." << std::endl;
+            return 1;
+        }
+
     } else {
-        std::cerr << "Error al firmar el CSR y guardar el certificado." << std::endl;
+        std::cerr << "Error al crear el archivo CRT." << std::endl;
         return 1;
     }
 
