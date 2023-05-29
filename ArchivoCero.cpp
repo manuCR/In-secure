@@ -5,8 +5,7 @@
 #include <sstream>
 
 #include <cerrno>
-#include <cstdlib>
-#include <unistd.h>
+#include <cstring>
 
 ArchivoCero::ArchivoCero() {
   actual = 0;
