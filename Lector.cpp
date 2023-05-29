@@ -19,7 +19,7 @@ int Lector::open(string flname) {
 }
 
 int Lector::openBinari(string flname) {
-  filename = "/home/joe/Documents/In-secure/" + flname;
+  filename = "/home/manuel.arroyoportilla" + flname;
   archivo = fopen(filename.c_str(), "rb"); // abre el archivo Ej: "src/archivo.txt"
   if (!archivo) { // verifica si el archivo se abrió correctamente
     std::cerr << "No se pudo abrir el archivo " << filename << std::endl;
