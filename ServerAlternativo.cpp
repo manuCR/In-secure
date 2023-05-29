@@ -51,6 +51,7 @@ void ServerAlternativo::getMessages(int id) {
     std::string mesSha (reinterpret_cast<char*>(&shaFile[0]));
     std::string mesPath (reinterpret_cast<char*>(&path[0]));
     std::string mesTitulo (reinterpret_cast<char*>(&titulo[0]));
+    std::cout << "mesSha: " << mesSha << std::endl;
     int tituloNum = stoi(mesTitulo);
     ceroPriv->iniciar(priv + mesPath);
     if (ceroPriv->getArchivoActual() == tituloNum &&

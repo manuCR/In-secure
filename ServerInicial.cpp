@@ -45,6 +45,7 @@ void ServerInicial::start() {
         ceroPub->cambiarArchivoActual(getPath(false), tituloNumero + 1);
         //Aqui Token // Llave 1
         std::vector<unsigned char> tolkien = cifrado.encryptMessage(token, "/home/manuel.arroyoportilla/In-secure/key.pem");
+        std::cout << "shafile: " << shaFile << std::endl;
         if (procesador->abrir(tolkien, shaFile, getPath(false), titulo)) {
           while (lector.read()) {
             std::string chunk = lector.getText();
