@@ -9,12 +9,14 @@ class Lector {
   public:
     Lector();
     int open(std::string flname) ;
+    int openBinari(std::string flname) ;
     int read();
     std::string getText();
+    unsigned char * getChars();
     int close() ;
   private:
     std::string filename;
     FILE * archivo;
-    char * buffer = new char[512];
+    unsigned char * buffer = new unsigned char[512];
 };
 #endif  // LECTOR_H
