@@ -8,7 +8,7 @@
 Sha::Sha() {}
 
 int Sha::start() {
-  mdCtx = EVP_MD_CTX_new();
+  mdCtx = EVP_MD_CTX_create();
   if (!EVP_DigestInit_ex(mdCtx, EVP_sha256(), NULL)) {
     printf("Message digest initialization failed.\n");
     EVP_MD_CTX_free(mdCtx);
@@ -32,7 +32,7 @@ std::string Sha::finish() {
     EVP_MD_CTX_free(mdCtx);
     return std::string("");
   }
-  EVP_MD_CTX_free(mdCtx);
+  EVP_MD_CTX_destroy(mdCtx);
 
   std::stringstream ss;
   for (int i = 0; i < mdLen; ++i) {
