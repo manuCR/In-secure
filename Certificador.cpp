@@ -3,6 +3,7 @@
 #include <openssl/pem.h>
 #include <openssl/x509.h>
 #include <openssl/rsa.h>
+#include <openssl/err.h>
 
 bool signCSR(const std::string& csrFilePath, const std::string& privateKeyFilePath, const std::string& outputFilePath) {
     // Abrir el archivo CSR
@@ -96,8 +97,8 @@ bool signCSR(const std::string& csrFilePath, const std::string& privateKeyFilePa
     return true;
 }
 
-bool verifyCertificate(const std::string& certificateFilePath, const std::string& publicKeyFilePath) {
-    // Abrir el archivo de certificado
+bool validateCertificate(const std::string& certificateFilePath, const std::string& publicKeyFilePath) {
+    // Abrir el archivo de certificado CRT
     FILE* certificateFile = fopen(certificateFilePath.c_str(), "r");
     if (!certificateFile) {
         std::cerr << "Error al abrir el archivo de certificado: " << certificateFilePath << std::endl;
@@ -127,56 +128,39 @@ bool verifyCertificate(const std::string& certificateFilePath, const std::string
         return false;
     }
 
-    // Verificar la firma del certificado utilizando la clave pública
-    if (X509_verify(certificate, publicKey) != 1) {
-        std::cerr << "Error al verificar el certificado" << std::endl;
+    // Validar la identidad del certificado
+    int result = X509_verify(certificate, publicKey);
+    if (result != 1) {
+        std::cerr << "La identidad del certificado no es válida" << std::endl;
         X509_free(certificate);
         EVP_PKEY_free(publicKey);
         return false;
     }
 
-    // La verificación fue exitosa
-    std::cout << "El certificado es auténtico" << std::endl;
-
+    // La identidad del certificado es válida
     X509_free(certificate);
     EVP_PKEY_free(publicKey);
-
     return true;
 }
 
-
 int main() {
-    std::string csrFilePath = "/home/valery.murcia/In-secure/Certificados/sofia.csr";
-    std::string privateKeyFilePath = "/home/valery.murcia/In-secure/Certificados/CAGrupo5p.csr.txt";
-    std::string certificateFilePath = "/home/valery.murcia/In-secure/Certificados/sofia.crt";
-    std::string publicKeyFilePath = "/home/valery.murcia/In-secure/Certificados/CAGrupo5.csr.txt";
+    std::string csrFilePath = "/home/valery.murcia/In-secure/Certificados/cesar.csr";
+    std::string privateKeyFilePath = "/home/valery.murcia/In-secure/Certificados/CAGrupo5p.csr";
+    std::string outputFilePath = "/home/valery.murcia/In-secure/Certificados/cesar.crt";
+    std::string publicKeyFilePath = "/home/valery.murcia/In-secure/Certificados/CAGrupo5.csr";
 
-    std::ofstream file("/home/valery.murcia/In-secure/Certificados/sofia.crt");
+    // Crear el certificado CRT
+    if (signCSR(csrFilePath, privateKeyFilePath, outputFilePath)) {
+        std::cout << "Certificado CRT creado exitosamente." << std::endl;
 
-    if (file.is_open()) {
-        // Cierra el archivo
-        file.close();
-        std::cout << "Archivo CRT creado exitosamente." << std::endl;
-
-        // Firma el CSR y guarda el certificado resultante en un archivo CRT
-        if (signCSR(csrFilePath, privateKeyFilePath, certificateFilePath)) {
-            std::cout << "El certificado ha sido firmado y guardado exitosamente." << std::endl;
+        // Validar la identidad del certificado CRT
+        if (validateCertificate(outputFilePath, publicKeyFilePath)) {
+            std::cout << "La identidad del certificado es válida." << std::endl;
         } else {
-            std::cerr << "Error al firmar el CSR y guardar el certificado." << std::endl;
-            return 1;
+            std::cout << "La identidad del certificado no es válida." << std::endl;
         }
-
     } else {
-        std::cerr << "Error al crear el archivo CRT." << std::endl;
-        return 1;
-    }
-
-    // Verifica la autenticidad del certificado utilizando la clave pública
-    if (verifyCertificate(certificateFilePath, publicKeyFilePath)) {
-        std::cout << "La autenticidad del certificado ha sido verificada correctamente." << std::endl;
-    } else {
-        std::cerr << "La autenticidad del certificado no pudo ser verificada." << std::endl;
-        return 1;
+        std::cerr << "Error al crear el certificado CRT." << std::endl;
     }
 
     return 0;
