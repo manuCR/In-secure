@@ -8,12 +8,12 @@ class Socket {
 public:
   struct mess {
     bool end;
-    std::string mes;
+    char mes[512] = {0};
   };
   Socket(std::string address, int port);
   void connectTo();
   void bindTo();
-  void send(std::string message);
+  void send(char * message);
   int acceptConection();
   mess receive(int socket);
   ~Socket();

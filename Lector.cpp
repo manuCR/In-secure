@@ -18,7 +18,7 @@ int Lector::open(string flname) {
   return 0;
 }
 
-int Lector::read() { return fread(buffer, sizeof(char), 1024, archivo); }
+int Lector::read() { return fread(buffer, sizeof(char), 470, archivo); }
 
 std::string Lector::getText() { return string(buffer); }
 

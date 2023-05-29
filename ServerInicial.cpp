@@ -3,6 +3,8 @@
 #include "Cifrado.hpp"
 #include "Sha.h"
 #include <iostream>
+#include <chrono>
+#include <thread>
 
 ServerInicial::ServerInicial(std::string tok) { token = tok; }
 
@@ -34,27 +36,28 @@ void ServerInicial::start() {
     abrirCero();
     int tituloNumero = ceroPriv->getArchivoActual();
     std::string titulo = ceroPriv->getFileName();
+    std::cout << "tratando de enviar " << titulo << std::endl;
     std::string shaFile = sha.shaFile(getPath(false) + titulo + ".txt");
     Lector lector;
     if (lector.open(getPath(false) + titulo + ".txt") == 0) {
       if (ceroPriv->cambiarArchivoActual(getPath(true), tituloNumero + 1)) {
         ceroPub->cambiarArchivoActual(getPath(false), tituloNumero + 1);
         //Aqui Token // Llave 1
-        std::string tolkien = cifrado.encryptMessage(token, "/home/manuel.arroyoportilla/In-secure/pub.pem");
+        char tolkien[512] = {0};
+        cifrado.encryptMessage(token, "/home/manuel.arroyoportilla/In-secure/key.pem", tolkien);
         if (procesador->abrir(tolkien, shaFile, getPath(false), titulo)) {
-          std::string texto = "";
           while (lector.read()) {
             std::string chunk = lector.getText();
-            texto += chunk;
             //Aqui Chunk // Llave 2 
-            std::string chunkie = cifrado.encryptMessage(chunk, "/home/manuel.arroyoportilla/In-secure/pub2.pem");
+            char chunkie[512] = {0};
+            cifrado.encryptMessage(chunk, "/home/manuel.arroyoportilla/In-secure/key2.pem", chunkie);
             procesador->enviar(chunkie);
           }
-          std::cout << "lectura final:" << texto << std::endl;
           lector.close();
         }
       }
     }
+    std::this_thread::sleep_for(std::chrono::milliseconds(10000));
   }
 }
 

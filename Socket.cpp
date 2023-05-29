@@ -45,8 +45,7 @@ void Socket::bindTo() {
 }
 
 int Socket::acceptConection() {
-  int socket =
-      accept(sockfd, (struct sockaddr *)&server_addr, (socklen_t *)&addrlen);
+  int socket = accept(sockfd, (struct sockaddr *)&server_addr, (socklen_t *)&addrlen);
   if (socket == -1) {
     std::cerr << "Failed to accept to server: " << std::strerror(errno)
               << std::endl;
@@ -55,24 +54,30 @@ int Socket::acceptConection() {
   return socket;
 }
 
-void Socket::send(std::string message) {
-  if (::send(sockfd, message.c_str(), message.length(), 0) == -1) {
-    std::cerr << "Failed to send message: " << std::strerror(errno)
-              << std::endl;
+void Socket::send(char * message) {
+  int len = 512;
+  ::send(sockfd, &len, sizeof(len), 0);
+  if (::send(sockfd, message, len, 0) == -1) {
+    std::cerr << "Failed to send message: " << std::strerror(errno) << std::endl;
     exit(EXIT_FAILURE);
   }
 }
 
 Socket::mess Socket::receive(int socket) {
-  char buffer[1024] = { 0 };
+  int len = 0;
+  recv(socket, &len, sizeof(len), 0);
   mess comunication;
-  if (read(socket, buffer, 1024) == -1) {
-    std::cerr << "Failed to receive message: " << std::strerror(errno)
-              << std::endl;
+  if (len > 512) {
+    comunication.end = true;
+    return comunication;
+  }
+  unsigned char buffer[512] = { 0 };
+  if (recv(socket, buffer, len, 0) == -1) {
+    std::cerr << "Failed to receive message: " << std::strerror(errno) << std::endl;
     exit(EXIT_FAILURE);
   }
-  comunication.mes = std::string(buffer);
-  if (comunication.mes.length() > 0) {
+  memcpy(comunication.mes, buffer, len);
+  if (len > 0) {
     comunication.end = false;
   } else {
     comunication.end = true;

@@ -8,8 +8,8 @@
 class ProcesadorIntermediario : public Procesador {
 public:
   ProcesadorIntermediario(std::string address, int port);
-  bool abrir(std::string token, std::string shaFile, std::string path, std::string archivo);
-  void enviar(std::string mesaje);
+  bool abrir(char * token, std::string shaFile, std::string path, std::string archivo);
+  void enviar(char * mensaje);
   ~ProcesadorIntermediario();
 
 private:

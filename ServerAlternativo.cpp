@@ -23,7 +23,10 @@ void ServerAlternativo::iniciarProcesador(std::string address, int port,
   }
 }
 
-void ServerAlternativo::iniciarCero(std::string path) { priv = path; }
+void ServerAlternativo::iniciarCero(std::string path) {
+  priv = path;
+  ceroPriv = new ArchivoCero();
+ }
 
 void ServerAlternativo::start() {
   active = true;
@@ -40,25 +43,24 @@ void ServerAlternativo::getMessages(int id) {
   Cifrado cifrado;
   Socket::mess tok = receive(id);
   //Aqui descifrar tok.mes llave1 
-  std::string tolkien = cifrado.decryptMessage(tok.mes, "/home/manuel.arroyoportilla/In-secure/key.pem");
-
-
+  std::string tolkien = cifrado.decryptMessage(tok.mes, "/home/manuel.arroyoportilla/In-secure/pub.pem");
   if (tolkien == token) {
     Socket::mess shaFile = receive(id);
     Socket::mess path = receive(id);
     Socket::mess titulo = receive(id);
-    ceroPriv->iniciar(priv + path.mes);
-    if (ceroPriv->getArchivoActual() < stoi(titulo.mes) &&
-        ceroPriv->cambiarArchivoActual(path.mes, stoi(titulo.mes))) {
-      if (procesador->abrir(tolkien, shaFile.mes, path.mes, titulo.mes)) {
-        std::string texto = "";
+    std::string mesSha = std::string(shaFile.mes);
+    std::string mesPath = std::string(path.mes);
+    std::string mesTitulo = std::string(titulo.mes);
+    int tituloNum = stoi(mesTitulo);
+    ceroPriv->iniciar(priv + mesPath);
+    if (ceroPriv->getArchivoActual() == tituloNum &&
+        ceroPriv->cambiarArchivoActual(priv + mesPath, tituloNum + 1)) {
+      if (procesador->abrir(tok.mes, mesSha, mesPath, mesTitulo)) {
         Socket::mess message = receive(id);
         while (!message.end) {
-          texto += message.mes;
           procesador->enviar(message.mes);
           message = receive(id);
         }
-        std::cout << "lectura final:" << texto << std::endl;
       }
     }
   }
