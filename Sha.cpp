@@ -11,7 +11,7 @@ int Sha::start() {
   mdCtx = EVP_MD_CTX_create();
   if (!EVP_DigestInit_ex(mdCtx, EVP_sha256(), NULL)) {
     printf("Message digest initialization failed.\n");
-    EVP_MD_CTX_free(mdCtx);
+    EVP_MD_CTX_destroy(mdCtx);
     return -1;
   }
   return 0;
@@ -20,7 +20,7 @@ int Sha::start() {
 int Sha::add(const unsigned char * str, int len) {
   if (!EVP_DigestUpdate(mdCtx, str, len)) {
     printf("Message digest update failed.\n");
-    EVP_MD_CTX_free(mdCtx);
+    EVP_MD_CTX_destroy(mdCtx);
     return -1;
   }
   return 0;
@@ -29,7 +29,7 @@ int Sha::add(const unsigned char * str, int len) {
 std::string Sha::finish() {
   if (!EVP_DigestFinal_ex(mdCtx, mdVal, &mdLen)) {
     printf("Message digest finalization failed.\n");
-    EVP_MD_CTX_free(mdCtx);
+    EVP_MD_CTX_destroy(mdCtx);
     return std::string("");
   }
   EVP_MD_CTX_destroy(mdCtx);
