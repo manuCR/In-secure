@@ -48,10 +48,10 @@ void ServerAlternativo::getMessages(int id) {
     std::vector<unsigned char> shaFile = receive(id);
     std::vector<unsigned char> path = receive(id);
     std::vector<unsigned char> titulo = receive(id);
-    std::string mesSha (reinterpret_cast<char*>(shaFile));
-    std::string mesPath (reinterpret_cast<char*>(path));
+    std::string mesSha (reinterpret_cast<char*>(&shaFile[0]));
+    std::string mesPath (reinterpret_cast<char*>(&path[0]));
     std::cout << "mesPath: " << mesPath << std::endl;
-    std::string mesTitulo (reinterpret_cast<char*>(titulo));
+    std::string mesTitulo (reinterpret_cast<char*>(&titulo[0]));
     std::cout << "mesTitulo: " << mesTitulo << std::endl;
     int tituloNum = stoi(mesTitulo);
     std::cout << "tituloNum: " << tituloNum << std::endl;
