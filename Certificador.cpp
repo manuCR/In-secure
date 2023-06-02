@@ -144,21 +144,15 @@ bool validateCertificate(const std::string& certificateFilePath, const std::stri
 }
 
 int main() {
-    std::string csrFilePath = "/home/valery.murcia/In-secure/Certificados/cesar.csr";
+    std::string csrFilePath = "/home/valery.murcia/In-secure/Certificados/sofia.csr";
     std::string privateKeyFilePath = "/home/valery.murcia/In-secure/Certificados/CAGrupo5p.csr";
-    std::string outputFilePath = "/home/valery.murcia/In-secure/Certificados/cesar.crt";
+    std::string outputFilePath = "/home/valery.murcia/In-secure/Certificados/sofia.crt";
     std::string publicKeyFilePath = "/home/valery.murcia/In-secure/Certificados/CAGrupo5.csr";
 
     // Crear el certificado CRT
     if (signCSR(csrFilePath, privateKeyFilePath, outputFilePath)) {
         std::cout << "Certificado CRT creado exitosamente." << std::endl;
 
-        // Validar la identidad del certificado CRT
-        if (validateCertificate(outputFilePath, publicKeyFilePath)) {
-            std::cout << "La identidad del certificado es válida." << std::endl;
-        } else {
-            std::cout << "La identidad del certificado no es válida." << std::endl;
-        }
     } else {
         std::cerr << "Error al crear el certificado CRT." << std::endl;
     }
