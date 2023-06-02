@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <vector>
 
 Socket::Socket(std::string address, int port) {
   this->port = port;
@@ -23,8 +24,7 @@ Socket::Socket(std::string address, int port) {
 void Socket::connectTo() {
   if (connect(sockfd, (struct sockaddr *)&server_addr, addrlen) ==
       -1) {
-    std::cerr << "Failed to connect to server: " << std::strerror(errno)
-              << std::endl;
+    std::cerr << "Failed to connect to server: " << std::strerror(errno) << std::endl;
     exit(EXIT_FAILURE);
   }
 }
@@ -54,35 +54,39 @@ int Socket::acceptConection() {
   return socket;
 }
 
-void Socket::send(char * message) {
+void Socket::send(std::vector<unsigned char> message) {
   int len = 512;
   ::send(sockfd, &len, sizeof(len), 0);
-  if (::send(sockfd, message, len, 0) == -1) {
+  if (::send(sockfd, &message[0], len, 0) == -1) {
     std::cerr << "Failed to send message: " << std::strerror(errno) << std::endl;
     exit(EXIT_FAILURE);
   }
 }
 
-Socket::mess Socket::receive(int socket) {
+void Socket::send(std::string message) {
+  int len = message.length();
+  ::send(sockfd, &len, sizeof(len), 0);
+  if (::send(sockfd, message.c_str(), len, 0) == -1) {
+    std::cerr << "Failed to send message: " << std::strerror(errno)
+              << std::endl;
+    exit(EXIT_FAILURE);
+  }
+}
+
+std::vector<unsigned char> Socket::receive(int socket) {
   int len = 0;
   recv(socket, &len, sizeof(len), 0);
-  mess comunication;
+  std::vector<unsigned char> mes{std::vector<unsigned char>(512)};
   if (len > 512) {
-    comunication.end = true;
-    return comunication;
+    return mes;
   }
   unsigned char buffer[512] = { 0 };
   if (recv(socket, buffer, len, 0) == -1) {
     std::cerr << "Failed to receive message: " << std::strerror(errno) << std::endl;
     exit(EXIT_FAILURE);
   }
-  memcpy(comunication.mes, buffer, len);
-  if (len > 0) {
-    comunication.end = false;
-  } else {
-    comunication.end = true;
-  }
-  return comunication;
+  memcpy(&mes[0], buffer, len);
+  return mes;
 }
 
 Socket::~Socket() { close(sockfd); }

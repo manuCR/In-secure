@@ -41,24 +41,25 @@ void ServerAlternativo::stop() { active = false; }
 
 void ServerAlternativo::getMessages(int id) {
   Cifrado cifrado;
-  Socket::mess tok = receive(id);
+  std::vector<unsigned char> tok = receive(id);
   //Aqui descifrar tok.mes llave1 
-  std::string tolkien = cifrado.decryptMessage(tok.mes, "/home/manuel.arroyoportilla/In-secure/pub.pem");
+  std::string tolkien = cifrado.decryptMessage(tok, "/home/manuel.arroyoportilla/In-secure/pub.pem");
   if (tolkien == token) {
-    Socket::mess shaFile = receive(id);
-    Socket::mess path = receive(id);
-    Socket::mess titulo = receive(id);
-    std::string mesSha = std::string(shaFile.mes);
-    std::string mesPath = std::string(path.mes);
-    std::string mesTitulo = std::string(titulo.mes);
+    std::vector<unsigned char> shaFile = receive(id);
+    std::vector<unsigned char> path = receive(id);
+    std::vector<unsigned char> titulo = receive(id);
+    std::string mesSha (reinterpret_cast<char*>(&shaFile[0]));
+    std::string mesPath (reinterpret_cast<char*>(&path[0]));
+    std::string mesTitulo (reinterpret_cast<char*>(&titulo[0]));
+    std::cout << "mesSha: " << mesSha << std::endl;
     int tituloNum = stoi(mesTitulo);
     ceroPriv->iniciar(priv + mesPath);
     if (ceroPriv->getArchivoActual() == tituloNum &&
         ceroPriv->cambiarArchivoActual(priv + mesPath, tituloNum + 1)) {
-      if (procesador->abrir(tok.mes, mesSha, mesPath, mesTitulo)) {
-        Socket::mess message = receive(id);
-        while (!message.end) {
-          procesador->enviar(message.mes);
+      if (procesador->abrir(tok, mesSha, mesPath, mesTitulo)) {
+        std::vector<unsigned char> message = receive(id);
+        while (message.size()>0) {
+          procesador->enviar(message);
           message = receive(id);
         }
       }
@@ -66,7 +67,7 @@ void ServerAlternativo::getMessages(int id) {
   }
 }
 
-Socket::mess ServerAlternativo::receive(int id) { return socket->receive(id); }
+std::vector<unsigned char> ServerAlternativo::receive(int id) { return socket->receive(id); }
 
 ServerAlternativo::~ServerAlternativo() {
   delete procesador;

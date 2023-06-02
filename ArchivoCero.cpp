@@ -4,6 +4,9 @@
 #include <iostream>
 #include <sstream>
 
+#include <cerrno>
+#include <cstring>
+
 ArchivoCero::ArchivoCero() {
   actual = 0;
   escritor = new Escritor();
@@ -12,11 +15,14 @@ ArchivoCero::ArchivoCero() {
 void ArchivoCero::iniciar(std::string pato) {
   path = pato;
   Lector lector;
-  if(lector.open(path + NOMBRE) == 0){
+  std::string full = path + NOMBRE;
+  if(lector.open(full) == 0){
     int posicion = lector.read();
     if (posicion) {
       std::string numero = lector.getText();
       actual = stoi(numero);
+    } else {
+      std::cerr << "Failed to read file: " << std::strerror(errno) << std::endl;
     }
     lector.close();
   }

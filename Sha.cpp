@@ -1,42 +1,60 @@
 #include "Sha.h"
-#include <fstream>
+#include "Lector.hpp"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
-#include <openssl/evp.h>
+
 
 Sha::Sha() {}
 
-std::string Sha::shaFile(std::string filename) {
-  std::ifstream file(filename, std::ios::binary);
+int Sha::start() {
+  mdCtx = EVP_MD_CTX_create();
+  if (!EVP_DigestInit_ex(mdCtx, EVP_sha256(), NULL)) {
+    printf("Message digest initialization failed.\n");
+    EVP_MD_CTX_destroy(mdCtx);
+    return -1;
+  }
+  return 0;
+}
 
-  if (!file) {
-    return "";
+int Sha::add(const unsigned char * str, int len) {
+  if (!EVP_DigestUpdate(mdCtx, str, len)) {
+    printf("Message digest update failed.\n");
+    EVP_MD_CTX_destroy(mdCtx);
+    return -1;
+  }
+  return 0;
+}
+
+std::string Sha::finish() {
+  if (!EVP_DigestFinal_ex(mdCtx, mdVal, &mdLen)) {
+    printf("Message digest finalization failed.\n");
+    EVP_MD_CTX_destroy(mdCtx);
+    return std::string("");
+  }
+  EVP_MD_CTX_destroy(mdCtx);
+
+  std::stringstream ss;
+  for (int i = 0; i < mdLen; ++i) {
+    ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(mdVal[i]);
   }
 
-    EVP_MD_CTX* mdctx = EVP_MD_CTX_create();
-    EVP_DigestInit_ex(mdctx, EVP_sha256(), NULL);
+  return ss.str();
+}
 
-    constexpr size_t bufferSize = 4096;
-    char buffer[bufferSize];
-    while (file.read(buffer, bufferSize)) {
-        EVP_DigestUpdate(mdctx, buffer, bufferSize);
+std::string Sha::shaFile(std::string filename) {
+  Lector lector;
+  if(lector.openBinari(filename) == 0) {
+    int noError = start();
+    int read = lector.read();
+    while (read > 0 && noError == 0) {
+      noError = add(lector.getChars(), read);
+      read = lector.read();
     }
-
-    EVP_DigestUpdate(mdctx, buffer, file.gcount());
-
-    unsigned char digest[EVP_MAX_MD_SIZE];
-    unsigned int digestLength;
-    EVP_DigestFinal_ex(mdctx, digest, &digestLength);
-
-    std::stringstream ss;
-    for (unsigned int i = 0; i < digestLength; ++i) {
-        ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(digest[i]);
-    }
-
-    EVP_MD_CTX_destroy(mdctx);
-
-    return ss.str();
+    lector.close();
+    return finish();
+  }
+  return std::string("");
 }
 
 Sha::~Sha() {}

@@ -6,22 +6,17 @@
 
 
 class Lector {
-
- public:
-  std::string filename;
-  FILE * archivo;
-  char * buffer = new char[1024];
-
-  /**
-  * @brief Class constructor.
-  */
-  Lector();
-
-  int open(std::string flname) ;
-  int read();
-  std::string getText();
-  int close() ;
-
-
+  public:
+    Lector();
+    int open(std::string flname) ;
+    int openBinari(std::string flname) ;
+    int read();
+    std::string getText();
+    unsigned char * getChars();
+    int close() ;
+  private:
+    std::string filename;
+    FILE * archivo;
+    unsigned char * buffer = new unsigned char[512];
 };
 #endif  // LECTOR_H

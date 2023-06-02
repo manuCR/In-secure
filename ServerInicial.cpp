@@ -5,6 +5,7 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include <vector>
 
 ServerInicial::ServerInicial(std::string tok) { token = tok; }
 
@@ -43,14 +44,13 @@ void ServerInicial::start() {
       if (ceroPriv->cambiarArchivoActual(getPath(true), tituloNumero + 1)) {
         ceroPub->cambiarArchivoActual(getPath(false), tituloNumero + 1);
         //Aqui Token // Llave 1
-        char tolkien[512] = {0};
-        cifrado.encryptMessage(token, "/home/manuel.arroyoportilla/In-secure/key.pem", tolkien);
+        std::vector<unsigned char> tolkien = cifrado.encryptMessage(token, "/home/manuel.arroyoportilla/In-secure/key.pem");
+        std::cout << "shafile: " << shaFile << std::endl;
         if (procesador->abrir(tolkien, shaFile, getPath(false), titulo)) {
           while (lector.read()) {
             std::string chunk = lector.getText();
             //Aqui Chunk // Llave 2 
-            char chunkie[512] = {0};
-            cifrado.encryptMessage(chunk, "/home/manuel.arroyoportilla/In-secure/key2.pem", chunkie);
+            std::vector<unsigned char> chunkie = cifrado.encryptMessage(chunk, "/home/manuel.arroyoportilla/In-secure/key2.pem");
             procesador->enviar(chunkie);
           }
           lector.close();
@@ -74,7 +74,7 @@ std::string ServerInicial::getPath(bool secret) {
     if (usersIndex >= carpetas) {
       usersIndex = usersIndex % carpetas;
     }
-    path = path + "/eaea/" + users[usersIndex++];
+    path = path + "/eaea/" + users[usersIndex++] + "/";
   }
   return path;
 }
