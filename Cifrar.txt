@@ -56,3 +56,20 @@ int main() {
 
     return 0;
 }
+
+int main() {
+    std::string csrFilePath = "/home/valery.murcia/In-secure/Certificados/sofia.csr";
+    std::string privateKeyFilePath = "/home/valery.murcia/In-secure/Certificados/CAGrupo5p.csr";
+    std::string outputFilePath = "/home/valery.murcia/In-secure/Certificados/sofia.crt";
+    std::string publicKeyFilePath = "/home/valery.murcia/In-secure/Certificados/CAGrupo5.csr";
+
+    // Crear el certificado CRT
+    if (signCSR(csrFilePath, privateKeyFilePath, outputFilePath)) {
+        std::cout << "Certificado CRT creado exitosamente." << std::endl;
+
+    } else {
+        std::cerr << "Error al crear el certificado CRT." << std::endl;
+    }
+
+    return 0;
+}

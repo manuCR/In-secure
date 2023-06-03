@@ -5,6 +5,7 @@
 #include <openssl/rsa.h>
 #include <openssl/err.h>
 
+
 bool signCSR(const std::string& csrFilePath, const std::string& privateKeyFilePath, const std::string& outputFilePath) {
     // Abrir el archivo CSR
     FILE* csrFile = fopen(csrFilePath.c_str(), "r");
@@ -13,7 +14,7 @@ bool signCSR(const std::string& csrFilePath, const std::string& privateKeyFilePa
         return false;
     }
 
-    X509_REQ* csr = PEM_read_X509_REQ(csrFile, nullptr, nullptr, nullptr);
+    X509_REQ* csr = PEM_read_X509_REQ(csrFile, NULL, NULL, NULL);
     fclose(csrFile);
     if (!csr) {
         std::cerr << "Error al leer el archivo CSR" << std::endl;
@@ -28,7 +29,7 @@ bool signCSR(const std::string& csrFilePath, const std::string& privateKeyFilePa
         return false;
     }
 
-    RSA* privateKey = PEM_read_RSAPrivateKey(privateKeyFile, nullptr, nullptr, nullptr);
+    RSA* privateKey = PEM_read_RSAPrivateKey(privateKeyFile, NULL, NULL, NULL);
     fclose(privateKeyFile);
     if (!privateKey) {
         std::cerr << "Error al leer la clave privada" << std::endl;
@@ -97,65 +98,67 @@ bool signCSR(const std::string& csrFilePath, const std::string& privateKeyFilePa
     return true;
 }
 
-bool validateCertificate(const std::string& certificateFilePath, const std::string& publicKeyFilePath) {
-    // Abrir el archivo de certificado CRT
-    FILE* certificateFile = fopen(certificateFilePath.c_str(), "r");
-    if (!certificateFile) {
-        std::cerr << "Error al abrir el archivo de certificado: " << certificateFilePath << std::endl;
-        return false;
+std::string decryptMessage(char* encryptedMessage, const std::string& privateKeyPath) {
+    // Cargar la clave privada
+    FILE* privateKeyFile = fopen(privateKeyPath.c_str(), "rb");
+    if (!privateKeyFile) {
+        std::cerr << "Error al abrir el archivo de clave privada" << std::endl;
+        return "";
     }
 
-    X509* certificate = PEM_read_X509(certificateFile, nullptr, nullptr, nullptr);
-    fclose(certificateFile);
-    if (!certificate) {
-        std::cerr << "Error al leer el archivo de certificado" << std::endl;
-        return false;
+    RSA* rsa = PEM_read_RSA_PUBKEY(privateKeyFile, NULL, NULL, NULL);
+    fclose(privateKeyFile);
+
+    if (!rsa) {
+        std::cerr << "Error al leer la clave privada" << std::endl;
+        return "";
     }
 
-    // Abrir el archivo de clave pública
-    FILE* publicKeyFile = fopen(publicKeyFilePath.c_str(), "r");
-    if (!publicKeyFile) {
-        std::cerr << "Error al abrir el archivo de clave pública: " << publicKeyFilePath << std::endl;
-        X509_free(certificate);
-        return false;
+    // Preparar el buffer de salida
+    std::string decryptedMessage;
+    decryptedMessage.resize(RSA_size(rsa));
+
+    // Descifrar el mensaje
+     int decryptedLength = RSA_public_decrypt(512, reinterpret_cast<const unsigned char*>(encryptedMessage),
+                                               reinterpret_cast<unsigned char*>(&decryptedMessage[0]), rsa,
+                                               RSA_PKCS1_PADDING);
+    RSA_free(rsa);
+
+    if (decryptedLength == -1) {
+        std::cerr << "Error al descifrar el mensaje" << std::endl;
+        return "";
     }
 
-    EVP_PKEY* publicKey = PEM_read_PUBKEY(publicKeyFile, nullptr, nullptr, nullptr);
-    fclose(publicKeyFile);
-    if (!publicKey) {
-        std::cerr << "Error al leer la clave pública" << std::endl;
-        X509_free(certificate);
-        return false;
-    }
+    // Ajustar el tamaño del mensaje descifrado
+    decryptedMessage.resize(decryptedLength);
 
-    // Validar la identidad del certificado
-    int result = X509_verify(certificate, publicKey);
-    if (result != 1) {
-        std::cerr << "La identidad del certificado no es válida" << std::endl;
-        X509_free(certificate);
-        EVP_PKEY_free(publicKey);
-        return false;
-    }
-
-    // La identidad del certificado es válida
-    X509_free(certificate);
-    EVP_PKEY_free(publicKey);
-    return true;
+    return decryptedMessage;
 }
 
 int main() {
-    std::string csrFilePath = "/home/valery.murcia/In-secure/Certificados/sofia.csr";
-    std::string privateKeyFilePath = "/home/valery.murcia/In-secure/Certificados/CAGrupo5p.csr";
-    std::string outputFilePath = "/home/valery.murcia/In-secure/Certificados/sofia.crt";
-    std::string publicKeyFilePath = "/home/valery.murcia/In-secure/Certificados/CAGrupo5.csr";
+    std::string message = "un patito muy feito, era muy queridito";
+    std::string publicKeyPath = "/home/valery.murcia/In-secure/pub.pem";
+    std::string privateKeyPath = "/home/valery.murcia/In-secure/key.pem";
 
-    // Crear el certificado CRT
-    if (signCSR(csrFilePath, privateKeyFilePath, outputFilePath)) {
-        std::cout << "Certificado CRT creado exitosamente." << std::endl;
+    // Encriptar el mensaje
+    std::string encryptedMessage = encryptMessage(message, publicKeyPath);
 
-    } else {
-        std::cerr << "Error al crear el certificado CRT." << std::endl;
+    if (encryptedMessage.empty()) {
+        std::cerr << "Error al encriptar el mensaje" << std::endl;
+        return 1;
     }
+
+    std::cout << "Mensaje encriptado: " << encryptedMessage << std::endl;
+
+    // Descifrar el mensaje
+    std::string decryptedMessage = decryptMessage(encryptedMessage, privateKeyPath);
+
+    if (decryptedMessage.empty()) {
+        std::cerr << "Error al descifrar el mensaje" << std::endl;
+        return 1;
+    }
+
+    std::cout << "Mensaje descifrado: " << decryptedMessage << std::endl;
 
     return 0;
 }
