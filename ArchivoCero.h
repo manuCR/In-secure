@@ -2,14 +2,15 @@
 #define ARCHIVO_CERO_H
 
 #include "Escritor.hpp"
+#include "Feedback.h"
 #include <mutex>
 
-#define NOMBRE "000000.txt"
+#define FILE0 "000000.txt"
 
 class ArchivoCero {
 
 public:
-  ArchivoCero();
+  ArchivoCero(Feedback * feedback);
   void iniciar(std::string pato);
   int getArchivoActual();
   bool cambiarArchivoActual(std::string path, int numero);
@@ -18,8 +19,9 @@ public:
 
 private:
   int actual;
-  Escritor *escritor;
+  Escritor * escritor;
   std::mutex mutex;
   std::string path;
+  Feedback * feedback;
 };
 #endif // BITACORA_H

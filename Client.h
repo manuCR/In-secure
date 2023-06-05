@@ -1,19 +1,20 @@
 #ifndef CLIENTE_H
 #define CLIENTE_H
 
+#include "Feedback.h"
 #include "Socket.h"
-#include <string>
-#include <vector>
 
 class Client {
   public:
-    Client(std::string address, int port);
+    Client(std::string address, int port, Feedback * feedback);
     void send(std::vector<unsigned char>  message);
     void send(std::string  message);
+    bool isWorking();
     ~Client();
 
   private:
-    Socket *socket;
+    Socket * socket;
+    bool working = false;
 };
 
 #endif

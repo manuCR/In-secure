@@ -1,13 +1,15 @@
-#include "ServerInicial.h"
 #include "Lector.hpp"
-#include "Cifrado.hpp"
+#include "ProcesadorIntermediario.h"
+#include "ServerInicial.h"
 #include "Sha.h"
 #include <iostream>
-#include <chrono>
 #include <thread>
-#include <vector>
 
-ServerInicial::ServerInicial(std::string tok) { token = tok; }
+ServerInicial::ServerInicial(std::string tok, std::string key1, std::string key2) { 
+  token = tok;
+  llave1 = key1;
+  llave2 = key2;
+}
 
 void ServerInicial::setSocket(std::string address, int port, bool cdcd) {
   this->cdcd = cdcd;
@@ -15,43 +17,47 @@ void ServerInicial::setSocket(std::string address, int port, bool cdcd) {
 
 void ServerInicial::iniciarCero(std::string path) {
   priv = path;
-  ceroPub = new ArchivoCero();
-  ceroPriv = new ArchivoCero();
+  ceroPub = new ArchivoCero(feedback);
+  ceroPriv = new ArchivoCero(feedback);
 }
 
 void ServerInicial::abrirCero() {
+  feedback = new Feedback(getPath(false));
   ceroPriv->iniciar(getPath(true));
   ceroPub->iniciar(getPath(false));
   // sobre escribir valor de ceroPub en caso de que fuera modificado
 }
 
 void ServerInicial::iniciarProcesador(std::string address, int port, bool fin) {
-  procesador = new ProcesadorIntermediario(address, port);
+  procesador = new ProcesadorIntermediario(address, port, feedback);
 }
 
 void ServerInicial::start() {
+  if (!procesador->isWorking()){
+    return;
+  }
   active = true;
-  Cifrado cifrado;
-  Sha sha;
+  Cifrado * cifrado = new Cifrado(feedback);
+  Sha sha(feedback);
   while (active) {
     abrirCero();
     int tituloNumero = ceroPriv->getArchivoActual();
     std::string titulo = ceroPriv->getFileName();
     std::cout << "tratando de enviar " << titulo << std::endl;
     std::string shaFile = sha.shaFile(getPath(false) + titulo + ".txt");
-    Lector lector;
+    Lector lector(feedback);
     if (lector.open(getPath(false) + titulo + ".txt") == 0) {
       if (ceroPriv->cambiarArchivoActual(getPath(true), tituloNumero + 1)) {
         ceroPub->cambiarArchivoActual(getPath(false), tituloNumero + 1);
         //Aqui Token // Llave 1
-        std::vector<unsigned char> tolkien = cifrado.encryptMessage(token, "/home/manuel.arroyoportilla/In-secure/key.pem");
-        std::cout << "shafile: " << shaFile << std::endl;
-        if (procesador->abrir(tolkien, shaFile, getPath(false), titulo)) {
+        std::vector<unsigned char> tolkien = cifrado->encryptMessage(token, llave1);
+        std::vector<unsigned char> tiltien = cifrado->encryptMessage(titulo, llave1);
+        if (procesador->abrir(tolkien, shaFile, getPath(false), titulo, tiltien)) {
           while (lector.read()) {
             std::string chunk = lector.getText();
             //Aqui Chunk // Llave 2 
-            std::vector<unsigned char> chunkie = cifrado.encryptMessage(chunk, "/home/manuel.arroyoportilla/In-secure/key2.pem");
-            procesador->enviar(chunkie);
+            std::vector<unsigned char> chunkie = cifrado->encryptMessage(chunk, llave2);
+            procesador->enviar(chunkie, cifrado, llave2);
           }
           lector.close();
         }

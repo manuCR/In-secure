@@ -1,15 +1,12 @@
 #ifndef SERVER_ALTERNATIVO_H
 #define SERVER_ALTERNATIVO_H
 
-#include "ArchivoCero.h"
 #include "Server.h"
 #include "Socket.h"
-#include <string>
-#include <vector>
 
 class ServerAlternativo : public Server {
   public:
-    ServerAlternativo(std::string tok);
+    ServerAlternativo(std::string tok, std::string llave1, std::string llave2);
     void setSocket(std::string address, int port, bool cdcd);
     void iniciarProcesador(std::string address, int port, bool fin);
     void iniciarCero(std::string path);
@@ -20,7 +17,8 @@ class ServerAlternativo : public Server {
     ~ServerAlternativo();
 
   private:
-    Socket *socket;
+    Socket * socket;
+    bool working;
 };
 
 #endif

@@ -1,9 +1,7 @@
 #ifndef ESCRITOR_H
 #define ESCRITOR_H
 
-#include <fstream>
 #include <string>
-
 
 class Escritor {
   public:

@@ -1,16 +1,17 @@
 #include "Sha.h"
 #include "Lector.hpp"
-#include <iostream>
 #include <iomanip>
 #include <sstream>
 
 
-Sha::Sha() {}
+Sha::Sha(Feedback * feedback) {
+  this->feedback = feedback;
+}
 
 int Sha::start() {
   mdCtx = EVP_MD_CTX_create();
   if (!EVP_DigestInit_ex(mdCtx, EVP_sha256(), NULL)) {
-    printf("Message digest initialization failed.\n");
+    feedback->agregarFeedback("Message digest initialization failed.");
     EVP_MD_CTX_destroy(mdCtx);
     return -1;
   }
@@ -19,7 +20,7 @@ int Sha::start() {
 
 int Sha::add(const unsigned char * str, int len) {
   if (!EVP_DigestUpdate(mdCtx, str, len)) {
-    printf("Message digest update failed.\n");
+    feedback->agregarFeedback("Message digest update failed.");
     EVP_MD_CTX_destroy(mdCtx);
     return -1;
   }
@@ -28,7 +29,7 @@ int Sha::add(const unsigned char * str, int len) {
 
 std::string Sha::finish() {
   if (!EVP_DigestFinal_ex(mdCtx, mdVal, &mdLen)) {
-    printf("Message digest finalization failed.\n");
+    feedback->agregarFeedback("Message digest finalization failed.");
     EVP_MD_CTX_destroy(mdCtx);
     return std::string("");
   }
@@ -43,7 +44,7 @@ std::string Sha::finish() {
 }
 
 std::string Sha::shaFile(std::string filename) {
-  Lector lector;
+  Lector lector(feedback);
   if(lector.openBinari(filename) == 0) {
     int noError = start();
     int read = lector.read();

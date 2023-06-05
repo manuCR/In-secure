@@ -2,17 +2,19 @@
 #define SERVER_H
 
 #include "ArchivoCero.h"
-#include "ProcesadorIntermediario.h"
-#include <string>
+#include "Procesador.h"
 
 class Server {
   protected:
     bool active;
     bool cdcd;
+    std::string llave1;
+    std::string llave2;
     std::string priv;
     std::string token;
     ArchivoCero *ceroPriv;
     Procesador *procesador;
+    Feedback * feedback;
 
   public:
     virtual void setSocket(std::string address, int port, bool cdcd) = 0;

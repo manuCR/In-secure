@@ -1,13 +1,10 @@
-#include <cstdlib>
-#include <iostream>
-#include <string>
-using namespace std;
 #include "Escritor.hpp"
 
 // Constructor
-Escritor::Escritor() { ofstream archivo; }
+Escritor::Escritor() {
+}
 
-bool Escritor::open(string flname) {
+bool Escritor::open(std::string flname) {
   std::string filename = "/home/manuel.arroyoportilla" + flname;
   archivo = fopen(filename.c_str(), "w");
   if (!archivo) {
@@ -16,8 +13,14 @@ bool Escritor::open(string flname) {
   return 0;
 }
 
-void Escritor::inicio() { rewind(archivo); }
+void Escritor::inicio() {
+  rewind(archivo);
+}
 
-void Escritor::write(string entry) { std::fputs(entry.c_str(), archivo); }
+void Escritor::write(std::string entry) {
+  std::fputs(entry.c_str(), archivo);
+}
 
-void Escritor::close() { fclose(archivo); }
+void Escritor::close() {
+  fclose(archivo);
+}
