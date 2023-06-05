@@ -1,7 +1,6 @@
 #include "Feedback.h"
 #include "Escritor.hpp"
-#include <iomanip>
-#include <sstream>
+
 
 Feedback::Feedback(std::string path) {
   this->path = path;
@@ -11,11 +10,20 @@ void Feedback::agregarFeedback(std::string mensaje) {
   std::lock_guard<std::mutex> lock(mutex);
   Escritor escritor;
   escritor.open(path + FILEF);
-  time_t now = time(nullptr);
-  std::stringstream formatted_time;
-  formatted_time << std::put_time(std::localtime(&now), "%F %T");
-  escritor.write(formatted_time.str() + ": " + mensaje);
+  escritor.write(currentDateTime() + ": " + mensaje);
   escritor.close();
+}
+
+
+
+
+std::string Feedback::currentDateTime() {
+    time_t     now = time(0);
+    struct tm  tstruct;
+    char       buf[80];
+    tstruct = *localtime(&now);
+    strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
+    return buf;
 }
 
 Feedback::~Feedback() {}

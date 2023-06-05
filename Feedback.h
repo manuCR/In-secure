@@ -15,6 +15,7 @@ private:
 public:
   Feedback(std::string path);
   void agregarFeedback(std::string mensaje);
+  std::string currentDateTime();
   ~Feedback();
 };
 #endif // BITACORA_H
