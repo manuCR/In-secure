@@ -6,9 +6,9 @@
 class ServerInicial : public Server {
   public:
     ServerInicial(std::string tok, std::string llave1, std::string llave2);
-    void setSocket(std::string address, int port, bool cdcd);
+    void setSocket(std::string address, int port);
     void iniciarProcesador(std::string address, int port, bool fin);
-    void iniciarCero(std::string path);
+    void iniciarCero(std::string path, bool cdcd);
     void abrirCero();
     void cerrarCero();
     void sendMessages();

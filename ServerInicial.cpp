@@ -11,13 +11,13 @@ ServerInicial::ServerInicial(std::string tok, std::string key1, std::string key2
   llave2 = key2;
 }
 
-void ServerInicial::setSocket(std::string address, int port, bool cdcd) {
-  this->cdcd = cdcd;
+void ServerInicial::setSocket(std::string address, int port) {
 }
 
-void ServerInicial::iniciarCero(std::string path) {
+void ServerInicial::iniciarCero(std::string path, bool cdcd) {
+  this->cdcd = cdcd;
   priv = path;
-  feedback = new Feedback(getPath(false));
+  feedback = new Feedback(FULL + getPath(false));
   ceroPub = new ArchivoCero(feedback);
   ceroPriv = new ArchivoCero(feedback);
 }

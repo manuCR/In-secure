@@ -10,15 +10,15 @@ ServerAlternativo::ServerAlternativo(std::string tok, std::string key1, std::str
   llave2 = key2;
 }
 
-void ServerAlternativo::setSocket(std::string address, int port, bool cdcd) {
+void ServerAlternativo::setSocket(std::string address, int port) {
   socket = new Socket(address, port, feedback);
   socket->bindTo();
   working = socket->listen();
   active = false;
-  this->cdcd = cdcd;
 }
 
 void ServerAlternativo::iniciarProcesador(std::string address, int port, bool fin) {
+  this->cdcd = cdcd;
   if (fin) {
     procesador = new ProcesadorFinal();
   } else {
@@ -26,9 +26,9 @@ void ServerAlternativo::iniciarProcesador(std::string address, int port, bool fi
   }
 }
 
-void ServerAlternativo::iniciarCero(std::string path) {
+void ServerAlternativo::iniciarCero(std::string path, bool cdcd) {
   priv = path;
-  feedback = new Feedback(priv);
+  feedback = new Feedback(FULL + priv);
   ceroPriv = new ArchivoCero(feedback);
  }
 

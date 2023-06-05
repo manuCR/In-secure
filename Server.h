@@ -17,9 +17,9 @@ class Server {
     Feedback * feedback;
 
   public:
-    virtual void setSocket(std::string address, int port, bool cdcd) = 0;
+    virtual void setSocket(std::string address, int port) = 0;
     virtual void iniciarProcesador(std::string address, int port, bool fin) = 0;
-    virtual void iniciarCero(std::string path) = 0;
+    virtual void iniciarCero(std::string path, bool fin) = 0;
     virtual void start() = 0;
     virtual void stop() = 0;
     virtual ~Server(){};
