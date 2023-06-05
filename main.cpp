@@ -30,9 +30,9 @@ int main(int argc, char *argv[]) {
   } else {
     server = new ServerAlternativo(arg9, arg10, arg11);
   }
+  server->iniciarCero(arg8);
   server->setSocket(arg3, arg4, arg7);
   server->iniciarProcesador(arg5, arg6, arg2);
-  server->iniciarCero(arg8);
   new std::thread(&Server::start, server);
   getchar();
   server->stop();
