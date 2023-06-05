@@ -1,4 +1,5 @@
 #include "Escritor.hpp"
+#include "Lector.hpp"
 
 extern const char * const FULL;
 
