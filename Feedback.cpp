@@ -13,7 +13,8 @@ void Feedback::agregarFeedback(std::string mensaje) {
   Escritor escritor;
   std::cout << "1" << std::endl;
   std::cout << path + FILEF << std::endl;
-  if (escritor.open(path + FILEF) == 0) {
+  std::string fullPath(path + FILEF);
+  if (escritor.open(fullPath) == 0) {
     std::cout << "" << std::endl;
     escritor.write(currentDateTime() + ": " + mensaje);
     std::cout << "2" << std::endl;
