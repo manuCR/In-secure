@@ -8,7 +8,7 @@ Lector::Lector(Feedback * feedback) {
 }
 
 int Lector::open(std::string flname) {
-  filename = FULL + flname;
+  filename = std::string(FULL + flname);
   archivo = fopen(filename.c_str(), "r"); // abre el archivo Ej: "src/archivo.txt"
   if (!archivo) { // verifica si el archivo se abrió correctamente
     feedback->agregarFeedback("No se pudo abrir el archivo " + filename);

@@ -4,7 +4,7 @@
 #include <string>
 #include <mutex>
 
-const char * const FILEF = "feedback.txt";
+#define FILEF "feedback.txt"
 
 class Feedback {
 

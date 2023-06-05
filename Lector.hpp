@@ -3,7 +3,7 @@
 
 #include "Feedback.h"
 
-const char * const FULL = "/home/manuel.arroyoportilla";
+#define FULL "/home/manuel.arroyoportilla"
 
 class Lector {
   public:

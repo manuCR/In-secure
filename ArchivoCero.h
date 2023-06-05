@@ -5,7 +5,7 @@
 #include "Feedback.h"
 #include <mutex>
 
-const char * const FILE0 = "000000.txt";
+#define FILE0 "000000.txt"
 
 class ArchivoCero {
 
