@@ -3,14 +3,13 @@
 
 #include "Client.h"
 #include "Procesador.h"
-#include <string>
-#include <vector>
 
 class ProcesadorIntermediario : public Procesador {
   public:
-    ProcesadorIntermediario(std::string address, int port);
-    bool abrir(std::vector<unsigned char>  token, std::string shaFile, std::string path, std::string archivo);
-    void enviar(std::vector<unsigned char>  mensaje);
+    ProcesadorIntermediario(std::string address, int port, Feedback * feedback);
+    bool abrir(std::vector<unsigned char>  token, std::string shaFile, std::string path,
+               std::string archivo, std::vector<unsigned char> titulo);
+    void enviar(std::vector<unsigned char>  mensaje, Cifrado * cifrado, std::string llave2);
     ~ProcesadorIntermediario();
 
   private:

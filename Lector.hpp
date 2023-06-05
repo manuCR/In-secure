@@ -1,13 +1,13 @@
 #ifndef LECTOR_H
 #define LECTOR_H
 
-#include <cstdio>
-#include <string>
+#include "Feedback.h"
 
+#define FULL "/home/manuel.arroyoportilla"
 
 class Lector {
   public:
-    Lector();
+    Lector(Feedback * feedback);
     int open(std::string flname) ;
     int openBinari(std::string flname) ;
     int read();
@@ -18,5 +18,6 @@ class Lector {
     std::string filename;
     FILE * archivo;
     unsigned char * buffer = new unsigned char[512];
+    Feedback * feedback;
 };
 #endif  // LECTOR_H

@@ -1,16 +1,14 @@
 #ifndef SERVER_INICIAL_H
 #define SERVER_INICIAL_H
 
-#include "ArchivoCero.h"
 #include "Server.h"
-#include <string>
 
 class ServerInicial : public Server {
   public:
-    ServerInicial(std::string tok);
-    void setSocket(std::string address, int port, bool cdcd);
+    ServerInicial(std::string tok, std::string llave1, std::string llave2);
+    void setSocket(std::string address, int port);
     void iniciarProcesador(std::string address, int port, bool fin);
-    void iniciarCero(std::string path);
+    void iniciarCero(std::string path, bool cdcd);
     void abrirCero();
     void cerrarCero();
     void sendMessages();
@@ -21,8 +19,8 @@ class ServerInicial : public Server {
 
   private:
     ArchivoCero *ceroPub;
-    const static int carpetas = 3;
-    const std::string users[carpetas] = {"carpeta1", "carpeta2", "carpeta3"};
+    const static int carpetas = 10;
+    const std::string users[10] = {"cesar", "fabian", "jeremy", "leonel", "maeva", "manuel", "mariana", "nayeri", "rodrigo", "sofia"};
     int usersIndex;
 };
 
