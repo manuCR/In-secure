@@ -1,13 +1,15 @@
 #include "Escritor.hpp"
 #include "Lector.hpp"
+#include <iostream>
 
 // Constructor
 Escritor::Escritor() {
 }
 
 bool Escritor::open(std::string flname) {
-  std::string filename = "/home/manuel.arroyoportilla" + flname;
-  archivo = fopen(filename.c_str(), "w");
+  std::string filename = FULL + flname;
+  std::cout << filename << std::endl;
+  archivo = fopen(filename.c_str(), "w+");
   if (!archivo) {
     perror("Error occurred while opening file.\n");
     return 1;
