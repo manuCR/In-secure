@@ -21,6 +21,7 @@ void ServerAlternativo::setSocket(std::string address, int port, bool cdcd) {
 }
 
 void ServerAlternativo::iniciarProcesador(std::string address, int port, bool fin) {
+  feedback = new Feedback(priv);
   if (fin) {
     procesador = new ProcesadorFinal();
   } else {
@@ -30,7 +31,6 @@ void ServerAlternativo::iniciarProcesador(std::string address, int port, bool fi
 
 void ServerAlternativo::iniciarCero(std::string path) {
   priv = path;
-  feedback = new Feedback(priv);
   ceroPriv = new ArchivoCero(feedback);
  }
 

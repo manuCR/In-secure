@@ -19,12 +19,12 @@ void ServerInicial::setSocket(std::string address, int port, bool cdcd) {
 
 void ServerInicial::iniciarCero(std::string path) {
   priv = path;
+  feedback = new Feedback(getPath(false));
   ceroPub = new ArchivoCero(feedback);
   ceroPriv = new ArchivoCero(feedback);
 }
 
 void ServerInicial::abrirCero() {
-  feedback = new Feedback(getPath(false));
   ceroPriv->iniciar(getPath(true));
   ceroPub->iniciar(getPath(false));
   // sobre escribir valor de ceroPub en caso de que fuera modificado
