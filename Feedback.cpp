@@ -13,7 +13,6 @@ void Feedback::agregarFeedback(std::string mensaje) {
     escritor.write(currentDateTime() + ": " + mensaje);
     escritor.close();
   }
-  
 }
 
 
