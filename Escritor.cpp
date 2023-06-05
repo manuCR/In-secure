@@ -1,11 +1,13 @@
 #include "Escritor.hpp"
 
+extern const char FULL[];
+
 // Constructor
 Escritor::Escritor() {
 }
 
 bool Escritor::open(std::string flname) {
-  std::string filename = "/home/manuel.arroyoportilla" + flname;
+  std::string filename = FULL + flname;
   archivo = fopen(filename.c_str(), "w");
   if (!archivo) {
     return 1;

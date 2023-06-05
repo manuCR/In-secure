@@ -5,7 +5,7 @@
 #include "Feedback.h"
 #include <mutex>
 
-#define FILE0 "000000.txt"
+const char FILE0[] = "000000.txt";
 
 class ArchivoCero {
 

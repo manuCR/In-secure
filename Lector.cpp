@@ -1,7 +1,7 @@
 #include "Lector.hpp"
 #include <cstring>
 
-using namespace std;
+extern const char FULL[] = "/home/manuel.arroyoportilla";
 
 // Constructor
 Lector::Lector(Feedback * feedback) { 
@@ -9,8 +9,8 @@ Lector::Lector(Feedback * feedback) {
   this->feedback = feedback;
 }
 
-int Lector::open(string flname) {
-  filename = "/home/manuel.arroyoportilla" + flname;
+int Lector::open(std::string flname) {
+  filename = FULL + flname;
   archivo = fopen(filename.c_str(), "r"); // abre el archivo Ej: "src/archivo.txt"
   if (!archivo) { // verifica si el archivo se abrió correctamente
     feedback->agregarFeedback("No se pudo abrir el archivo " + filename);
@@ -19,8 +19,8 @@ int Lector::open(string flname) {
   return 0;
 }
 
-int Lector::openBinari(string flname) {
-  filename = "/home/manuel.arroyoportilla" + flname;
+int Lector::openBinari(std::string flname) {
+  filename = FULL + flname;
   archivo = fopen(filename.c_str(), "rb"); // abre el archivo Ej: "src/archivo.txt"
   if (!archivo) { // verifica si el archivo se abrió correctamente
     feedback->agregarFeedback("No se pudo abrir el archivo " + filename);
@@ -34,7 +34,7 @@ int Lector::read() {
   return fread(buffer, sizeof(char), 470, archivo);
 }
 
-std::string Lector::getText() { return string(reinterpret_cast<char*>(buffer)); }
+std::string Lector::getText() { return std::string(reinterpret_cast<char*>(buffer)); }
 
 unsigned char * Lector::getChars() { return buffer; }
 

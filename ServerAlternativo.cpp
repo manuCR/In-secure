@@ -1,7 +1,10 @@
+#include "Lector.hpp"
 #include "ServerAlternativo.h"
 #include "ProcesadorFinal.h"
 #include "ProcesadorIntermediario.h"
 #include <thread>
+
+extern const char FULL[];
 
 ServerAlternativo::ServerAlternativo(std::string tok, std::string key1, std::string key2) {
   token = tok;
@@ -48,14 +51,14 @@ void ServerAlternativo::stop() { active = false; }
 void ServerAlternativo::getMessages(int id) {
   Cifrado * cifrado = new Cifrado(feedback);
   std::vector<unsigned char> tok = receive(id);
-  std::string tolkien = cifrado->decryptMessage(tok, llave1);
+  std::string tolkien = cifrado->decryptMessage(tok, FULL + llave1);
   if (tolkien == token) {
     std::vector<unsigned char> shaFile = receive(id);
     std::vector<unsigned char> path = receive(id);
     std::vector<unsigned char> titulo = receive(id);
     std::string mesSha (reinterpret_cast<char*>(&shaFile[0]));
     std::string mesPath (reinterpret_cast<char*>(&path[0]));
-    std::string mesTitulo = cifrado->decryptMessage(titulo, llave1);
+    std::string mesTitulo = cifrado->decryptMessage(titulo, FULL + llave1);
     int tituloNum = stoi(mesTitulo);
     ceroPriv->iniciar(priv + mesPath);
     if (ceroPriv->getArchivoActual() == tituloNum &&

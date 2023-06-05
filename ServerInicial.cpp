@@ -5,6 +5,8 @@
 #include <iostream>
 #include <thread>
 
+extern const char FULL[];
+
 ServerInicial::ServerInicial(std::string tok, std::string key1, std::string key2) { 
   token = tok;
   llave1 = key1;
@@ -50,13 +52,13 @@ void ServerInicial::start() {
       if (ceroPriv->cambiarArchivoActual(getPath(true), tituloNumero + 1)) {
         ceroPub->cambiarArchivoActual(getPath(false), tituloNumero + 1);
         //Aqui Token // Llave 1
-        std::vector<unsigned char> tolkien = cifrado->encryptMessage(token, llave1);
-        std::vector<unsigned char> tiltien = cifrado->encryptMessage(titulo, llave1);
+        std::vector<unsigned char> tolkien = cifrado->encryptMessage(token, FULL + llave1);
+        std::vector<unsigned char> tiltien = cifrado->encryptMessage(titulo, FULL + llave1);
         if (procesador->abrir(tolkien, shaFile, getPath(false), titulo, tiltien)) {
           while (lector.read()) {
             std::string chunk = lector.getText();
             //Aqui Chunk // Llave 2 
-            std::vector<unsigned char> chunkie = cifrado->encryptMessage(chunk, llave2);
+            std::vector<unsigned char> chunkie = cifrado->encryptMessage(chunk, FULL + llave2);
             procesador->enviar(chunkie, cifrado, llave2);
           }
           lector.close();
