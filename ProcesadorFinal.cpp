@@ -10,7 +10,7 @@ ProcesadorFinal::ProcesadorFinal() {
 bool ProcesadorFinal::abrir(std::vector<unsigned char>  token, std::string shaFile, std::string path,
                             std::string archivo, std::vector<unsigned char> titulo) {
   bitacora->add(shaFile);
-  return escritor->open(path + archivo + ".txt") == 0;
+  return escritor->open(path + archivo + ".txt", "w+") == 0;
 }
 void ProcesadorFinal::enviar(std::vector<unsigned char>  mensaje, Cifrado * cifrado, std::string llave2) { 
   //Aqui Desencriptar Mensaje chunk con llave 2

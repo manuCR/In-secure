@@ -5,9 +5,9 @@
 Escritor::Escritor() {
 }
 
-bool Escritor::open(std::string flname) {
+bool Escritor::open(std::string flname, const char * mode) {
   std::string filename = FULL + flname;
-  archivo = fopen(filename.c_str(), "w+");
+  archivo = fopen(filename.c_str(), mode);
   if (!archivo) {
     return 1;
   }
