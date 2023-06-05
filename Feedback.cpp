@@ -10,7 +10,7 @@ void Feedback::agregarFeedback(std::string mensaje) {
   std::lock_guard<std::mutex> lock(mutex);
   Escritor escritor;
   if (escritor.open(path + FILEF) == 0) {
-    escritor.write(currentDateTime() + ": " + mensaje);
+    escritor.write(currentDateTime() + ": " + mensaje + "\n");
     escritor.close();
   }
   
