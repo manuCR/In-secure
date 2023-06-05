@@ -1,6 +1,5 @@
 #include "Feedback.h"
 #include "Escritor.hpp"
-#include <iostream>
 
 
 Feedback::Feedback(std::string path) {
@@ -9,15 +8,9 @@ Feedback::Feedback(std::string path) {
 
 void Feedback::agregarFeedback(std::string mensaje) {
   std::lock_guard<std::mutex> lock(mutex);
-  std::cout << mensaje << std::endl;
   Escritor escritor;
-  std::cout << "1" << std::endl;
-  std::cout << path + FILEF << std::endl;
-  std::string fullPath(path + "feedback.txt");
-  if (escritor.open(fullPath) == 0) {
-    std::cout << "" << std::endl;
+  if (escritor.open(path + FILEF) == 0) {
     escritor.write(currentDateTime() + ": " + mensaje);
-    std::cout << "2" << std::endl;
     escritor.close();
   }
   
