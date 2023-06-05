@@ -7,7 +7,7 @@ Escritor::Escritor() {
 
 bool Escritor::open(std::string flname) {
   std::string filename = "/home/manuel.arroyoportilla" + flname;
-  archivo = fopen(filename.c_str(), "w+");
+  archivo = fopen(filename.c_str(), "w");
   if (!archivo) {
     perror("Error occurred while opening file.\n");
     return 1;
