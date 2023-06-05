@@ -1,6 +1,6 @@
 #include "Escritor.hpp"
 
-extern const char FULL[];
+extern const char * const FULL;
 
 // Constructor
 Escritor::Escritor() {

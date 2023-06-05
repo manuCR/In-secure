@@ -1,8 +1,6 @@
 #include "Lector.hpp"
 #include <cstring>
 
-extern const char FULL[] = "/home/manuel.arroyoportilla";
-
 // Constructor
 Lector::Lector(Feedback * feedback) { 
   filename = "";

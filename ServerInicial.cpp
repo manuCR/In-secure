@@ -5,7 +5,7 @@
 #include <iostream>
 #include <thread>
 
-extern const char FULL[];
+extern const char * const FULL;
 
 ServerInicial::ServerInicial(std::string tok, std::string key1, std::string key2) { 
   token = tok;

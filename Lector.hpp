@@ -3,6 +3,8 @@
 
 #include "Feedback.h"
 
+const char * const FULL = "/home/manuel.arroyoportilla";
+
 class Lector {
   public:
     Lector(Feedback * feedback);
