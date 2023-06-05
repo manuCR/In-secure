@@ -17,7 +17,7 @@ void ServerInicial::setSocket(std::string address, int port) {
 void ServerInicial::iniciarCero(std::string path, bool cdcd) {
   this->cdcd = cdcd;
   priv = path;
-  feedback = new Feedback(FULL + getPath(false));
+  feedback = new Feedback(getPath(false));
   ceroPub = new ArchivoCero(feedback);
   ceroPriv = new ArchivoCero(feedback);
 }

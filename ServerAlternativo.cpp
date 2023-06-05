@@ -28,7 +28,7 @@ void ServerAlternativo::iniciarProcesador(std::string address, int port, bool fi
 
 void ServerAlternativo::iniciarCero(std::string path, bool cdcd) {
   priv = path;
-  feedback = new Feedback(FULL + priv);
+  feedback = new Feedback(priv);
   ceroPriv = new ArchivoCero(feedback);
  }
 
