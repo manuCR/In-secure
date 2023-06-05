@@ -8,7 +8,7 @@ Escritor::Escritor() {
 
 bool Escritor::open(std::string flname) {
   std::string filename = FULL + flname;
-  archivo = fopen(filename.c_str(), "w");
+  archivo = fopen(filename.c_str(), "w+");
   if (!archivo) {
     return 1;
   }
