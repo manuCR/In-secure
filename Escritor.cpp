@@ -9,9 +9,8 @@ bool Escritor::open(std::string flname) {
   std::string filename = FULL + flname;
   archivo = fopen(filename.c_str(), "w+");
   if (!archivo) {
-    return 1;
-  } else {
     perror("Error occurred while opening file.\n");
+    return 1;
   }
   return 0;
 }
