@@ -68,9 +68,10 @@ void ServerAlternativo::getMessages(int id) {
       if (procesador->abrir(tok, mesSha, mesPath, mesTitulo, titulo)) {
         std::vector<unsigned char> message = receive(id);
         while (message.size()>0) {
-          procesador->enviar(message, cifrado, llave2);
+          procesador->enviar(message, cifrado, FULL + llave2);
           message = receive(id);
         }
+        procesador->enviar("");
       }
     }
   }

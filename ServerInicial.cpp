@@ -57,8 +57,9 @@ void ServerInicial::start() {
             std::string chunk = lector.getText();
             //Aqui Chunk // Llave 2 
             std::vector<unsigned char> chunkie = cifrado->encryptMessage(chunk, FULL + llave2);
-            procesador->enviar(chunkie, cifrado, llave2);
+            procesador->enviar(chunkie, cifrado, FULL + llave2);
           }
+          procesador->enviar("");
           lector.close();
         }
       }

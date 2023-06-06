@@ -15,8 +15,13 @@ bool ProcesadorIntermediario::abrir(std::vector<unsigned char>  token, std::stri
   client->send(titulo);
   return true;
 }
+
 void ProcesadorIntermediario::enviar(std::vector<unsigned char>  mensaje, Cifrado * cifrado, std::string llave2) {
   client->send(mensaje);
+}
+
+void ProcesadorIntermediario::enviar(std::string  mensaje) { 
+  client->send(mensaje); 
 }
 
 ProcesadorIntermediario::~ProcesadorIntermediario() { delete client; }

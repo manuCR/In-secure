@@ -1,5 +1,4 @@
 #include "Cifrado.hpp"
-#include "Lector.hpp"
 #include "ProcesadorFinal.h"
 
 ProcesadorFinal::ProcesadorFinal() { 
@@ -13,11 +12,15 @@ bool ProcesadorFinal::abrir(std::vector<unsigned char>  token, std::string shaFi
   bitacora->add(shaFile);
   return escritor->open(path + archivo + ".txt", "w+") == 0;
 }
+
 void ProcesadorFinal::enviar(std::vector<unsigned char>  mensaje, Cifrado * cifrado, std::string llave2) { 
   //Aqui Desencriptar Mensaje chunk con llave 2
-  std::string chunkie = cifrado->decryptMessage(mensaje, FULL + llave2, false);
+  std::string chunkie = cifrado->decryptMessage(mensaje, llave2, false);
 
   escritor->write(chunkie); 
+}
+
+void ProcesadorFinal::enviar(std::string  mensaje) { 
 }
 
 ProcesadorFinal::~ProcesadorFinal() {
