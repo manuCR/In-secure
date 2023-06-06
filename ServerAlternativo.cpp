@@ -49,14 +49,14 @@ void ServerAlternativo::stop() { active = false; }
 void ServerAlternativo::getMessages(int id) {
   Cifrado * cifrado = new Cifrado(feedback);
   std::vector<unsigned char> tok = receive(id);
-  std::string tolkien = cifrado->decryptMessage(tok, FULL + llave1);
+  std::string tolkien = cifrado->decryptMessage(tok, FULL + llave1, true);
   if (tolkien == token) {
     std::vector<unsigned char> shaFile = receive(id);
     std::vector<unsigned char> path = receive(id);
     std::vector<unsigned char> titulo = receive(id);
     std::string mesSha (reinterpret_cast<char*>(&shaFile[0]));
     std::string mesPath (reinterpret_cast<char*>(&path[0]));
-    std::string mesTitulo = cifrado->decryptMessage(titulo, FULL + llave1);
+    std::string mesTitulo = cifrado->decryptMessage(titulo, FULL + llave1, false);
     int tituloNum = stoi(mesTitulo);
     ceroPriv->iniciar(priv + mesPath);
     if (ceroPriv->getArchivoActual() == tituloNum &&

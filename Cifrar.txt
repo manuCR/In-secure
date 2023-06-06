@@ -5,9 +5,9 @@ g++ -o cifrado Cifrado.cpp -lssl -lcrypto
 Inicial:
 ./a.out 1 0 172.24.3.83 8283 172.24.3.84 8283 1 /priv 123A /In-secure/key.pem /In-secure/key2.pem
 Intermediario:
-./a.out 0 0 
+./a.out 0 0 172.24.3.83 8283 172.24.3.84 8283 1 /priv/ 123A /In-secure/pub.pem /In-secure/pub2.pem
 Final:
-./a.out 0 1 172.24.3.84 8283 nada nada 1 /priv 123A /In-secure/pub.pem /In-secure/pub2.pem
+./a.out 0 1 172.24.3.84 8283 nada nada 1 /priv/ 123A /In-secure/pub.pem /In-secure/pub2.pem
 
     Generate RSA key:
 

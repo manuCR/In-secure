@@ -10,7 +10,7 @@ std::vector<unsigned char> Cifrado::encryptMessage(const std::string& message, c
     std::vector<unsigned char> result{std::vector<unsigned char>(512, 0)};
     FILE* publicKeyFile = fopen(publicKeyPath.c_str(), "rb");
     if (!publicKeyFile) {
-        feedback->agregarFeedback("Error al abrir el archivo de clave privada");
+        printError("Error al abrir el archivo de clave privada",  false);
         return result;
     }
 
@@ -18,7 +18,7 @@ std::vector<unsigned char> Cifrado::encryptMessage(const std::string& message, c
     fclose(publicKeyFile);
 
     if (!rsa) {
-        feedback->agregarFeedback("Error al leer la clave privada");
+        printError("Error al leer la clave privada",  false);
         return result;
     }
 
@@ -31,25 +31,25 @@ std::vector<unsigned char> Cifrado::encryptMessage(const std::string& message, c
 
     RSA_free(rsa);
     if (encryptedLength == -1) {
-        feedback->agregarFeedback("Error al encriptar el mensaje");
+        printError("Error al encriptar el mensaje",  false);
     }
 
     return result;
     
 }
 
-std::string Cifrado::decryptMessage(std::vector<unsigned char> encryptedMessage, const std::string& privateKeyPath) {
+std::string Cifrado::decryptMessage(std::vector<unsigned char> encryptedMessage, const std::string& privateKeyPath, bool tok) {
     // Cargar la clave privada
     FILE* privateKeyFile = fopen(privateKeyPath.c_str(), "rb");
     if (!privateKeyFile) {
-        feedback->agregarFeedback("Error al abrir el archivo de clave pública");
+        printError("Error al abrir el archivo de clave pública",  tok);
         return "";
     }
     RSA* rsa = PEM_read_RSA_PUBKEY(privateKeyFile, NULL, NULL, NULL);
     fclose(privateKeyFile);
 
     if (!rsa) {
-        feedback->agregarFeedback("Error al leer la clave pública");
+        printError("Error al leer la clave pública",  tok);
         return "";
     }
 
@@ -64,7 +64,7 @@ std::string Cifrado::decryptMessage(std::vector<unsigned char> encryptedMessage,
     RSA_free(rsa);
 
     if (decryptedLength == -1) {
-        feedback->agregarFeedback("Error al descifrar el mensaje");
+        printError("Error al descifrar el mensaje",  tok);
         return "";
     }
 
@@ -74,5 +74,10 @@ std::string Cifrado::decryptMessage(std::vector<unsigned char> encryptedMessage,
     return decryptedMessage;
 }
 
+void Cifrado::printError(std::string mensaje, bool tok) {
+    if (!tok) {
+        feedback->agregarFeedback(mensaje);
+    }
+}
 
 
