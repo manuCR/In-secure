@@ -1,102 +1,85 @@
+#include <iostream>
+#include <cstdlib>
+#include <string>
+#include <fstream>
+#include <iostream>
 #include "Cifrado.hpp"
+#include <vector>
 #include <openssl/rsa.h>
 #include <openssl/pem.h>
 #include <openssl/err.h>
 
-Cifrado::Cifrado(Feedback * feedback){
-    this->feedback = feedback;
+Cifrado::Cifrado(){
+    
 }
 
-std::vector<unsigned char> Cifrado::encryptMessage(const std::string& message, const std::string& privateKeyPath) {
-    std::vector<unsigned char> result(512, 0);
-    FILE* privateKeyFile = fopen(privateKeyPath.c_str(), "rb");
-    if (!privateKeyFile) {
-        feedback->agregarFeedback("Error al abrir el archivo de la llave privada");
+std::vector<unsigned char> Cifrado::encryptMessage(const std::string& message, const std::string& publicKeyPath) {
+    // Cargar la clave pública
+    std::vector<unsigned char> result{std::vector<unsigned char>(512, 0)};
+    FILE* publicKeyFile = fopen(publicKeyPath.c_str(), "rb");
+    if (!publicKeyFile) {
+        std::cerr << "Error al abrir el archivo de clave pública" << std::endl;
         return result;
     }
 
-    EVP_PKEY* privateKey = PEM_read_PrivateKey(privateKeyFile, NULL, NULL, NULL);
-    fclose(privateKeyFile);
+    RSA* rsa = PEM_read_RSAPrivateKey(publicKeyFile, NULL, NULL, NULL);
+    fclose(publicKeyFile);
 
-    if (!privateKey) {
-        feedback->agregarFeedback("Error al leer la llave privada");
+    if (!rsa) {
+        std::cerr << "Error al leer la clave pública" << std::endl;
         return result;
     }
 
-    EVP_PKEY_CTX* ctx = EVP_PKEY_CTX_new(privateKey, NULL);
-    if (!ctx) {
-        feedback->agregarFeedback("Error al crear el contexto de la llave privada");
-        EVP_PKEY_free(privateKey);
-        return result;
-    }
+    std::string encryptedMessage;
+    encryptedMessage.resize(RSA_size(rsa));
 
-    if (EVP_PKEY_encrypt_init(ctx) <= 0) {
-        feedback->agregarFeedback("Error al inicializar el cifrado de la llave privada");
-        EVP_PKEY_free(privateKey);
-        EVP_PKEY_CTX_free(ctx);
-        return result;
-    }
+    // Encriptar el mensaje
+    int encryptedLength = RSA_private_encrypt(message.size(), reinterpret_cast<const unsigned char*>(message.data()),
+                                             &result[0], rsa, RSA_PKCS1_PADDING);                                             
 
-    size_t outputLen = result.size();
-    if (EVP_PKEY_encrypt(ctx, &result[0], &outputLen, reinterpret_cast<const unsigned char*>(message.data()),
-                         message.size()) <= 0) {
-        feedback->agregarFeedback("Error al encriptar el mensaje");
-        EVP_PKEY_free(privateKey);
-        EVP_PKEY_CTX_free(ctx);
-        return result;
+    RSA_free(rsa);
+    if (encryptedLength == -1) {
+        std::cerr << "Error al encriptar el mensaje" << std::endl;
     }
-
-    EVP_PKEY_free(privateKey);
-    EVP_PKEY_CTX_free(ctx);
 
     return result;
     
 }
 
-std::string Cifrado::decryptMessage(std::vector<unsigned char> encryptedMessage, const std::string& publicKeyPath) {
+std::string Cifrado::decryptMessage(std::vector<unsigned char> encryptedMessage, const std::string& privateKeyPath) {
     // Cargar la clave privada
-    FILE* publicKeyFile = fopen(publicKeyPath.c_str(), "rb");
-    if (!publicKeyFile) {
+    FILE* privateKeyFile = fopen(privateKeyPath.c_str(), "rb");
+    if (!privateKeyFile) {
         return "";
     }
-    EVP_PKEY* publicKey = PEM_read_PUBKEY(publicKeyFile, NULL, NULL, NULL);
-    fclose(publicKeyFile);
+    RSA* rsa = PEM_read_RSA_PUBKEY(privateKeyFile, NULL, NULL, NULL);
+    fclose(privateKeyFile);
 
-    if (!publicKey) {
-        feedback->agregarFeedback("Error al leer la llave pública");
-        return "";
-    }
-
-    EVP_PKEY_CTX* ctx = EVP_PKEY_CTX_new(publicKey, NULL);
-    if (!ctx) {
-        feedback->agregarFeedback("Error al crear el contexto de la llave pública");
-        EVP_PKEY_free(publicKey);
+    if (!rsa) {
+        std::cerr << "Error al leer la clave privada" << std::endl;
         return "";
     }
 
-    if (EVP_PKEY_decrypt_init(ctx) <= 0) {
-        feedback->agregarFeedback("Error al inicializar el descifrado de la llave pública");
-        EVP_PKEY_free(publicKey);
-        EVP_PKEY_CTX_free(ctx);
-        return "";
-    }
-
+    // Preparar el buffer de salida
     std::string decryptedMessage;
-    decryptedMessage.resize(encryptedMessage.size());
+    decryptedMessage.resize(RSA_size(rsa));
 
-    size_t outputLen = decryptedMessage.size();
-    if (EVP_PKEY_decrypt(ctx, reinterpret_cast<unsigned char*>(&decryptedMessage[0]), &outputLen,
-                         &encryptedMessage[0], encryptedMessage.size()) <= 0) {
-        feedback->agregarFeedback("Error al descifrar el mensaje");
-        EVP_PKEY_free(publicKey);
-        EVP_PKEY_CTX_free(ctx);
+    // Descifrar el mensaje
+     int decryptedLength = RSA_public_decrypt(512, reinterpret_cast<const unsigned char*>(&encryptedMessage[0]),
+                                               reinterpret_cast<unsigned char*>(&decryptedMessage[0]), rsa,
+                                               RSA_PKCS1_PADDING);
+    RSA_free(rsa);
+
+    if (decryptedLength == -1) {
+        std::cerr << "Error al descifrar el mensaje" << std::endl;
         return "";
     }
 
-    EVP_PKEY_free(publicKey);
-    EVP_PKEY_CTX_free(ctx);
+    // Ajustar el tamaño del mensaje descifrado
+    decryptedMessage.resize(decryptedLength);
 
-    decryptedMessage.resize(outputLen);
     return decryptedMessage;
 }
+
+
 
