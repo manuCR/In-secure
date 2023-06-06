@@ -12,17 +12,17 @@ ServerAlternativo::ServerAlternativo(std::string tok, std::string key1, std::str
 
 void ServerAlternativo::setSocket(std::string address, int port) {
   socket = new Socket(address, port, feedback);
-  socket->bindTo();
+  socket->bindTo("");
   working = socket->listen();
   active = false;
 }
 
-void ServerAlternativo::iniciarProcesador(std::string address, int port, bool fin) {
+void ServerAlternativo::iniciarProcesador(std::string address, int port, bool fin, std::string bindIp) {
   this->cdcd = cdcd;
   if (fin) {
     procesador = new ProcesadorFinal();
   } else {
-    procesador = new ProcesadorIntermediario(address, port, feedback);
+    procesador = new ProcesadorIntermediario(address, port, feedback, bindIp);
   }
 }
 

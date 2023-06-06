@@ -1,7 +1,7 @@
 #include "ProcesadorIntermediario.h"
 
-ProcesadorIntermediario::ProcesadorIntermediario(std::string address, int port, Feedback * feedback) {
-  client = new Client(address, port, feedback);
+ProcesadorIntermediario::ProcesadorIntermediario(std::string address, int port, Feedback * feedback, std::string bindIp) {
+  client = new Client(address, port, feedback, bindIp);
   bitacora = new Bitacora();
   working = client->isWorking();
 }

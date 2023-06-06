@@ -1,16 +1,8 @@
-#include <iostream>
-#include <cstdlib>
-#include <string>
-#include <fstream>
-#include <iostream>
 #include "Cifrado.hpp"
-#include <vector>
-#include <openssl/rsa.h>
-#include <openssl/pem.h>
-#include <openssl/err.h>
 
-Cifrado::Cifrado(){
-    
+
+Cifrado::Cifrado(Feedback * feedback){
+    this->feedback = feedback;
 }
 
 std::vector<unsigned char> Cifrado::encryptMessage(const std::string& message, const std::string& publicKeyPath) {
@@ -18,7 +10,7 @@ std::vector<unsigned char> Cifrado::encryptMessage(const std::string& message, c
     std::vector<unsigned char> result{std::vector<unsigned char>(512, 0)};
     FILE* publicKeyFile = fopen(publicKeyPath.c_str(), "rb");
     if (!publicKeyFile) {
-        std::cerr << "Error al abrir el archivo de clave pública" << std::endl;
+        feedback->agregarFeedback("Error al abrir el archivo de clave privada");
         return result;
     }
 
@@ -26,7 +18,7 @@ std::vector<unsigned char> Cifrado::encryptMessage(const std::string& message, c
     fclose(publicKeyFile);
 
     if (!rsa) {
-        std::cerr << "Error al leer la clave pública" << std::endl;
+        feedback->agregarFeedback("Error al leer la clave privada");
         return result;
     }
 
@@ -39,7 +31,7 @@ std::vector<unsigned char> Cifrado::encryptMessage(const std::string& message, c
 
     RSA_free(rsa);
     if (encryptedLength == -1) {
-        std::cerr << "Error al encriptar el mensaje" << std::endl;
+        feedback->agregarFeedback("Error al encriptar el mensaje");
     }
 
     return result;
@@ -50,13 +42,14 @@ std::string Cifrado::decryptMessage(std::vector<unsigned char> encryptedMessage,
     // Cargar la clave privada
     FILE* privateKeyFile = fopen(privateKeyPath.c_str(), "rb");
     if (!privateKeyFile) {
+        feedback->agregarFeedback("Error al abrir el archivo de clave pública");
         return "";
     }
     RSA* rsa = PEM_read_RSA_PUBKEY(privateKeyFile, NULL, NULL, NULL);
     fclose(privateKeyFile);
 
     if (!rsa) {
-        std::cerr << "Error al leer la clave privada" << std::endl;
+        feedback->agregarFeedback("Error al leer la clave pública");
         return "";
     }
 
@@ -71,7 +64,7 @@ std::string Cifrado::decryptMessage(std::vector<unsigned char> encryptedMessage,
     RSA_free(rsa);
 
     if (decryptedLength == -1) {
-        std::cerr << "Error al descifrar el mensaje" << std::endl;
+        feedback->agregarFeedback("Error al descifrar el mensaje");
         return "";
     }
 

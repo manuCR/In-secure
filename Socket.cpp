@@ -25,8 +25,18 @@ bool Socket::connectTo() {
   return result != -1;
 }
 
-bool Socket::bindTo() {
-  int result = bind(sockfd, (struct sockaddr *)&server_addr, addrlen);
+bool Socket::bindTo(std::string address) {
+  int result = 0;
+  if (address.size() > 0){
+    struct sockaddr_in addr;
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(0);
+    addr.sin_addr.s_addr = inet_addr(address.c_str());
+    int len = sizeof(server_addr);
+    result = bind(sockfd, (struct sockaddr *)&addr, len);
+  } else {
+    result = bind(sockfd, (struct sockaddr *)&server_addr, addrlen);
+  }  
   if ( result == -1) {
     feedback->agregarFeedback("Failed to bind");
   }

@@ -28,8 +28,8 @@ void ServerInicial::abrirCero() {
   // sobre escribir valor de ceroPub en caso de que fuera modificado
 }
 
-void ServerInicial::iniciarProcesador(std::string address, int port, bool fin) {
-  procesador = new ProcesadorIntermediario(address, port, feedback);
+void ServerInicial::iniciarProcesador(std::string address, int port, bool fin, std::string bindIp) {
+  procesador = new ProcesadorIntermediario(address, port, feedback, bindIp);
 }
 
 void ServerInicial::start() {

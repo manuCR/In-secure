@@ -6,7 +6,7 @@
 
 class Client {
   public:
-    Client(std::string address, int port, Feedback * feedback);
+    Client(std::string address, int port, Feedback * feedback, std::string bindIp);
     void send(std::vector<unsigned char>  message);
     void send(std::string  message);
     bool isWorking();

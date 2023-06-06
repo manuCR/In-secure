@@ -9,7 +9,7 @@ class Socket {
   public:
     Socket(std::string address, int port, Feedback * feedback);
     bool connectTo();
-    bool bindTo();
+    bool bindTo(std::string address);
     bool listen();
     void send(std::vector<unsigned char> message);
     void send(std::string message);

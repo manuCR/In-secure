@@ -18,7 +18,7 @@ class Server {
 
   public:
     virtual void setSocket(std::string address, int port) = 0;
-    virtual void iniciarProcesador(std::string address, int port, bool fin) = 0;
+    virtual void iniciarProcesador(std::string address, int port, bool fin, std::string bindIp) = 0;
     virtual void iniciarCero(std::string path, bool fin) = 0;
     virtual void start() = 0;
     virtual void stop() = 0;
