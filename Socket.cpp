@@ -80,10 +80,10 @@ void Socket::send(std::string message) {
 std::vector<unsigned char> Socket::receive(int socket) {
   int len = 0;
   recv(socket, &len, sizeof(len), 0);
-  std::vector<unsigned char> mes{std::vector<unsigned char>(512)};
-  if (len > 512) {
-    return mes;
+  if (len > 512 || len == 0) {
+    return std::vector<unsigned char>(0);
   }
+  std::vector<unsigned char> mes{std::vector<unsigned char>(512)};
   unsigned char buffer[512] = { 0 };
   if (recv(socket, buffer, len, 0) == -1) {
     feedback->agregarFeedback("Failed to receive message");
@@ -92,4 +92,6 @@ std::vector<unsigned char> Socket::receive(int socket) {
   return mes;
 }
 
-Socket::~Socket() { close(sockfd); }
+Socket::~Socket() {
+  close(sockfd);
+}
