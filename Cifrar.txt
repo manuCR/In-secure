@@ -1,5 +1,5 @@
 Comando para compilar
-g++ -std=c++11 -lssl -lcrypto -pthread ArchivoCero.cpp Bitacora.cpp Cifrado.cpp Client.cpp Escritor.cpp Lector.cpp main.cpp ProcesadorFinal.cpp ProcesadorIntermediario.cpp ServerAlternativo.cpp ServerInicial.cpp Sha.cpp Socket.cpp Feedback.cpp
+g++ -std=c++11 -lssl -lcrypto -pthread ArchivoCero.cpp Bitacora.cpp Cifrado.cpp Client.cpp Escritor.cpp Hex.cpp Lector.cpp main.cpp ProcesadorFinal.cpp ProcesadorIntermediario.cpp ServerAlternativo.cpp ServerInicial.cpp Sha.cpp Socket.cpp Feedback.cpp
 g++ -o cifrado Cifrado.cpp -lssl -lcrypto
 
 Inicial:

@@ -87,9 +87,11 @@ bool ServerInicial::isCDCD(std::string titulo) {
 }
 
 bool ServerInicial::autenticar(Lector * lector) {
+  std::cout << "pase1 " << std::endl;
   std::string name = lector->readLine();
   std::string user = users[usersIndex];
   if(name.size() < 100 && name.find(user) != std::string::npos) {
+    std::cout << "pase1 " << std::endl;
     std::string hexa = lector->readLine();
     Hex hex;
     std::vector<unsigned char>  shaEncriptado = hex.hexToByte(hexa);
@@ -97,6 +99,7 @@ bool ServerInicial::autenticar(Lector * lector) {
     std::string messageSha = cifrado->decryptMessage(shaEncriptado, keyPath, false);
     long start = lector->getPosition();
     if(messageSha.size() == 64) {
+      std::cout << "pase2 " << std::endl;
       Sha sha(feedback);
       bool noError = true;
       int read = lector->read(512);
@@ -106,6 +109,7 @@ bool ServerInicial::autenticar(Lector * lector) {
       }
       shaFile = sha.finish();
       if(messageSha == shaFile){
+        std::cout << "pase3 " << std::endl;
         lector->setPosition(start);
         return true;
       }

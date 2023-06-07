@@ -3,6 +3,7 @@
 #include "ServerAlternativo.h"
 #include "ProcesadorFinal.h"
 #include "ProcesadorIntermediario.h"
+#include <iostream>
 #include <thread>
 
 ServerAlternativo::ServerAlternativo(std::string tok, std::string key1, std::string key2) {
@@ -29,11 +30,10 @@ void ServerAlternativo::iniciarProcesador(std::string address, int port, bool fi
 
 void ServerAlternativo::iniciarCero(std::string path, bool cdcd) {
   priv = path;
+  feedback = new Feedback();
   if (cdcd) {
-    feedback = new Feedback();
     feedback->iniciar(priv + "/cdcd/");
   } else {
-    feedback = new Feedback();
     feedback->iniciar(priv + "/eaea/");
   }
   ceroPriv = new ArchivoCero(feedback);
@@ -58,6 +58,7 @@ void ServerAlternativo::getMessages(int id) {
   std::vector<unsigned char> tok = receive(id);
   std::string tolkien = cifrado->decryptMessage(tok, FULL + llave1, true);
   if (tolkien == token) {
+    std::cout << "pase0 " << std::endl;
     std::vector<unsigned char> shaFile = receive(id);
     std::vector<unsigned char> path = receive(id);
     std::vector<unsigned char> titulo = receive(id);
@@ -68,7 +69,9 @@ void ServerAlternativo::getMessages(int id) {
     ceroPriv->iniciar(priv + mesPath);
     if (ceroPriv->getArchivoActual() == tituloNum &&
         ceroPriv->cambiarArchivoActual(priv + mesPath, tituloNum + 1)) {
+      std::cout << "pase1 " << std::endl;
       if (procesador->abrir(tok, mesSha, mesPath, mesTitulo, titulo)) {
+        std::cout << "pase2 " << std::endl;
         std::vector<unsigned char> message = receive(id);
         while (message.size()>0) {
           procesador->enviar(message, cifrado, FULL + llave2);
