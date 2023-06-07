@@ -43,7 +43,7 @@ std::string Lector::getText() { return std::string(reinterpret_cast<char*>(buffe
 unsigned char * Lector::getChars() { return buffer; }
 
 int Lector::close() {
-  delete[] buffer;
+  memset(buffer, 0, BUFFER);
   fclose(archivo); // cierra el archivo
   return 0;
 }
@@ -57,6 +57,5 @@ void Lector::setPosition(long position) {
 }
 
 Lector::~Lector() { 
-  memset(buffer, 0, BUFFER);
   delete[] buffer;
 }

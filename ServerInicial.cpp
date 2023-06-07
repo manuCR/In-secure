@@ -79,8 +79,10 @@ void ServerInicial::start() {
 }
 
 bool ServerInicial::isCDCD(std::string titulo) {
-  Sha sha(feedback);
-  shaFile = sha.shaFile(pathPublico + titulo + ".txt");
+  if(cdcd) {
+    Sha sha(feedback);
+    shaFile = sha.shaFile(pathPublico + titulo + ".txt");
+  }
   return cdcd;
 }
 
@@ -92,7 +94,6 @@ bool ServerInicial::autenticar(Lector * lector) {
     Hex hex;
     std::vector<unsigned char>  shaEncriptado = hex.hexToByte(hexa);
     std::string keyPath = FULL + pathPrivado + user + ".pem";
-    int chunkSize = cifrado->chunkSize(keyPath, true) + 42;
     std::string messageSha = cifrado->decryptMessage(shaEncriptado, keyPath, false);
     long start = lector->getPosition();
     if(messageSha.size() == 64) {

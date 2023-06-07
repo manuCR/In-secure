@@ -80,7 +80,7 @@ void Socket::send(std::string message) {
 std::vector<unsigned char> Socket::receive(int socket) {
   int len = 0;
   recv(socket, &len, sizeof(len), 0);
-  if (len > 512 || len == 0) {
+  if (len > 512 || len <= 0) {
     return std::vector<unsigned char>(0);
   }
   std::vector<unsigned char> mes{std::vector<unsigned char>(512)};
