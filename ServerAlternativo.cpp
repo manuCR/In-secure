@@ -1,3 +1,4 @@
+#include "Feedback.h"
 #include "Lector.hpp"
 #include "ServerAlternativo.h"
 #include "ProcesadorFinal.h"
@@ -29,9 +30,11 @@ void ServerAlternativo::iniciarProcesador(std::string address, int port, bool fi
 void ServerAlternativo::iniciarCero(std::string path, bool cdcd) {
   priv = path;
   if (cdcd) {
-    feedback = new Feedback(priv + "/cdcd/");
+    feedback = new Feedback();
+    feedback->iniciar(priv + "/cdcd/");
   } else {
-    feedback = new Feedback(priv + "/eaea/");
+    feedback = new Feedback();
+    feedback->iniciar(priv + "/eaea/");
   }
   ceroPriv = new ArchivoCero(feedback);
  }
@@ -80,6 +83,9 @@ void ServerAlternativo::getMessages(int id) {
 std::vector<unsigned char> ServerAlternativo::receive(int id) { return socket->receive(id); }
 
 ServerAlternativo::~ServerAlternativo() {
+  delete cifrado;
+  delete ceroPriv;
+  delete feedback;
   delete procesador;
   delete socket;
 }

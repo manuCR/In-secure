@@ -13,7 +13,8 @@ private:
   std::mutex mutex;
 
 public:
-  Feedback(std::string path);
+  Feedback();
+  void iniciar(std::string path);
   void agregarFeedback(std::string mensaje);
   std::string currentDateTime();
   ~Feedback();

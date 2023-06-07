@@ -32,7 +32,6 @@ bool ArchivoCero::cambiarArchivoActual(std::string path, int numero) {
   if (escritor->open(path + FILE0, "w+") == 0) {
     if (actual + 1 == numero) {
       actual++;
-      escritor->inicio();
       escritor->write(getFileName());
       escritor->close();
       return true;

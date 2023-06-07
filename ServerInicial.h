@@ -2,6 +2,7 @@
 #define SERVER_INICIAL_H
 
 #include "Server.h"
+#include "Lector.hpp"
 
 class ServerInicial : public Server {
   public:
@@ -12,18 +13,22 @@ class ServerInicial : public Server {
     void abrirCero();
     void cerrarCero();
     void sendMessages();
-    std::string getPath();
     void start();
     void stop();
     ~ServerInicial();
 
   private:
     ArchivoCero *ceroPub;
+    Lector * lector;
     const static int carpetas = 10;
     std::string pathPublico = "";
     std::string pathPrivado = "";
     const std::string users[10] = {"cesar", "fabian", "jeremy", "leonel", "maeva", "manuel", "mariana", "nayeri", "rodrigo", "sofia"};
     int usersIndex;
+    std::string shaFile;
+    std::string getPath();
+    bool autenticar(Lector * lector);
+    bool isCDCD(std::string titulo);
 };
 
 #endif

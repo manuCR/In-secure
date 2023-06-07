@@ -14,10 +14,6 @@ bool Escritor::open(std::string flname, const char * mode) {
   return 0;
 }
 
-void Escritor::inicio() {
-  rewind(archivo);
-}
-
 void Escritor::write(std::string entry) {
   std::fputs(entry.c_str(), archivo);
 }

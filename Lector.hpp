@@ -13,8 +13,12 @@ class Lector {
     int openBinari(std::string flname) ;
     int read(int chunk);
     std::string getText();
+    std::string readLine();
     unsigned char * getChars();
     int close() ;
+    long getPosition();
+    void setPosition(long position);
+    ~Lector();
   private:
     std::string filename;
     FILE * archivo;

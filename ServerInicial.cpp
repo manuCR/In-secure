@@ -1,7 +1,8 @@
-#include "Lector.hpp"
-#include "ProcesadorIntermediario.h"
 #include "ServerInicial.h"
+#include "Hex.h"
+#include "ProcesadorIntermediario.h"
 #include "Sha.h"
+#include <cstdio>
 #include <iostream>
 #include <thread>
 
@@ -17,7 +18,8 @@ void ServerInicial::setSocket(std::string address, int port) {
 void ServerInicial::iniciarCero(std::string path, bool cdcd) {
   this->cdcd = cdcd;
   priv = path;
-  feedback = new Feedback(getPath());
+  feedback = new Feedback();
+  feedback->iniciar(getPath());
   usersIndex--;
   ceroPub = new ArchivoCero(feedback);
   ceroPriv = new ArchivoCero(feedback);
@@ -26,6 +28,7 @@ void ServerInicial::iniciarCero(std::string path, bool cdcd) {
 void ServerInicial::abrirCero() {
   pathPublico = getPath();
   pathPrivado = priv + pathPublico;
+  feedback->iniciar(pathPublico);
   ceroPriv->iniciar(pathPrivado);
   ceroPub->iniciar(pathPublico);
   // sobre escribir valor de ceroPub en caso de que fuera modificado
@@ -40,42 +43,79 @@ void ServerInicial::start() {
     return;
   }
   active = true;
-  Cifrado * cifrado = new Cifrado(feedback);
-  Sha sha(feedback);
+  cifrado = new Cifrado(feedback);
+  lector = new Lector(feedback);
   while (active) {
     abrirCero();
     int tituloNumero = ceroPriv->getArchivoActual();
     std::string titulo = ceroPriv->getFileName();
     std::cout << "tratando de enviar " << titulo << std::endl;
-    std::string shaFile = sha.shaFile(pathPublico + titulo + ".txt");
-    Lector lector(feedback);
-    if (lector.open(pathPublico + titulo + ".txt") == 0) {
+    if (lector->open(pathPublico + titulo + ".txt") == 0) {
       if (ceroPriv->cambiarArchivoActual(pathPrivado, tituloNumero + 1)) {
         ceroPub->cambiarArchivoActual(pathPublico, tituloNumero + 1);
         //Aqui Token // Llave 1
-        if (cdcd || autenticar()){
+        if (autenticar(lector)){
           std::vector<unsigned char> tolkien = cifrado->encryptMessage(token, FULL + llave1);
           std::vector<unsigned char> tiltien = cifrado->encryptMessage(titulo, FULL + llave1);
           if (procesador->abrir(tolkien, shaFile, pathPublico, titulo, tiltien)) {
-            int chunkSize = cifrado->chunkSize(FULL + llave2);
-            while (lector.read(chunkSize)) {
-              std::string chunk = lector.getText();
+            int chunkSize = cifrado->chunkSize(FULL + llave2, false);
+            while (lector->read(chunkSize)) {
+              std::string chunk = lector->getText();
               //Aqui Chunk // Llave 2 
               std::vector<unsigned char> chunkie = cifrado->encryptMessage(chunk, FULL + llave2);
               procesador->enviar(chunkie, cifrado, FULL + llave2);
             }
             procesador->enviar("");
-            lector.close();
           }
+        } else {
+          feedback->agregarFeedback("No se pudo autenticar al usuario");
         }
       }
+      lector->close();
     }
     // despertarse cada dos horas
     std::this_thread::sleep_for(std::chrono::milliseconds(10000));
   }
 }
 
-void ServerInicial::stop() { active = false; }
+bool ServerInicial::isCDCD(std::string titulo) {
+  Sha sha(feedback);
+  shaFile = sha.shaFile(pathPublico + titulo + ".txt");
+  return cdcd;
+}
+
+bool ServerInicial::autenticar(Lector * lector) {
+  std::string name = lector->readLine();
+  std::string user = users[usersIndex];
+  if(name.size() < 100 && name.find(user) != std::string::npos) {
+    std::string hexa = lector->readLine();
+    Hex hex;
+    std::vector<unsigned char>  shaEncriptado = hex.hexToByte(hexa);
+    std::string keyPath = FULL + pathPrivado + user + ".pem";
+    int chunkSize = cifrado->chunkSize(keyPath, true) + 42;
+    std::string messageSha = cifrado->decryptMessage(shaEncriptado, keyPath, false);
+    long start = lector->getPosition();
+    if(messageSha.size() == 64) {
+      Sha sha(feedback);
+      bool noError = true;
+      int read = lector->read(512);
+      while (read > 0 && noError == 0) {
+        noError = sha.add(lector->getChars(), read);
+        read = lector->read(512);
+      }
+      shaFile = sha.finish();
+      if(messageSha == shaFile){
+        lector->setPosition(start);
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+void ServerInicial::stop() {
+  active = false;
+}
 
 std::string ServerInicial::getPath() {
   std::string path = "";
@@ -90,4 +130,11 @@ std::string ServerInicial::getPath() {
   return path;
 }
 
-ServerInicial::~ServerInicial() { delete procesador; }
+ServerInicial::~ServerInicial() {
+  delete lector;
+  delete cifrado;
+  delete ceroPub;
+  delete ceroPriv;
+  delete feedback;
+  delete procesador;
+}

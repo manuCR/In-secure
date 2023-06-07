@@ -1,4 +1,5 @@
 #include "Lector.hpp"
+#include <cstdio>
 #include <cstring>
 
 // Constructor
@@ -32,6 +33,11 @@ int Lector::read(int chunk) {
   return fread(buffer, sizeof(char), 470, archivo);
 }
 
+std::string Lector::readLine() {
+  memset(buffer, 0, BUFFER);
+  return fgets(reinterpret_cast<char*>(buffer), 512, archivo);
+}
+
 std::string Lector::getText() { return std::string(reinterpret_cast<char*>(buffer)); }
 
 unsigned char * Lector::getChars() { return buffer; }
@@ -40,4 +46,17 @@ int Lector::close() {
   delete[] buffer;
   fclose(archivo); // cierra el archivo
   return 0;
+}
+
+long Lector::getPosition() {
+  return ftell(archivo);
+}
+
+void Lector::setPosition(long position) {
+  fseek(archivo, position, SEEK_SET);
+}
+
+Lector::~Lector() { 
+  memset(buffer, 0, BUFFER);
+  delete[] buffer;
 }

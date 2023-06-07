@@ -20,10 +20,11 @@ void ProcesadorFinal::enviar(std::vector<unsigned char>  mensaje, Cifrado * cifr
   escritor->write(chunkie); 
 }
 
-void ProcesadorFinal::enviar(std::string  mensaje) { 
+void ProcesadorFinal::enviar(std::string  mensaje) {
+  escritor->close();
 }
 
 ProcesadorFinal::~ProcesadorFinal() {
-  escritor->close();
+  delete bitacora;
   delete escritor;
 }

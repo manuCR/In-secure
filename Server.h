@@ -15,6 +15,7 @@ class Server {
     ArchivoCero *ceroPriv;
     Procesador *procesador;
     Feedback * feedback;
+    Cifrado * cifrado;
 
   public:
     virtual void setSocket(std::string address, int port) = 0;

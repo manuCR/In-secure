@@ -2,7 +2,9 @@
 #include "Escritor.hpp"
 
 
-Feedback::Feedback(std::string path) {
+Feedback::Feedback() {}
+
+void Feedback::iniciar(std::string path){
   this->path = path;
 }
 

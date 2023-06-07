@@ -13,12 +13,14 @@ class Cifrado {
 
 private:
   Feedback * feedback;
+  RSA * initKey(const std::string& KeyPath, bool pub);
+  void printError(std::string mensaje, bool tok);
   
 public:
   Cifrado(Feedback * feedback);
   std::string decryptMessage(std::vector<unsigned char> encryptedMessage, const std::string& privateKeyPath, bool tok);
   std::vector<unsigned char> encryptMessage(const std::string& message, const std::string& publicKeyPath);
-  void printError(std::string mensaje, bool tok);
-  int chunkSize(const std::string& privateKeyPath);
+  int chunkSize(const std::string& privateKeyPath, bool pub);
+  
 };
 #endif  //CIFRADO_H

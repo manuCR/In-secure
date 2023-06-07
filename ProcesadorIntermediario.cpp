@@ -24,4 +24,7 @@ void ProcesadorIntermediario::enviar(std::string  mensaje) {
   client->send(mensaje); 
 }
 
-ProcesadorIntermediario::~ProcesadorIntermediario() { delete client; }
+ProcesadorIntermediario::~ProcesadorIntermediario() {
+  delete bitacora;
+  delete client;
+}

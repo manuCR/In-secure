@@ -18,4 +18,6 @@ bool Client::isWorking() {
   return working;
 }
 
-Client::~Client() { delete socket; }
+Client::~Client() {
+  delete socket;
+}
