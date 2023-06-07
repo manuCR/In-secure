@@ -56,28 +56,30 @@ void ServerAlternativo::stop() { active = false; }
 void ServerAlternativo::getMessages(int id) {
   Cifrado * cifrado = new Cifrado(feedback);
   std::vector<unsigned char> tok = receive(id);
-  std::string tolkien = cifrado->decryptMessage(tok, FULL + llave1, true);
-  if (tolkien == token) {
-    std::cout << "pase0 " << std::endl;
-    std::vector<unsigned char> shaFile = receive(id);
-    std::vector<unsigned char> path = receive(id);
-    std::vector<unsigned char> titulo = receive(id);
-    std::string mesSha (reinterpret_cast<char*>(&shaFile[0]));
-    std::string mesPath (reinterpret_cast<char*>(&path[0]));
-    std::string mesTitulo = cifrado->decryptMessage(titulo, FULL + llave1, false);
-    int tituloNum = stoi(mesTitulo);
-    ceroPriv->iniciar(priv + mesPath);
-    if (ceroPriv->getArchivoActual() == tituloNum &&
-        ceroPriv->cambiarArchivoActual(priv + mesPath, tituloNum + 1)) {
-      std::cout << "pase1 " << std::endl;
-      if (procesador->abrir(tok, mesSha, mesPath, mesTitulo, titulo)) {
-        std::cout << "pase2 " << std::endl;
-        std::vector<unsigned char> message = receive(id);
-        while (message.size()>0) {
-          procesador->enviar(message, cifrado, FULL + llave2);
-          message = receive(id);
+  if (tok.size() <= 0) {
+    std::string tolkien = cifrado->decryptMessage(tok, FULL + llave1, true);
+    if (tolkien == token) {
+      std::cout << "pase0 " << std::endl;
+      std::vector<unsigned char> shaFile = receive(id);
+      std::vector<unsigned char> path = receive(id);
+      std::vector<unsigned char> titulo = receive(id);
+      std::string mesSha (reinterpret_cast<char*>(&shaFile[0]));
+      std::string mesPath (reinterpret_cast<char*>(&path[0]));
+      std::string mesTitulo = cifrado->decryptMessage(titulo, FULL + llave1, false);
+      int tituloNum = stoi(mesTitulo);
+      ceroPriv->iniciar(priv + mesPath);
+      if (ceroPriv->getArchivoActual() == tituloNum &&
+          ceroPriv->cambiarArchivoActual(priv + mesPath, tituloNum + 1)) {
+        std::cout << "pase1 " << std::endl;
+        if (procesador->abrir(tok, mesSha, mesPath, mesTitulo, titulo)) {
+          std::cout << "pase2 " << std::endl;
+          std::vector<unsigned char> message = receive(id);
+          while (message.size()>0) {
+            procesador->enviar(message, cifrado, FULL + llave2);
+            message = receive(id);
+          }
+          procesador->enviar("");
         }
-        procesador->enviar("");
       }
     }
   }
