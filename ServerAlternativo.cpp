@@ -52,7 +52,9 @@ void ServerAlternativo::start() {
   }
 }
 
-void ServerAlternativo::stop() { active = false; }
+void ServerAlternativo::stop() {
+  active = false;
+}
 
 void ServerAlternativo::getMessages(int id) {
   std::cout << "pase0 " << std::endl;
@@ -85,9 +87,12 @@ void ServerAlternativo::getMessages(int id) {
       }
     }
   }
+  socket->end(id);
 }
 
-std::vector<unsigned char> ServerAlternativo::receive(int id) { return socket->receive(id); }
+std::vector<unsigned char> ServerAlternativo::receive(int id) {
+  return socket->receive(id);
+}
 
 ServerAlternativo::~ServerAlternativo() {
   delete cifrado;
