@@ -51,10 +51,10 @@ void ServerInicial::start() {
     std::string titulo = ceroPriv->getFileName();
     std::cout << "tratando de enviar " << titulo << std::endl;
     if (lector->open(pathPublico + titulo + ".txt") == 0) {
-      if (ceroPriv->cambiarArchivoActual(pathPrivado, tituloNumero + 1)) {
-        ceroPub->cambiarArchivoActual(pathPublico, tituloNumero + 1);
-        //Aqui Token // Llave 1
-        if (autenticar(lector)){
+      if (autenticar(lector)){
+        if (ceroPriv->cambiarArchivoActual(pathPrivado, tituloNumero + 1)) {
+          ceroPub->cambiarArchivoActual(pathPublico, tituloNumero + 1);
+          //Aqui Token // Llave 1
           std::vector<unsigned char> tolkien = cifrado->encryptMessage(token, FULL + llave1);
           std::vector<unsigned char> tiltien = cifrado->encryptMessage(titulo, FULL + llave1);
           if (procesador->abrir(tolkien, shaFile, pathPublico, titulo, tiltien)) {
