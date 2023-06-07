@@ -47,6 +47,7 @@ void ServerAlternativo::start() {
   std::thread *worker;
   while (active) {
     int id = socket->acceptConection();
+    std::cout << "accept " << std::endl;
     worker = new std::thread(&ServerAlternativo::getMessages, this, id);
   }
 }
@@ -54,12 +55,13 @@ void ServerAlternativo::start() {
 void ServerAlternativo::stop() { active = false; }
 
 void ServerAlternativo::getMessages(int id) {
+  std::cout << "pase0 " << std::endl;
   Cifrado * cifrado = new Cifrado(feedback);
   std::vector<unsigned char> tok = receive(id);
   if (tok.size() <= 0) {
     std::string tolkien = cifrado->decryptMessage(tok, FULL + llave1, true);
     if (tolkien == token) {
-      std::cout << "pase0 " << std::endl;
+      std::cout << "pase1 " << std::endl;
       std::vector<unsigned char> shaFile = receive(id);
       std::vector<unsigned char> path = receive(id);
       std::vector<unsigned char> titulo = receive(id);
@@ -70,9 +72,9 @@ void ServerAlternativo::getMessages(int id) {
       ceroPriv->iniciar(priv + mesPath);
       if (ceroPriv->getArchivoActual() == tituloNum &&
           ceroPriv->cambiarArchivoActual(priv + mesPath, tituloNum + 1)) {
-        std::cout << "pase1 " << std::endl;
+        std::cout << "pase2 " << std::endl;
         if (procesador->abrir(tok, mesSha, mesPath, mesTitulo, titulo)) {
-          std::cout << "pase2 " << std::endl;
+          std::cout << "pase3 " << std::endl;
           std::vector<unsigned char> message = receive(id);
           while (message.size()>0) {
             procesador->enviar(message, cifrado, FULL + llave2);

@@ -67,9 +67,9 @@ void ServerInicial::start() {
             }
             procesador->enviar("");
           }
-        } else {
-          feedback->agregarFeedback("No se pudo autenticar al usuario");
         }
+      } else {
+        feedback->agregarFeedback("No se pudo autenticar al usuario");
       }
       lector->close();
     }
