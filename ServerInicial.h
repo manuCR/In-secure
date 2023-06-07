@@ -12,7 +12,7 @@ class ServerInicial : public Server {
     void abrirCero();
     void cerrarCero();
     void sendMessages();
-    std::string getPath(bool priv);
+    std::string getPath();
     void start();
     void stop();
     ~ServerInicial();
@@ -20,6 +20,8 @@ class ServerInicial : public Server {
   private:
     ArchivoCero *ceroPub;
     const static int carpetas = 10;
+    std::string pathPublico = "";
+    std::string pathPrivado = "";
     const std::string users[10] = {"cesar", "fabian", "jeremy", "leonel", "maeva", "manuel", "mariana", "nayeri", "rodrigo", "sofia"};
     int usersIndex;
 };

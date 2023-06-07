@@ -27,8 +27,8 @@ int Lector::openBinari(std::string flname) {
   return 0;
 }
 
-int Lector::read() { 
-  memset(buffer, 0, 512);
+int Lector::read(int chunk) {
+  memset(buffer, 0, BUFFER);
   return fread(buffer, sizeof(char), 470, archivo);
 }
 

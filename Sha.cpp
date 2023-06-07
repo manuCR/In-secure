@@ -47,10 +47,10 @@ std::string Sha::shaFile(std::string filename) {
   Lector lector(feedback);
   if(lector.openBinari(filename) == 0) {
     int noError = start();
-    int read = lector.read();
+    int read = lector.read(512);
     while (read > 0 && noError == 0) {
       noError = add(lector.getChars(), read);
-      read = lector.read();
+      read = lector.read(512);
     }
     lector.close();
     return finish();

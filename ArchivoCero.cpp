@@ -16,7 +16,7 @@ void ArchivoCero::iniciar(std::string path) {
   Lector lector(feedback);
   std::string full = path + FILE0;
   if(lector.open(full) == 0){
-    int posicion = lector.read();
+    int posicion = lector.read(512);
     if (posicion) {
       std::string numero = lector.getText();
       actual = stoi(numero);

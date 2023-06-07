@@ -19,5 +19,6 @@ public:
   std::string decryptMessage(std::vector<unsigned char> encryptedMessage, const std::string& privateKeyPath, bool tok);
   std::vector<unsigned char> encryptMessage(const std::string& message, const std::string& publicKeyPath);
   void printError(std::string mensaje, bool tok);
+  int chunkSize(const std::string& privateKeyPath);
 };
 #endif  //CIFRADO_H
