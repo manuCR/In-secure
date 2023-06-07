@@ -1,5 +1,6 @@
 #include "Socket.h"
 #include <cstring>
+#include <iostream>
 #include <unistd.h>
 #include <vector>
 
@@ -79,6 +80,7 @@ void Socket::send(std::string message) {
 
 std::vector<unsigned char> Socket::receive(int socket) {
   int len = 0;
+  std::cout << "socket len " << len << std::endl;
   recv(socket, &len, sizeof(len), 0);
   if (len > 512 || len <= 0) {
     return std::vector<unsigned char>(0);
