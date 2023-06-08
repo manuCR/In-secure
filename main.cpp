@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
   server->iniciarCero(arg8, arg7);
   server->setSocket(arg3, arg4);
   server->iniciarProcesador(arg5, arg6, arg2, arg3);
-  new std::thread(&Server::start, server);
+  new std::thread(&Server::start, server); // quitar el thread para que corra en el systemd
   getchar();
   server->stop();
   delete server;

@@ -143,7 +143,7 @@ std::string ServerInicial::getPath() {
     if (usersIndex >= carpetas) {
       usersIndex = usersIndex % carpetas;
     }
-    path = path + "/EAEA/" + users[usersIndex] + "/";
+    path = path + "/eaea/" + users[usersIndex] + "/";
   }
   return path;
 }
