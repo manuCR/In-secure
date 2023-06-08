@@ -60,7 +60,7 @@ void ServerAlternativo::stop() {
 void ServerAlternativo::getMessages(int id) {
   std::cout << "pase-1 " << std::endl;
   std::vector<unsigned char> tok = receive(id);
-  if (tok.size() <= 0) {
+  if (tok.size() > 0) {
     std::cout << "pase0 " << std::endl;
     std::string tolkien = cifrado->decryptMessage(tok, FULL + llave1, true);
     if (tolkien == token) {
