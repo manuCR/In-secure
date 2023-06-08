@@ -57,10 +57,11 @@ void ServerAlternativo::stop() {
 }
 
 void ServerAlternativo::getMessages(int id) {
-  std::cout << "pase0 " << std::endl;
+  std::cout << "pase-1 " << std::endl;
   Cifrado * cifrado = new Cifrado(feedback);
   std::vector<unsigned char> tok = receive(id);
   if (tok.size() <= 0) {
+    std::cout << "pase0 " << std::endl;
     std::string tolkien = cifrado->decryptMessage(tok, FULL + llave1, true);
     if (tolkien == token) {
       std::cout << "pase1 " << std::endl;
