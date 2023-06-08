@@ -4,7 +4,6 @@
 #include "Sha.h"
 #include <chrono>
 #include <cstdio>
-#include <iostream>
 #include <thread>
 
 ServerInicial::ServerInicial(std::string tok, std::string key1, std::string key2) { 
@@ -47,24 +46,19 @@ void ServerInicial::start() {
   cifrado = new Cifrado(feedback);
   lector = new Lector(feedback);
   while (active) {
-    std::cout << "inicio: " << std::endl;
     abrirCero();
     int tituloNumero = ceroPriv->getArchivoActual();
     std::string titulo = ceroPriv->getFileName();
-    std::cout << "titulo: " << pathPublico << titulo << std::endl;
     if (lector->open(pathPublico + titulo + ".txt") == 0) {
       if (isCDCD(titulo) || autenticar(lector)){
         if (ceroPriv->cambiarArchivoActual(pathPrivado, tituloNumero + 1)) {
           ceroPub->cambiarArchivoActual(pathPublico, tituloNumero + 1);
-          //Aqui Token // Llave 1
           std::vector<unsigned char> tolkien = cifrado->encryptMessage(token, FULL + llave1);
           std::vector<unsigned char> tiltien = cifrado->encryptMessage(titulo, FULL + llave1);
           if (procesador->abrir(tolkien, shaFile, pathPublico, titulo, tiltien)) {
             int chunkSize = cifrado->chunkSize(FULL + llave2, false);
             while (lector->read(chunkSize)) {
               std::string chunk = lector->getText();
-              std::cout << "chunk: " << chunk << std::endl;
-              //Aqui Chunk // Llave 2 
               std::vector<unsigned char> chunkie = cifrado->encryptMessage(chunk, FULL + llave2);
               procesador->enviar(chunkie, cifrado, FULL + llave2);
             }
@@ -135,12 +129,12 @@ void ServerInicial::sleep() {
 std::string ServerInicial::getPath() {
   std::string path = "";
   if (cdcd) {
-    path = path + "/cdcd/";
+    path = path + "/CDCD/";
   } else {
     if (usersIndex >= carpetas) {
       usersIndex = usersIndex % carpetas;
     }
-    path = path + "/eaea/" + users[usersIndex] + "/";
+    path = path + "/EAEA/" + users[usersIndex] + "/";
   }
   return path;
 }
