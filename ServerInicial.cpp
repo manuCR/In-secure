@@ -4,6 +4,7 @@
 #include "Sha.h"
 #include <chrono>
 #include <cstdio>
+#include <ctime>
 #include <thread>
 
 ServerInicial::ServerInicial(std::string tok, std::string key1, std::string key2) { 
@@ -31,7 +32,7 @@ void ServerInicial::abrirCero() {
   feedback->iniciar(pathPublico);
   ceroPriv->iniciar(pathPrivado);
   ceroPub->iniciar(pathPublico);
-  // sobre escribir valor de ceroPub en caso de que fuera modificado
+  ceroPub->restaurarActual(ceroPriv->getArchivoActual());
 }
 
 void ServerInicial::iniciarProcesador(std::string address, int port, bool fin, std::string bindIp) {
@@ -46,16 +47,19 @@ void ServerInicial::start() {
   cifrado = new Cifrado(feedback);
   lector = new Lector(feedback);
   while (active) {
+    sleep();
     abrirCero();
     int tituloNumero = ceroPriv->getArchivoActual();
     std::string titulo = ceroPriv->getFileName();
     if (lector->open(pathPublico + titulo + ".txt") == 0) {
       if (isCDCD(titulo) || autenticar(lector)){
-        if (ceroPriv->cambiarArchivoActual(pathPrivado, tituloNumero + 1)) {
-          ceroPub->cambiarArchivoActual(pathPublico, tituloNumero + 1);
+        if (ceroPriv->cambiarArchivoActual(tituloNumero + 1)) {
+          ceroPub->cambiarArchivoActual(tituloNumero + 1);
           std::vector<unsigned char> tolkien = cifrado->encryptMessage(token, FULL + llave1);
           std::vector<unsigned char> tiltien = cifrado->encryptMessage(titulo, FULL + llave1);
-          if (procesador->abrir(tolkien, shaFile, pathPublico, titulo, tiltien)) {
+          std::vector<unsigned char> shatien = cifrado->encryptMessage(shaFile, FULL + llave1);
+          std::vector<unsigned char> pathien = cifrado->encryptMessage(pathPublico, FULL + llave1);
+          if (procesador->abrir(tolkien, shatien, shaFile, pathien, pathPublico, tiltien, titulo)) {
             int chunkSize = cifrado->chunkSize(FULL + llave2, false);
             while (lector->read(chunkSize)) {
               std::string chunk = lector->getText();
@@ -71,7 +75,6 @@ void ServerInicial::start() {
       lector->close();
     }
     usersIndex++;
-    sleep();
   }
 }
 
@@ -120,7 +123,13 @@ void ServerInicial::stop() {
 
 void ServerInicial::sleep() {
   if (cdcd) {
-    std::this_thread::sleep_for(std::chrono::hours(2));
+    std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
+    std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
+    std::tm * localTime = std::localtime(&currentTime);
+    int hours = localTime->tm_hour % 2 * 60;
+    int minutes = 50 - localTime->tm_min;
+    int sleepTime = (120 - hours + minutes) % 121;
+    std::this_thread::sleep_for(std::chrono::minutes(sleepTime));
   } else {
     std::this_thread::sleep_for(std::chrono::seconds(1));
   }
@@ -129,7 +138,7 @@ void ServerInicial::sleep() {
 std::string ServerInicial::getPath() {
   std::string path = "";
   if (cdcd) {
-    path = path + "/CDCD/";
+    path = path + "/cdcd/";
   } else {
     if (usersIndex >= carpetas) {
       usersIndex = usersIndex % carpetas;

@@ -7,8 +7,10 @@ ProcesadorFinal::ProcesadorFinal() {
   working = true;
   }
 
-bool ProcesadorFinal::abrir(std::vector<unsigned char>  token, std::string shaFile, std::string path,
-                            std::string archivo, std::vector<unsigned char> titulo) {
+bool ProcesadorFinal::abrir(std::vector<unsigned char>  token, 
+                            std::vector<unsigned char> enShaFile, std::string shaFile,
+                            std::vector<unsigned char> enPath, std::string path,
+                            std::vector<unsigned char> titulo, std::string archivo) {
   bitacora->add(shaFile);
   return escritor->open(path + archivo + ".txt", "w+") == 0;
 }

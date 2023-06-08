@@ -6,12 +6,14 @@ ProcesadorIntermediario::ProcesadorIntermediario(std::string address, int port, 
   working = client->isWorking();
 }
 
-bool ProcesadorIntermediario::abrir(std::vector<unsigned char>  token, std::string shaFile, std::string path,
-                                    std::string archivo, std::vector<unsigned char> titulo) {
+bool ProcesadorIntermediario::abrir(std::vector<unsigned char>  token, 
+                                    std::vector<unsigned char> enShaFile, std::string shaFile,
+                                    std::vector<unsigned char> enPath, std::string path,
+                                    std::vector<unsigned char> titulo, std::string archivo) {
   bitacora->add(shaFile);
   client->send(token);
-  client->send(shaFile);
-  client->send(path);
+  client->send(enShaFile);
+  client->send(enPath);
   client->send(titulo);
   return true;
 }

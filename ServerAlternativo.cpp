@@ -63,14 +63,14 @@ void ServerAlternativo::getMessages(int id) {
       std::vector<unsigned char> shaFile = receive(id);
       std::vector<unsigned char> path = receive(id);
       std::vector<unsigned char> titulo = receive(id);
-      std::string mesSha (reinterpret_cast<char*>(&shaFile[0]));
-      std::string mesPath (reinterpret_cast<char*>(&path[0]));
+      std::string mesSha = cifrado->decryptMessage(shaFile, FULL + llave1, false);
+      std::string mesPath = cifrado->decryptMessage(path, FULL + llave1, false);
       std::string mesTitulo = cifrado->decryptMessage(titulo, FULL + llave1, false);
       int tituloNum = stoi(mesTitulo);
       ceroPriv->iniciar(priv + mesPath);
       if (ceroPriv->getArchivoActual() == tituloNum &&
-          ceroPriv->cambiarArchivoActual(priv + mesPath, tituloNum + 1)) {
-        if (procesador->abrir(tok, mesSha, mesPath, mesTitulo, titulo)) {
+          ceroPriv->cambiarArchivoActual(tituloNum + 1)) {
+        if (procesador->abrir(tok, shaFile, mesSha, path, mesPath, titulo, mesTitulo)) {
           std::vector<unsigned char> message = receive(id);
           while (message.size()>0) {
             procesador->enviar(message, cifrado, FULL + llave2);
