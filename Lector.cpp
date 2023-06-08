@@ -35,12 +35,19 @@ int Lector::read(int chunk) {
 
 std::string Lector::readLine() {
   memset(buffer, 0, BUFFER);
-  return fgets(reinterpret_cast<char*>(buffer), 1025, archivo);
+  if(fgets(reinterpret_cast<char*>(buffer), 1025, archivo) != NULL){
+    return std::string(reinterpret_cast<char*>(buffer));  
+  }
+  return "";
 }
 
-std::string Lector::getText() { return std::string(reinterpret_cast<char*>(buffer)); }
+std::string Lector::getText() {
+  return std::string(reinterpret_cast<char*>(buffer));
+}
 
-unsigned char * Lector::getChars() { return buffer; }
+unsigned char * Lector::getChars() {
+  return buffer;
+}
 
 int Lector::close() {
   memset(buffer, 0, BUFFER);
