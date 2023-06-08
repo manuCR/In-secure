@@ -4,6 +4,7 @@
 #include "Sha.h"
 #include <chrono>
 #include <cstdio>
+#include <iostream>
 #include <thread>
 
 ServerInicial::ServerInicial(std::string tok, std::string key1, std::string key2) { 
@@ -49,6 +50,7 @@ void ServerInicial::start() {
     abrirCero();
     int tituloNumero = ceroPriv->getArchivoActual();
     std::string titulo = ceroPriv->getFileName();
+    std::cout << "titulo: " << pathPublico << titulo << std::endl;
     if (lector->open(pathPublico + titulo + ".txt") == 0) {
       if (isCDCD(titulo) || autenticar(lector)){
         if (ceroPriv->cambiarArchivoActual(pathPrivado, tituloNumero + 1)) {
@@ -93,6 +95,7 @@ bool ServerInicial::autenticar(Lector * lector) {
     Hex hex;
     std::vector<unsigned char>  shaEncriptado = hex.hexToByte(hexa);
     std::string keyPath = FULL + pathPrivado + user + ".pem";
+    std::cout << "keyPath " << keyPath << std::endl;
     std::string messageSha = cifrado->decryptMessage(shaEncriptado, keyPath, false);
     long start = lector->getPosition();
     if(messageSha.size() == 64) {
