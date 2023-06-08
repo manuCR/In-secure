@@ -92,16 +92,13 @@ bool ServerInicial::isCDCD(std::string titulo) {
 bool ServerInicial::autenticar(Lector * lector) {
   std::string name = lector->readLine();
   std::string user = users[usersIndex];
-  std::cout << "entre " <<  std::endl;
   if(name.size() < 100 && name.find(user) != std::string::npos) {
-    std::cout << "entre2 " <<  std::endl;
     std::string hexa = lector->readLine();
     if (hexa.size() > 0) {
       hexa.pop_back();
       Hex hex;
       std::vector<unsigned char>  shaEncriptado = hex.hexToByte(hexa);
       std::string keyPath = FULL + pathPrivado + user + ".pem";
-      std::cout << "keyPath " << keyPath << std::endl;
       std::string messageSha = cifrado->decryptMessage(shaEncriptado, keyPath, false);
       long start = lector->getPosition();
       if(messageSha.size() == 64) {
