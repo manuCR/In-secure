@@ -104,7 +104,7 @@ bool ServerInicial::autenticar(Lector * lector) {
     if(messageSha.size() == 64) {
       std::cout << "pase3 " << std::endl;
       Sha sha(feedback);
-      bool noError = true;
+      int noError = sha.start();
       int read = lector->read(512);
       while (read > 0 && noError == 0) {
         noError = sha.add(lector->getChars(), read);
