@@ -95,25 +95,27 @@ bool ServerInicial::autenticar(Lector * lector) {
   if(name.size() < 100 && name.find(user) != std::string::npos) {
     std::cout << "entre2 " <<  std::endl;
     std::string hexa = lector->readLine();
-    hexa.pop_back();
-    Hex hex;
-    std::vector<unsigned char>  shaEncriptado = hex.hexToByte(hexa);
-    std::string keyPath = FULL + pathPrivado + user + ".pem";
-    std::cout << "keyPath " << keyPath << std::endl;
-    std::string messageSha = cifrado->decryptMessage(shaEncriptado, keyPath, false);
-    long start = lector->getPosition();
-    if(messageSha.size() == 64) {
-      Sha sha(feedback);
-      int noError = sha.start();
-      int read = lector->read(512);
-      while (read > 0 && noError == 0) {
-        noError = sha.add(lector->getChars(), read);
-        read = lector->read(512);
-      }
-      shaFile = sha.finish();
-      if(messageSha == shaFile){
-        lector->setPosition(start);
-        return true;
+    if (hexa.size() > 0) {
+      hexa.pop_back();
+      Hex hex;
+      std::vector<unsigned char>  shaEncriptado = hex.hexToByte(hexa);
+      std::string keyPath = FULL + pathPrivado + user + ".pem";
+      std::cout << "keyPath " << keyPath << std::endl;
+      std::string messageSha = cifrado->decryptMessage(shaEncriptado, keyPath, false);
+      long start = lector->getPosition();
+      if(messageSha.size() == 64) {
+        Sha sha(feedback);
+        int noError = sha.start();
+        int read = lector->read(512);
+        while (read > 0 && noError == 0) {
+          noError = sha.add(lector->getChars(), read);
+          read = lector->read(512);
+        }
+        shaFile = sha.finish();
+        if(messageSha == shaFile){
+          lector->setPosition(start);
+          return true;
+        }
       }
     }
   }
