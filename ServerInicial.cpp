@@ -47,6 +47,7 @@ void ServerInicial::start() {
   cifrado = new Cifrado(feedback);
   lector = new Lector(feedback);
   while (active) {
+    std::cout << "inicio: " << std::endl;
     abrirCero();
     int tituloNumero = ceroPriv->getArchivoActual();
     std::string titulo = ceroPriv->getFileName();
@@ -73,6 +74,7 @@ void ServerInicial::start() {
         feedback->agregarFeedback("No se pudo autenticar al usuario");
       }
       lector->close();
+      usersIndex++;
     }
     sleep();
   }
@@ -138,7 +140,7 @@ std::string ServerInicial::getPath() {
     if (usersIndex >= carpetas) {
       usersIndex = usersIndex % carpetas;
     }
-    path = path + "/eaea/" + users[usersIndex++] + "/";
+    path = path + "/eaea/" + users[usersIndex] + "/";
   }
   std::cout << "path return " <<  path << std::endl;
   return path;
