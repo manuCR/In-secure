@@ -30,7 +30,7 @@ int Lector::openBinari(std::string flname) {
 
 int Lector::read(int chunk) {
   memset(buffer, 0, BUFFER);
-  return fread(buffer, sizeof(char), 470, archivo);
+  return fread(buffer, sizeof(char), chunk, archivo);
 }
 
 std::string Lector::readLine() {

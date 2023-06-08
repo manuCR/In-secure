@@ -20,7 +20,7 @@ void ServerInicial::iniciarCero(std::string path, bool cdcd) {
   priv = path;
   feedback = new Feedback();
   feedback->iniciar(getPath());
-  usersIndex--;
+  usersIndex = 0;
   ceroPub = new ArchivoCero(feedback);
   ceroPriv = new ArchivoCero(feedback);
 }
