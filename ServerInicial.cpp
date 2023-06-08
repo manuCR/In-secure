@@ -121,7 +121,7 @@ void ServerInicial::sleep() {
   if (cdcd) {
     std::this_thread::sleep_for(std::chrono::hours(2));
   } else {
-    std::this_thread::sleep_for(std::chrono::minutes(1));
+    std::this_thread::sleep_for(std::chrono::seconds(1));
   }
 }
 
