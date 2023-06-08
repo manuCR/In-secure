@@ -37,6 +37,7 @@ void ServerAlternativo::iniciarCero(std::string path, bool cdcd) {
     feedback->iniciar(priv + "/eaea/");
   }
   ceroPriv = new ArchivoCero(feedback);
+  cifrado = new Cifrado(feedback);
  }
 
 void ServerAlternativo::start() {
@@ -58,7 +59,6 @@ void ServerAlternativo::stop() {
 
 void ServerAlternativo::getMessages(int id) {
   std::cout << "pase-1 " << std::endl;
-  Cifrado * cifrado = new Cifrado(feedback);
   std::vector<unsigned char> tok = receive(id);
   if (tok.size() <= 0) {
     std::cout << "pase0 " << std::endl;
