@@ -89,7 +89,9 @@ bool ServerInicial::isCDCD(std::string titulo) {
 bool ServerInicial::autenticar(Lector * lector) {
   std::string name = lector->readLine();
   std::string user = users[usersIndex];
+  std::cout << "entre " <<  std::endl;
   if(name.size() < 100 && name.find(user) != std::string::npos) {
+    std::cout << "entre2 " <<  std::endl;
     std::string hexa = lector->readLine();
     hexa.pop_back();
     Hex hex;
@@ -138,6 +140,7 @@ std::string ServerInicial::getPath() {
     }
     path = path + "/eaea/" + users[usersIndex++] + "/";
   }
+  std::cout << "path return " <<  path << std::endl;
   return path;
 }
 
