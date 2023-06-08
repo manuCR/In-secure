@@ -6,7 +6,7 @@ Cifrado::Cifrado(Feedback * feedback){
 }
 
 std::vector<unsigned char> Cifrado::encryptMessage(const std::string& message, const std::string& keyPath) {
-  RSA* rsa = initKey(keyPath, false);
+  RSA * rsa = initKey(keyPath, false);
   if (!rsa) {
       printError("Error al leer la clave privada",  false);
       return std::vector<unsigned char>(0);
@@ -26,7 +26,7 @@ std::vector<unsigned char> Cifrado::encryptMessage(const std::string& message, c
 }
 
 std::string Cifrado::decryptMessage(std::vector<unsigned char> encryptedMessage, const std::string& keyPath, bool tok) {
-  RSA* rsa = initKey(keyPath, true);
+  RSA * rsa = initKey(keyPath, true);
   if (!rsa) {
       printError("Error al leer la clave pública",  tok);
       return "";
