@@ -93,9 +93,9 @@ bool ServerInicial::autenticar(Lector * lector) {
   if(name.size() < 100 && name.find(user) != std::string::npos) {
     std::cout << "pase2 " << std::endl;
     std::string hexa = lector->readLine();
-    std::cout << "hexa " << hexa << std::endl;
+    std::cout << "hexa " << hexa.size() << " : " << hexa << std::endl;
     hexa.pop_back();
-    std::cout << "hexa " << hexa << std::endl;
+    std::cout << "hexa " << hexa.size() << " : " << hexa << std::endl;
     Hex hex;
     std::vector<unsigned char>  shaEncriptado = hex.hexToByte(hexa);
     std::string keyPath = FULL + pathPrivado + user + ".pem";
