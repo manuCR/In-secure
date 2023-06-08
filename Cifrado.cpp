@@ -31,13 +31,13 @@ std::string Cifrado::decryptMessage(std::vector<unsigned char> encryptedMessage,
       printError("Error al leer la clave pública",  tok);
       return "";
   }
-
+  int rsaSize = RSA_size(rsa);
   // Preparar el buffer de salida
   std::string decryptedMessage;
-  decryptedMessage.resize(RSA_size(rsa));
+  decryptedMessage.resize(rsaSize);
 
   // Descifrar el mensaje
-    int decryptedLength = RSA_public_decrypt(512, reinterpret_cast<const unsigned char*>(&encryptedMessage[0]),
+    int decryptedLength = RSA_public_decrypt(rsaSize, reinterpret_cast<const unsigned char*>(&encryptedMessage[0]),
                                               reinterpret_cast<unsigned char*>(&decryptedMessage[0]), rsa,
                                               RSA_PKCS1_PADDING);
   RSA_free(rsa);
@@ -71,16 +71,16 @@ int Cifrado::chunkSize(const std::string& KeyPath, bool pub) {
 }
 
 RSA * Cifrado::initKey(const std::string& KeyPath, bool pub) {
-  FILE* privateKeyFile = fopen(KeyPath.c_str(), "rb");
+  FILE* keyFile = fopen(KeyPath.c_str(), "rb");
   RSA* rsa;
-  if (!privateKeyFile) {
+  if (!keyFile) {
       return nullptr;
   }
   if (pub) {
-    rsa = PEM_read_RSA_PUBKEY(privateKeyFile, NULL, NULL, NULL);
+    rsa = PEM_read_RSA_PUBKEY(keyFile, NULL, NULL, NULL);
   } else{
-    rsa = PEM_read_RSAPrivateKey(privateKeyFile, NULL, NULL, NULL);
+    rsa = PEM_read_RSAPrivateKey(keyFile, NULL, NULL, NULL);
   }
-  fclose(privateKeyFile);
+  fclose(keyFile);
   return rsa;
 }
