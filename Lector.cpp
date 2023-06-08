@@ -35,7 +35,7 @@ int Lector::read(int chunk) {
 
 std::string Lector::readLine() {
   memset(buffer, 0, BUFFER);
-  return fgets(reinterpret_cast<char*>(buffer), 512, archivo);
+  return fgets(reinterpret_cast<char*>(buffer), 1025, archivo);
 }
 
 std::string Lector::getText() { return std::string(reinterpret_cast<char*>(buffer)); }

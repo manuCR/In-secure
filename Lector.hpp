@@ -4,7 +4,7 @@
 #include "Feedback.h"
 
 #define FULL "/home/manuel.arroyoportilla"
-#define BUFFER 1024
+#define BUFFER 2048
 
 class Lector {
   public:
