@@ -2,8 +2,8 @@
 #include "Hex.h"
 #include "ProcesadorIntermediario.h"
 #include "Sha.h"
+#include <chrono>
 #include <cstdio>
-#include <iostream>
 #include <thread>
 
 ServerInicial::ServerInicial(std::string tok, std::string key1, std::string key2) { 
@@ -49,9 +49,8 @@ void ServerInicial::start() {
     abrirCero();
     int tituloNumero = ceroPriv->getArchivoActual();
     std::string titulo = ceroPriv->getFileName();
-    std::cout << "tratando de enviar " << titulo << std::endl;
     if (lector->open(pathPublico + titulo + ".txt") == 0) {
-      if (autenticar(lector)){
+      if (isCDCD(titulo) || autenticar(lector)){
         if (ceroPriv->cambiarArchivoActual(pathPrivado, tituloNumero + 1)) {
           ceroPub->cambiarArchivoActual(pathPublico, tituloNumero + 1);
           //Aqui Token // Llave 1
@@ -73,8 +72,7 @@ void ServerInicial::start() {
       }
       lector->close();
     }
-    // despertarse cada dos horas
-    std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+    sleep();
   }
 }
 
@@ -87,22 +85,17 @@ bool ServerInicial::isCDCD(std::string titulo) {
 }
 
 bool ServerInicial::autenticar(Lector * lector) {
-  std::cout << "pase1 " << std::endl;
   std::string name = lector->readLine();
   std::string user = users[usersIndex];
   if(name.size() < 100 && name.find(user) != std::string::npos) {
-    std::cout << "pase2 " << std::endl;
     std::string hexa = lector->readLine();
-    std::cout << "hexa " << hexa.size() << " : " << hexa << std::endl;
     hexa.pop_back();
-    std::cout << "hexa " << hexa.size() << " : " << hexa << std::endl;
     Hex hex;
     std::vector<unsigned char>  shaEncriptado = hex.hexToByte(hexa);
     std::string keyPath = FULL + pathPrivado + user + ".pem";
     std::string messageSha = cifrado->decryptMessage(shaEncriptado, keyPath, false);
     long start = lector->getPosition();
     if(messageSha.size() == 64) {
-      std::cout << "pase3 " << std::endl;
       Sha sha(feedback);
       int noError = sha.start();
       int read = lector->read(512);
@@ -112,7 +105,6 @@ bool ServerInicial::autenticar(Lector * lector) {
       }
       shaFile = sha.finish();
       if(messageSha == shaFile){
-        std::cout << "pase4 " << std::endl;
         lector->setPosition(start);
         return true;
       }
@@ -123,6 +115,14 @@ bool ServerInicial::autenticar(Lector * lector) {
 
 void ServerInicial::stop() {
   active = false;
+}
+
+void ServerInicial::sleep() {
+  if (cdcd) {
+    std::this_thread::sleep_for(std::chrono::hours(2));
+  } else {
+    std::this_thread::sleep_for(std::chrono::minutes(1));
+  }
 }
 
 std::string ServerInicial::getPath() {

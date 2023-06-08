@@ -25,10 +25,11 @@ class ServerInicial : public Server {
     std::string pathPrivado = "";
     int usersIndex;
     std::string shaFile;
+    const std::string users[10] = {"cesar", "fabian", "jeremy", "leonel", "maeva", "manuel", "mariana", "nayeri", "rodrigo", "sofia"};
     std::string getPath();
     bool autenticar(Lector * lector);
     bool isCDCD(std::string titulo);
-    const std::string users[10] = {"cesar", "fabian", "jeremy", "leonel", "maeva", "manuel", "mariana", "nayeri", "rodrigo", "sofia"};
+    void sleep();
 };
 
 #endif
