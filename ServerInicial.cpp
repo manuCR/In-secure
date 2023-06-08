@@ -63,6 +63,7 @@ void ServerInicial::start() {
             int chunkSize = cifrado->chunkSize(FULL + llave2, false);
             while (lector->read(chunkSize)) {
               std::string chunk = lector->getText();
+              std::cout << "chunk: " << chunk << std::endl;
               //Aqui Chunk // Llave 2 
               std::vector<unsigned char> chunkie = cifrado->encryptMessage(chunk, FULL + llave2);
               procesador->enviar(chunkie, cifrado, FULL + llave2);
@@ -74,8 +75,8 @@ void ServerInicial::start() {
         feedback->agregarFeedback("No se pudo autenticar al usuario");
       }
       lector->close();
-      usersIndex++;
     }
+    usersIndex++;
     sleep();
   }
 }
@@ -144,7 +145,6 @@ std::string ServerInicial::getPath() {
     }
     path = path + "/eaea/" + users[usersIndex] + "/";
   }
-  std::cout << "path return " <<  path << std::endl;
   return path;
 }
 

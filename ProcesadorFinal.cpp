@@ -1,5 +1,6 @@
 #include "Cifrado.hpp"
 #include "ProcesadorFinal.h"
+#include <iostream>
 
 ProcesadorFinal::ProcesadorFinal() { 
   escritor = new Escritor();
@@ -16,7 +17,7 @@ bool ProcesadorFinal::abrir(std::vector<unsigned char>  token, std::string shaFi
 void ProcesadorFinal::enviar(std::vector<unsigned char>  mensaje, Cifrado * cifrado, std::string llave2) { 
   //Aqui Desencriptar Mensaje chunk con llave 2
   std::string chunkie = cifrado->decryptMessage(mensaje, llave2, false);
-
+  std::cout << "chunk: " << chunkie << std::endl;
   escritor->write(chunkie); 
 }
 
