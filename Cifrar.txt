@@ -2,6 +2,12 @@ Comando para compilar
 g++ -std=c++11 -lssl -lcrypto -pthread ArchivoCero.cpp Bitacora.cpp Cifrado.cpp Client.cpp Escritor.cpp Hex.cpp Lector.cpp main.cpp ProcesadorFinal.cpp ProcesadorIntermediario.cpp ServerAlternativo.cpp ServerInicial.cpp Sha.cpp Socket.cpp Feedback.cpp
 g++ -o cifrado Cifrado.cpp -lssl -lcrypto
 
+
+// 1:inicial(bool), 2:final(bool), 3:ipServer(string), 4:puertoServer(int),
+// 5:ipCliente(string), 6:puertoCliente(int), 7: CDCD(bool), 
+// 8: cero privados(string), 9: token(string), 10: llave tok(string)
+// 11: llave archivos(string)
+
 Inicial:
 ./a.out 1 0 172.24.3.83 8283 172.24.3.84 8283 1 /priv 123A /priv/llaves/key.pem /priv/llaves/key2.pem
 Intermediario:

@@ -1,7 +1,6 @@
 #include "Escritor.hpp"
 #include "Lector.hpp"
 
-// Constructor
 Escritor::Escritor() {
 }
 

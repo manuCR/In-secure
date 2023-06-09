@@ -2,7 +2,6 @@
 #include <cstdio>
 #include <cstring>
 
-// Constructor
 Lector::Lector(Feedback * feedback) { 
   filename = "";
   this->feedback = feedback;
@@ -10,8 +9,8 @@ Lector::Lector(Feedback * feedback) {
 
 int Lector::open(std::string flname) {
   filename = std::string(FULL + flname);
-  archivo = fopen(filename.c_str(), "r"); // abre el archivo Ej: "src/archivo.txt"
-  if (!archivo) { // verifica si el archivo se abrió correctamente
+  archivo = fopen(filename.c_str(), "r");
+  if (!archivo) {
     feedback->agregarFeedback("No se pudo abrir el archivo " + flname);
     return 1;
   }
@@ -20,8 +19,8 @@ int Lector::open(std::string flname) {
 
 int Lector::openBinari(std::string flname) {
   filename = FULL + flname;
-  archivo = fopen(filename.c_str(), "rb"); // abre el archivo Ej: "src/archivo.txt"
-  if (!archivo) { // verifica si el archivo se abrió correctamente
+  archivo = fopen(filename.c_str(), "rb");
+  if (!archivo) {
     feedback->agregarFeedback("No se pudo abrir el archivo " + flname);
     return 1;
   }
@@ -51,7 +50,7 @@ unsigned char * Lector::getChars() {
 
 int Lector::close() {
   memset(buffer, 0, BUFFER);
-  fclose(archivo); // cierra el archivo
+  fclose(archivo);
   return 0;
 }
 

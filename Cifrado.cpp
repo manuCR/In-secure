@@ -12,7 +12,6 @@ std::vector<unsigned char> Cifrado::encryptMessage(const std::string& message, c
       return std::vector<unsigned char>(0);
   }
 
-  // Encriptar el mensaje
   std::vector<unsigned char> result{std::vector<unsigned char>(RSA_size(rsa), 0)};
   int encryptedLength = RSA_private_encrypt(message.size(), reinterpret_cast<const unsigned char*>(message.data()),
                                             &result[0], rsa, RSA_PKCS1_PADDING);                                             
@@ -32,22 +31,18 @@ std::string Cifrado::decryptMessage(std::vector<unsigned char> encryptedMessage,
       return "";
   }
   int rsaSize = RSA_size(rsa);
-  // Preparar el buffer de salida
   std::string decryptedMessage;
   decryptedMessage.resize(rsaSize);
 
-  // Descifrar el mensaje
-    int decryptedLength = RSA_public_decrypt(rsaSize, reinterpret_cast<const unsigned char*>(&encryptedMessage[0]),
-                                              reinterpret_cast<unsigned char*>(&decryptedMessage[0]), rsa,
-                                              RSA_PKCS1_PADDING);
+  int decryptedLength = RSA_public_decrypt(rsaSize, reinterpret_cast<const unsigned char*>(&encryptedMessage[0]),
+                                             reinterpret_cast<unsigned char*>(&decryptedMessage[0]), rsa,
+                                        RSA_PKCS1_PADDING);
   RSA_free(rsa);
 
   if (decryptedLength == -1) {
-      printError("Error al descifrar el mensaje",  tok);
-      return "";
+    printError("Error al descifrar el mensaje",  tok);
+    return "";
   }
-
-  // Ajustar el tamaño del mensaje descifrado
   decryptedMessage.resize(decryptedLength);
 
   return decryptedMessage;

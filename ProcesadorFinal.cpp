@@ -16,7 +16,6 @@ bool ProcesadorFinal::abrir(std::vector<unsigned char>  token,
 }
 
 void ProcesadorFinal::enviar(std::vector<unsigned char>  mensaje, Cifrado * cifrado, std::string llave2) { 
-  //Aqui Desencriptar Mensaje chunk con llave 2
   std::string chunkie = cifrado->decryptMessage(mensaje, llave2, false);
   escritor->write(chunkie); 
 }
