@@ -1,7 +1,8 @@
 #include "Client.h"
 
-Client::Client(std::string address, int port, Feedback * feedback) {
+Client::Client(std::string address, int port, Feedback * feedback, std::string bindIp) {
   socket = new Socket(address, port, feedback);
+  working = socket->bindTo(bindIp);
   working = socket->connectTo();
 }
 
@@ -17,4 +18,6 @@ bool Client::isWorking() {
   return working;
 }
 
-Client::~Client() { delete socket; }
+Client::~Client() {
+  delete socket;
+}

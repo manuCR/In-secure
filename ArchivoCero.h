@@ -11,9 +11,10 @@ class ArchivoCero {
 
 public:
   ArchivoCero(Feedback * feedback);
-  void iniciar(std::string pato);
+  void iniciar(std::string path);
   int getArchivoActual();
-  bool cambiarArchivoActual(std::string path, int numero);
+  bool cambiarArchivoActual(int numero);
+  bool restaurarActual(int numero);
   std::string getFileName();
   ~ArchivoCero();
 

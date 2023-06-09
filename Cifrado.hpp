@@ -1,10 +1,7 @@
 #ifndef CIFRADO_H
 #define CIFRADO_H
 
-#include <iostream>
-#include <cstdlib>
-#include <string>
-#include <fstream>
+#include "Feedback.h"
 #include <vector>
 
 #include <openssl/rsa.h>
@@ -14,9 +11,16 @@
 
 class Cifrado {
 
+private:
+  Feedback * feedback;
+  RSA * initKey(const std::string& KeyPath, bool pub);
+  void printError(std::string mensaje, bool tok);
+  
 public:
-  Cifrado();
-  std::string decryptMessage(std::vector<unsigned char> encryptedMessage, const std::string& privateKeyPath);
+  Cifrado(Feedback * feedback);
+  std::string decryptMessage(std::vector<unsigned char> encryptedMessage, const std::string& privateKeyPath, bool tok);
   std::vector<unsigned char> encryptMessage(const std::string& message, const std::string& publicKeyPath);
+  int chunkSize(const std::string& privateKeyPath, bool pub);
+  
 };
 #endif  //CIFRADO_H

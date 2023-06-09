@@ -1,22 +1,32 @@
 #include "ProcesadorIntermediario.h"
 
-ProcesadorIntermediario::ProcesadorIntermediario(std::string address, int port, Feedback * feedback) {
-  client = new Client(address, port, feedback);
+ProcesadorIntermediario::ProcesadorIntermediario(std::string address, int port, Feedback * feedback, std::string bindIp) {
+  client = new Client(address, port, feedback, bindIp);
   bitacora = new Bitacora();
   working = client->isWorking();
 }
 
-bool ProcesadorIntermediario::abrir(std::vector<unsigned char>  token, std::string shaFile, std::string path,
-                                    std::string archivo, std::vector<unsigned char> titulo) {
+bool ProcesadorIntermediario::abrir(std::vector<unsigned char>  token, 
+                                    std::vector<unsigned char> enShaFile, std::string shaFile,
+                                    std::vector<unsigned char> enPath, std::string path,
+                                    std::vector<unsigned char> titulo, std::string archivo) {
   bitacora->add(shaFile);
   client->send(token);
-  client->send(shaFile);
-  client->send(path);
+  client->send(enShaFile);
+  client->send(enPath);
   client->send(titulo);
   return true;
 }
+
 void ProcesadorIntermediario::enviar(std::vector<unsigned char>  mensaje, Cifrado * cifrado, std::string llave2) {
   client->send(mensaje);
 }
 
-ProcesadorIntermediario::~ProcesadorIntermediario() { delete client; }
+void ProcesadorIntermediario::enviar(std::string  mensaje) { 
+  client->send(mensaje); 
+}
+
+ProcesadorIntermediario::~ProcesadorIntermediario() {
+  delete bitacora;
+  delete client;
+}

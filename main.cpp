@@ -3,10 +3,6 @@
 #include "ServerInicial.h"
 #include <thread>
 
-// 1:inicial(bool), 2:final(bool), 3:ipServer(string), 4:puertoServer(int),
-// 5:ipCliente(string), 6:puertoCliente(int), 7: CDCD(bool), 
-// 8: cero privados(string), 9: token(string), 10: llave tok(string)
-// 11: llave archivos(string)
 int main(int argc, char *argv[]) {
   bool arg1 = atoi(argv[1]);
   bool arg2 = atoi(argv[2]);
@@ -19,8 +15,6 @@ int main(int argc, char *argv[]) {
   std::string arg9 = argv[9];
   std::string arg10 = argv[10];
   std::string arg11 = argv[11];
-  // vamos a manejar los canales con dos procesos separados
-  // canales?
   if (arg1 && arg2) {
     return 0;
   }
@@ -32,10 +26,8 @@ int main(int argc, char *argv[]) {
   }
   server->iniciarCero(arg8, arg7);
   server->setSocket(arg3, arg4);
-  server->iniciarProcesador(arg5, arg6, arg2);
-  new std::thread(&Server::start, server);
-  getchar();
-  server->stop();
+  server->iniciarProcesador(arg5, arg6, arg2, arg3);
+  server->start();
   delete server;
   return 0;
 }

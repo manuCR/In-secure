@@ -16,7 +16,7 @@ void ArchivoCero::iniciar(std::string path) {
   Lector lector(feedback);
   std::string full = path + FILE0;
   if(lector.open(full) == 0){
-    int posicion = lector.read();
+    int posicion = lector.read(512);
     if (posicion) {
       std::string numero = lector.getText();
       actual = stoi(numero);
@@ -25,18 +25,30 @@ void ArchivoCero::iniciar(std::string path) {
   }
 } 
 
-int ArchivoCero::getArchivoActual() { return actual; }
+int ArchivoCero::getArchivoActual() {
+  return actual;
+}
 
-bool ArchivoCero::cambiarArchivoActual(std::string path, int numero) {
+bool ArchivoCero::cambiarArchivoActual(int numero) {
   std::lock_guard<std::mutex> lock(mutex);
   if (escritor->open(path + FILE0, "w+") == 0) {
     if (actual + 1 == numero) {
       actual++;
-      escritor->inicio();
       escritor->write(getFileName());
       escritor->close();
       return true;
     }
+  }
+  return false;
+}
+
+bool ArchivoCero::restaurarActual(int numero) {
+  std::lock_guard<std::mutex> lock(mutex);
+  if (escritor->open(path + FILE0, "w+") == 0) {
+    actual = numero;
+    escritor->write(getFileName());
+    escritor->close();
+    return true;
   }
   return false;
 }

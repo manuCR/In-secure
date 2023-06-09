@@ -1,7 +1,6 @@
 #include "Escritor.hpp"
 #include "Lector.hpp"
 
-// Constructor
 Escritor::Escritor() {
 }
 
@@ -12,10 +11,6 @@ bool Escritor::open(std::string flname, const char * mode) {
     return 1;
   }
   return 0;
-}
-
-void Escritor::inicio() {
-  rewind(archivo);
 }
 
 void Escritor::write(std::string entry) {

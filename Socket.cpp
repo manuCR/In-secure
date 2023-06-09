@@ -25,8 +25,18 @@ bool Socket::connectTo() {
   return result != -1;
 }
 
-bool Socket::bindTo() {
-  int result = bind(sockfd, (struct sockaddr *)&server_addr, addrlen);
+bool Socket::bindTo(std::string address) {
+  int result = 0;
+  if (address.size() > 0){
+    struct sockaddr_in addr;
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(0);
+    addr.sin_addr.s_addr = inet_addr(address.c_str());
+    int len = sizeof(server_addr);
+    result = bind(sockfd, (struct sockaddr *)&addr, len);
+  } else {
+    result = bind(sockfd, (struct sockaddr *)&server_addr, addrlen);
+  }  
   if ( result == -1) {
     feedback->agregarFeedback("Failed to bind");
   }
@@ -70,10 +80,10 @@ void Socket::send(std::string message) {
 std::vector<unsigned char> Socket::receive(int socket) {
   int len = 0;
   recv(socket, &len, sizeof(len), 0);
-  std::vector<unsigned char> mes{std::vector<unsigned char>(512)};
-  if (len > 512) {
-    return mes;
+  if (len > 512 || len <= 0) {
+    return std::vector<unsigned char>(0);
   }
+  std::vector<unsigned char> mes{std::vector<unsigned char>(512)};
   unsigned char buffer[512] = { 0 };
   if (recv(socket, buffer, len, 0) == -1) {
     feedback->agregarFeedback("Failed to receive message");
@@ -82,4 +92,10 @@ std::vector<unsigned char> Socket::receive(int socket) {
   return mes;
 }
 
-Socket::~Socket() { close(sockfd); }
+void Socket::end(int socket) {
+  close(socket);
+}
+
+Socket::~Socket() {
+  close(sockfd);
+}

@@ -3,21 +3,26 @@
 
 #include "Feedback.h"
 
-#define FULL "/home/manuel.arroyoportilla"
+#define FULL "/home/valery.murcia"
+#define BUFFER 2048
 
 class Lector {
   public:
     Lector(Feedback * feedback);
     int open(std::string flname) ;
     int openBinari(std::string flname) ;
-    int read();
+    int read(int chunk);
     std::string getText();
+    std::string readLine();
     unsigned char * getChars();
     int close() ;
+    long getPosition();
+    void setPosition(long position);
+    ~Lector();
   private:
     std::string filename;
     FILE * archivo;
-    unsigned char * buffer = new unsigned char[512];
+    unsigned char * buffer = new unsigned char[BUFFER];
     Feedback * feedback;
 };
 #endif  // LECTOR_H

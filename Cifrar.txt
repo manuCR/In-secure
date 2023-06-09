@@ -1,13 +1,53 @@
 Comando para compilar
-g++ -std=c++11 -lssl -lcrypto -pthread ArchivoCero.cpp Bitacora.cpp Cifrado.cpp Client.cpp Escritor.cpp Lector.cpp main.cpp ProcesadorFinal.cpp ProcesadorIntermediario.cpp ServerAlternativo.cpp ServerInicial.cpp Sha.cpp Socket.cpp Feedback.cpp
+g++ -std=c++11 -lssl -lcrypto -pthread ArchivoCero.cpp Bitacora.cpp Cifrado.cpp Client.cpp Escritor.cpp Hex.cpp Lector.cpp main.cpp ProcesadorFinal.cpp ProcesadorIntermediario.cpp ServerAlternativo.cpp ServerInicial.cpp Sha.cpp Socket.cpp Feedback.cpp
 g++ -o cifrado Cifrado.cpp -lssl -lcrypto
 
+
+// 1:inicial(bool), 2:final(bool), 3:ipServer(string), 4:puertoServer(int),
+// 5:ipCliente(string), 6:puertoCliente(int), 7: CDCD(bool), 
+// 8: cero privados(string), 9: token(string), 10: llave tok(string)
+// 11: llave archivos(string)
+
 Inicial:
-./a.out 1 0 172.24.3.83 8283 172.24.3.84 8283 1 /priv 123A /In-secure/key.pem /In-secure/key2.pem
+./a.out 1 0 172.24.3.83 8283 172.24.3.84 8283 1 /priv 123A /priv/llaves/key.pem /priv/llaves/key2.pem
 Intermediario:
-./a.out 0 0 
+./a.out 0 0 172.24.3.83 8283 172.24.3.84 8283 1 /priv 123A /priv/llaves/pub.pem nada 
 Final:
-./a.out 0 1 172.24.3.84 8283 nada nada 1 /priv 123A /In-secure/pub.pem /In-secure/pub2.pem
+./a.out 0 1 172.24.3.84 8283 nada nada 1 /priv 123A /priv/llaves/pub.pem /priv/llaves/pub2.pem
+
+
+Inicial:
+./a.out 1 0 172.24.3.83 8283 172.24.3.84 8283 0 /priv 123A /In-secure/key.pem /In-secure/key2.pem
+Intermediario:
+./a.out 0 0 172.24.3.83 8283 172.24.3.84 8283 1 /priv 123A /In-secure/pub.pem nada 
+Final:
+./a.out 0 1 172.24.3.84 8283 nada nada 0 /priv 123A /In-secure/pub.pem /In-secure/pub2.pem
+
+para los canales hay que cambiar los puertos y el bool del canal
+Inicial:
+./a.out 1 0 192.168.5.51 52685 192.168.5.52 52685 1 /.priv 123A /.priv/.llaves/key.pem /.priv/.llaves/key2.pem
+Intermediario:
+./a.out 0 0 192.168.5.52 52685 192.168.5.53 52685 1 /.priv 123A /.priv/.llaves/pub.pem nada
+Final:
+./a.out 0 1 192.168.5.53 52685 nada nada 1 /.priv 123A /.priv/.llaves/pub.pem /.priv/.llaves/pub2.pem
+
+
+/etc/systemd/system/cdcd5.service
+/etc/systemd/system/eaea5.service
+
+[Unit]
+Description=In-secure grupo 5 eaea/cdcd
+After=network.target
+StartLimitIntervalSec=0
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=valery.murcia
+ExecStart=/home/valery.murcia/In-secure/a.out 0 1 172.24.3.84 8283 nada nada 0 /priv 123A /In-secure/pub.pem /In-secure/pub2.pem
+
+[Install]
+WantedBy=multi-user.target
 
     Generate RSA key:
 

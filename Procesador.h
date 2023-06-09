@@ -10,11 +10,12 @@ protected:
   bool working;
 
 public:
-  virtual bool abrir(std::vector<unsigned char> token, std::string shaFile,
-                     std::string path,
-                     std::string archivo,
-                     std::vector<unsigned char> titulo) = 0;
+  virtual bool abrir(std::vector<unsigned char>  token, 
+                     std::vector<unsigned char> enShaFile, std::string shaFile,
+                     std::vector<unsigned char> enPath, std::string path,
+                     std::vector<unsigned char> titulo, std::string archivo) = 0;
   virtual void enviar(std::vector<unsigned char>  mensaje, Cifrado * cifrado, std::string llave2) = 0;
+  virtual void enviar(std::string  mensaje) = 0;
   virtual ~Procesador(){};
   bool isWorking() { return working; }
 };
