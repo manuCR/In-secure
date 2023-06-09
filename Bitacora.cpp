@@ -4,13 +4,13 @@
 Bitacora::Bitacora() {}
 
 void Bitacora::add(std::string entry) {
-  openlog("Main", LOG_CONS | LOG_PID, LOG_LOCAL5);
+  openlog("Grupo5", LOG_CONS | LOG_PID, LOG_LOCAL5);
   syslog(LOG_INFO, "%s", entry.c_str());
   closelog();
 }
 
 void Bitacora::open() {
-  openlog("Main", LOG_CONS | LOG_PID, LOG_LOCAL5);
+  openlog("Grupo5", LOG_CONS | LOG_PID, LOG_LOCAL5);
 }
 
 void Bitacora::write(std::string entry) {
