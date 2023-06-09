@@ -98,8 +98,8 @@ bool ServerInicial::autenticar(Lector * lector) {
       std::vector<unsigned char>  shaEncriptado = hex.hexToByte(hexa);
       std::string keyPath = FULL + pathPrivado + user + ".pem";
       std::string messageSha = cifrado->decryptMessage(shaEncriptado, keyPath, false);
-      long start = lector->getPosition();
       if(messageSha.size() == 64) {
+        long start = lector->getPosition();
         Sha sha(feedback);
         int noError = sha.start();
         int read = lector->read(512);
@@ -128,8 +128,8 @@ void ServerInicial::sleep() {
     std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
     std::tm * localTime = std::localtime(&currentTime);
     int hours = localTime->tm_hour % 2 * 60;
-    int minutes = 50 - localTime->tm_min;
-    int sleepTime = (120 - hours + minutes) % 121;
+    int minutes = localTime->tm_min + 10;
+    int sleepTime = 120 - (hours + minutes) % 120;
     std::this_thread::sleep_for(std::chrono::minutes(sleepTime));
   } else {
     std::this_thread::sleep_for(std::chrono::seconds(1));
