@@ -40,7 +40,8 @@ void ServerInicial::iniciarProcesador(std::string address, int port, bool fin, s
 }
 
 void ServerInicial::start() {
-  if (!procesador->isWorking()){
+  if (!procesador->isWorking()) {
+    feedback->agregarFeedback("No se pudo contactar al siguiente nodo");
     return;
   }
   active = true;
@@ -138,12 +139,12 @@ void ServerInicial::sleep() {
 std::string ServerInicial::getPath() {
   std::string path = "";
   if (cdcd) {
-    path = path + "/cdcd/";
+    path = path + "/CDCD/";
   } else {
     if (usersIndex >= carpetas) {
       usersIndex = usersIndex % carpetas;
     }
-    path = path + "/eaea/" + users[usersIndex] + "/";
+    path = path + "/EAEA/" + users[usersIndex] + "/";
   }
   return path;
 }

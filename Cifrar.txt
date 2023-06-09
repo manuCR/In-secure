@@ -9,6 +9,39 @@ Intermediario:
 Final:
 ./a.out 0 1 172.24.3.84 8283 nada nada 1 /priv 123A /priv/llaves/pub.pem /priv/llaves/pub2.pem
 
+
+Inicial:
+./a.out 1 0 172.24.3.83 8283 172.24.3.84 8283 0 /priv 123A /In-secure/key.pem /In-secure/key2.pem
+Intermediario:
+./a.out 0 0 172.24.3.83 8283 172.24.3.84 8283 1 /priv 123A /In-secure/pub.pem nada 
+Final:
+./a.out 0 1 172.24.3.84 8283 nada nada 0 /priv 123A /In-secure/pub.pem /In-secure/pub2.pem
+
+Inicial:
+./a.out 1 0 192.168.5.51 52685 192.168.5.52 52685 1 /priv 123A /priv/key.pem /priv/key2.pem
+Intermediario:
+./a.out 0 0 192.168.5.52 52685 192.168.5.53 52685 1 /priv 123A /priv/pub.pem nada
+Final:
+./a.out 0 1 192.168.5.53 52685 nada nada 1 /priv 123A /priv/pub.pem /priv/pub2.pem
+
+
+/etc/systemd/system/cdcd5.service
+/etc/systemd/system/eaea5.service
+
+[Unit]
+Description=In-secure grupo 5 eaea/cdcd
+After=network.target
+StartLimitIntervalSec=0
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=manuel.arroyoportilla
+ExecStart=/home/manuel.arroyoportilla/In-secure/a.out 0 1 172.24.3.84 8283 nada nada 0 /priv 123A /In-secure/pub.pem /In-secure/pub2.pem
+
+[Install]
+WantedBy=multi-user.target
+
     Generate RSA key:
 
     $ openssl genrsa -out key.pem 4096 

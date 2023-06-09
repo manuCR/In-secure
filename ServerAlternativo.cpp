@@ -41,13 +41,13 @@ void ServerAlternativo::iniciarCero(std::string path, bool cdcd) {
 
 void ServerAlternativo::start() {
   if (!procesador->isWorking() || !working){
+    feedback->agregarFeedback("No se pudo contactar al siguiente nodo");
     return;
   }
   active = true;
-  std::thread *worker;
   while (active) {
     int id = socket->acceptConection();
-    worker = new std::thread(&ServerAlternativo::getMessages, this, id);
+    new std::thread(&ServerAlternativo::getMessages, this, id);
   }
 }
 
