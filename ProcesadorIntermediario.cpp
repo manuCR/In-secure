@@ -28,7 +28,7 @@ void ProcesadorIntermediario::enviar(std::string  mensaje) {
 }
 
 void ProcesadorIntermediario::disconnect() { 
-  client->disconnect(); 
+  client->disconnect();
 }
 
 ProcesadorIntermediario::~ProcesadorIntermediario() {
