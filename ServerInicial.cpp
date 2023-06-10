@@ -51,11 +51,15 @@ void ServerInicial::start() {
   while (active) {
     sleep();
     abrirCero();
+    std::cout << "pase1 " << std::endl;
     int tituloNumero = ceroPriv->getArchivoActual();
     std::string titulo = ceroPriv->getFileName();
     if (lector->open(pathPublico + titulo + ".txt") == 0) {
+      std::cout << "pase2 " << std::endl;
       if (isCDCD(titulo) || autenticar(lector)){
+        std::cout << "pase3 " << std::endl;
         if (ceroPriv->cambiarArchivoActual(tituloNumero + 1)) {
+          std::cout << "pase4 " << std::endl;
           ceroPub->cambiarArchivoActual(tituloNumero + 1);
           std::vector<unsigned char> tolkien = cifrado->encryptMessage(token, FULL + llave1);
           std::vector<unsigned char> tiltien = cifrado->encryptMessage(titulo, FULL + llave1);
