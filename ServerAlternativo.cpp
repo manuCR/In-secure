@@ -81,7 +81,6 @@ void ServerAlternativo::getMessages(int id) {
       }
     }
   }
-  socket->end(id);
 }
 
 std::vector<unsigned char> ServerAlternativo::receive(int id) {
