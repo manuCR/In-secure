@@ -66,8 +66,7 @@ void ServerInicial::start() {
             procesador->enviar("");
             procesador->disconnect();
           } else {
-            ceroPub->restaurarActual(tituloNumero);
-            feedback->agregarFeedback("fallo la comunicacion con el siguiente nodo");
+            ceroPriv->restaurarActual(tituloNumero);
           }
         }
       } else {
@@ -130,7 +129,7 @@ void ServerInicial::sleep() {
     int hours = localTime->tm_hour % 2 * 60;
     int minutes = localTime->tm_min + 10;
     int sleepTime = 120 - (hours + minutes) % 120;
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    std::this_thread::sleep_for(std::chrono::minutes(sleepTime));
   } else {
     std::this_thread::sleep_for(std::chrono::seconds(1));
   }
@@ -139,12 +138,12 @@ void ServerInicial::sleep() {
 std::string ServerInicial::getPath() {
   std::string path = "";
   if (cdcd) {
-    path = path + "/cdcd/";
+    path = path + "/CDCD/";
   } else {
     if (usersIndex >= carpetas) {
       usersIndex = usersIndex % carpetas;
     }
-    path = path + "/eaea/" + users[usersIndex] + "/";
+    path = path + "/EAEA/" + users[usersIndex] + "/";
   }
   return path;
 }

@@ -7,10 +7,11 @@ Client::Client(std::string address, int port, Feedback * feedback, std::string b
   this->bindIp = bindIp;
 }
 
-void Client::connect() {
+bool Client::connect() {
   socket = new Socket(address, port, feedback);
   working = socket->bindTo(bindIp);
   working = socket->connectTo();
+  return working;
 }
 
 void Client::disconnect() {
