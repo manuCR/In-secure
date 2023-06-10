@@ -139,12 +139,12 @@ void ServerInicial::sleep() {
 std::string ServerInicial::getPath() {
   std::string path = "";
   if (cdcd) {
-    path = path + "/CDCD/";
+    path = path + "/cdcd/";
   } else {
     if (usersIndex >= carpetas) {
       usersIndex = usersIndex % carpetas;
     }
-    path = path + "/EAEA/" + users[usersIndex] + "/";
+    path = path + "/eaea/" + users[usersIndex] + "/";
   }
   return path;
 }
