@@ -49,6 +49,7 @@ void ServerAlternativo::start() {
   while (active) {
     int id = socket->acceptConection();
     new std::thread(&ServerAlternativo::getMessages, this, id);
+    std::cout << "papa1 " << std::endl;
   }
 }
 
