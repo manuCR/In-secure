@@ -5,7 +5,6 @@
 #include <chrono>
 #include <cstdio>
 #include <ctime>
-#include <iostream>
 #include <thread>
 
 ServerInicial::ServerInicial(std::string tok, std::string key1, std::string key2) { 
