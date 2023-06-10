@@ -92,10 +92,6 @@ std::vector<unsigned char> Socket::receive(int socket) {
   return mes;
 }
 
-void Socket::end(int socket) {
-  close(socket);
-}
-
 Socket::~Socket() {
   close(sockfd);
 }

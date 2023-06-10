@@ -87,7 +87,6 @@ void ServerAlternativo::getMessages(int id) {
       }
     }
   }
-  socket->end(id);
   std::cout << "pase5 " << std::endl;
 }
 

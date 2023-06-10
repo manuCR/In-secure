@@ -13,6 +13,7 @@ class ProcesadorIntermediario : public Procesador {
                std::vector<unsigned char> titulo, std::string archivo);
     void enviar(std::vector<unsigned char>  mensaje, Cifrado * cifrado, std::string llave2);
     void enviar(std::string  mensaje);
+    void disconnect();
     ~ProcesadorIntermediario();
 
   private:

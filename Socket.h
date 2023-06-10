@@ -15,7 +15,6 @@ class Socket {
     void send(std::string message);
     int acceptConection();
     std::vector<unsigned char> receive(int socket);
-    void end(int socket);
     ~Socket();
 
   private:

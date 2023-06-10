@@ -10,10 +10,16 @@ class Client {
     void send(std::vector<unsigned char>  message);
     void send(std::string  message);
     bool isWorking();
+    void connect();
+    void disconnect();
     ~Client();
 
   private:
     Socket * socket;
+    std::string address;
+    int port;
+    Feedback * feedback;
+    std::string bindIp;
     bool working = false;
 };
 
