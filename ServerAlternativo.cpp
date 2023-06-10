@@ -74,8 +74,6 @@ void ServerAlternativo::getMessages(int id) {
           }
           procesador->enviar("");
           procesador->disconnect();
-        } else {
-          feedback->agregarFeedback("fallo la comunicacion con el siguiente nodo");
         }
       }
     }
