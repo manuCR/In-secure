@@ -7,10 +7,10 @@ Lector::Lector(Feedback * feedback) {
   this->feedback = feedback;
 }
 
-int Lector::open(std::string flname) {
+int Lector::open(std::string flname, bool feed) {
   filename = std::string(FULL + flname);
   archivo = fopen(filename.c_str(), "r");
-  if (!archivo) {
+  if (!archivo && feed) {
     feedback->agregarFeedback("No se pudo abrir el archivo " + flname);
     return 1;
   }

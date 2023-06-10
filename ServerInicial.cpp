@@ -50,7 +50,7 @@ void ServerInicial::start() {
     std::cout << "pase1 " << std::endl;
     int tituloNumero = ceroPriv->getArchivoActual();
     std::string titulo = ceroPriv->getFileName();
-    if (lector->open(pathPublico + titulo + ".txt") == 0) {
+    if (lector->open(pathPublico + titulo + ".txt", false) == 0) {
       std::cout << "pase2 " << std::endl;
       if (isCDCD(titulo) || autenticar(lector)){
         std::cout << "pase3 " << std::endl;
@@ -72,6 +72,8 @@ void ServerInicial::start() {
             procesador->enviar("");
             procesador->disconnect();
             std::cout << "lo logrue" << std::endl;
+          } else {
+            ceroPub->restaurarActual(tituloNumero);
           }
         }
       } else {
