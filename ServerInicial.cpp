@@ -130,7 +130,7 @@ void ServerInicial::sleep() {
     int hours = localTime->tm_hour % 2 * 60;
     int minutes = localTime->tm_min + 10;
     int sleepTime = 120 - (hours + minutes) % 120;
-    std::this_thread::sleep_for(std::chrono::minutes(sleepTime));
+    std::this_thread::sleep_for(std::chrono::seconds(1));
   } else {
     std::this_thread::sleep_for(std::chrono::seconds(1));
   }
