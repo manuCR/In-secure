@@ -9,7 +9,7 @@
 class Lector {
   public:
     Lector(Feedback * feedback);
-    int open(std::string flname) ;
+    int open(std::string flname, bool feed = true) ;
     int openBinari(std::string flname) ;
     int read(int chunk);
     std::string getText();

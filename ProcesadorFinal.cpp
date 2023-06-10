@@ -21,6 +21,9 @@ void ProcesadorFinal::enviar(std::vector<unsigned char>  mensaje, Cifrado * cifr
 }
 
 void ProcesadorFinal::enviar(std::string  mensaje) {
+}
+
+void ProcesadorFinal::disconnect() {
   escritor->close();
 }
 

@@ -16,8 +16,8 @@ public:
                      std::vector<unsigned char> titulo, std::string archivo) = 0;
   virtual void enviar(std::vector<unsigned char>  mensaje, Cifrado * cifrado, std::string llave2) = 0;
   virtual void enviar(std::string  mensaje) = 0;
+  virtual void disconnect() = 0;
   virtual ~Procesador(){};
-  bool isWorking() { return working; }
 };
 
 #endif

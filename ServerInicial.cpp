@@ -40,10 +40,6 @@ void ServerInicial::iniciarProcesador(std::string address, int port, bool fin, s
 }
 
 void ServerInicial::start() {
-  if (!procesador->isWorking()) {
-    feedback->agregarFeedback("No se pudo contactar al siguiente nodo");
-    return;
-  }
   active = true;
   cifrado = new Cifrado(feedback);
   lector = new Lector(feedback);
@@ -52,7 +48,7 @@ void ServerInicial::start() {
     abrirCero();
     int tituloNumero = ceroPriv->getArchivoActual();
     std::string titulo = ceroPriv->getFileName();
-    if (lector->open(pathPublico + titulo + ".txt") == 0) {
+    if (lector->open(pathPublico + titulo + ".txt", false) == 0) {
       if (isCDCD(titulo) || autenticar(lector)){
         if (ceroPriv->cambiarArchivoActual(tituloNumero + 1)) {
           ceroPub->cambiarArchivoActual(tituloNumero + 1);
@@ -68,6 +64,9 @@ void ServerInicial::start() {
               procesador->enviar(chunkie, cifrado, FULL + llave2);
             }
             procesador->enviar("");
+            procesador->disconnect();
+          } else {
+            ceroPriv->restaurarActual(tituloNumero);
           }
         }
       } else {

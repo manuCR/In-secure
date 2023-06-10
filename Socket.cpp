@@ -18,14 +18,20 @@ Socket::Socket(std::string address, int port, Feedback * feedback) {
 }
 
 bool Socket::connectTo() {
+  if (sockfd == -1) {
+    return false;
+  }
   int result =  connect(sockfd, (struct sockaddr *)&server_addr, addrlen);
   if ( result == -1) {
-    feedback->agregarFeedback("Failed to create socket");
+    feedback->agregarFeedback("Failed to connect socket");
   }
   return result != -1;
 }
 
 bool Socket::bindTo(std::string address) {
+  if (sockfd == -1) {
+    return false;
+  }
   int result = 0;
   if (address.size() > 0){
     struct sockaddr_in addr;
@@ -44,6 +50,9 @@ bool Socket::bindTo(std::string address) {
 }
 
 bool Socket::listen() {
+  if (sockfd == -1) {
+    return false;
+  }
   int result = ::listen(sockfd, 3);
   if ( result == -1) {
     feedback->agregarFeedback("Failed to listen to server");
