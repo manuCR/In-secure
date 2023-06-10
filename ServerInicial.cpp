@@ -62,6 +62,7 @@ void ServerInicial::start() {
           std::vector<unsigned char> shatien = cifrado->encryptMessage(shaFile, FULL + llave1);
           std::vector<unsigned char> pathien = cifrado->encryptMessage(pathPublico, FULL + llave1);
           if (procesador->abrir(tolkien, shatien, shaFile, pathien, pathPublico, tiltien, titulo)) {
+            std::cout << "pase5 " << std::endl;
             int chunkSize = cifrado->chunkSize(FULL + llave2, false);
             while (lector->read(chunkSize)) {
               std::string chunk = lector->getText();
@@ -69,6 +70,7 @@ void ServerInicial::start() {
               procesador->enviar(chunkie, cifrado, FULL + llave2);
             }
             procesador->enviar("");
+            procesador->disconnect();
             std::cout << "lo logrue" << std::endl;
           }
         }
