@@ -86,6 +86,7 @@ void ServerAlternativo::getMessages(int id) {
       }
     }
   }
+  std::cout << "pase5 " << std::endl;
 }
 
 std::vector<unsigned char> ServerAlternativo::receive(int id) {
