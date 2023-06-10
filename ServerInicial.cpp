@@ -5,6 +5,7 @@
 #include <chrono>
 #include <cstdio>
 #include <ctime>
+#include <iostream>
 #include <thread>
 
 ServerInicial::ServerInicial(std::string tok, std::string key1, std::string key2) { 
@@ -68,6 +69,7 @@ void ServerInicial::start() {
               procesador->enviar(chunkie, cifrado, FULL + llave2);
             }
             procesador->enviar("");
+            std::cout << "lo logrue" << std::endl;
           }
         }
       } else {
