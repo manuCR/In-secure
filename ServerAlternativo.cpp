@@ -4,7 +4,6 @@
 #include "ProcesadorFinal.h"
 #include "ProcesadorIntermediario.h"
 #include <thread>
-#include <iostream>
 
 ServerAlternativo::ServerAlternativo(std::string tok, std::string key1, std::string key2) {
   token = tok;
@@ -45,7 +44,6 @@ void ServerAlternativo::start() {
   while (active) {
     int id = socket->acceptConection();
     new std::thread(&ServerAlternativo::getMessages, this, id);
-    std::cout << "papa1 " << std::endl;
   }
 }
 
@@ -55,11 +53,9 @@ void ServerAlternativo::stop() {
 
 void ServerAlternativo::getMessages(int id) {
   std::vector<unsigned char> tok = receive(id);
-  std::cout << "pase1 " << std::endl;
   if (tok.size() > 0) {
     std::string tolkien = cifrado->decryptMessage(tok, FULL + llave1, true);
     if (tolkien == token) {
-      std::cout << "pase2 " << std::endl;
       std::vector<unsigned char> shaFile = receive(id);
       std::vector<unsigned char> path = receive(id);
       std::vector<unsigned char> titulo = receive(id);
@@ -70,20 +66,19 @@ void ServerAlternativo::getMessages(int id) {
       ceroPriv->iniciar(priv + mesPath);
       if (ceroPriv->getArchivoActual() == tituloNum &&
           ceroPriv->cambiarArchivoActual(tituloNum + 1)) {
-        std::cout << "pase3 " << std::endl;
         if (procesador->abrir(tok, shaFile, mesSha, path, mesPath, titulo, mesTitulo)) {
-          std::cout << "pase4 " << std::endl;
           std::vector<unsigned char> message = receive(id);
           while (message.size()>0) {
             procesador->enviar(message, cifrado, FULL + llave2);
             message = receive(id);
           }
           procesador->enviar("");
+        } else {
+          feedback->agregarFeedback("fallo la comunicacion con el siguiente nodo");
         }
       }
     }
   }
-  std::cout << "pase5 " << std::endl;
 }
 
 std::vector<unsigned char> ServerAlternativo::receive(int id) {

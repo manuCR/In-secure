@@ -47,22 +47,17 @@ void ServerInicial::start() {
   while (active) {
     sleep();
     abrirCero();
-    std::cout << "pase1 " << std::endl;
     int tituloNumero = ceroPriv->getArchivoActual();
     std::string titulo = ceroPriv->getFileName();
     if (lector->open(pathPublico + titulo + ".txt", false) == 0) {
-      std::cout << "pase2 " << std::endl;
       if (isCDCD(titulo) || autenticar(lector)){
-        std::cout << "pase3 " << std::endl;
         if (ceroPriv->cambiarArchivoActual(tituloNumero + 1)) {
-          std::cout << "pase4 " << std::endl;
           ceroPub->cambiarArchivoActual(tituloNumero + 1);
           std::vector<unsigned char> tolkien = cifrado->encryptMessage(token, FULL + llave1);
           std::vector<unsigned char> tiltien = cifrado->encryptMessage(titulo, FULL + llave1);
           std::vector<unsigned char> shatien = cifrado->encryptMessage(shaFile, FULL + llave1);
           std::vector<unsigned char> pathien = cifrado->encryptMessage(pathPublico, FULL + llave1);
           if (procesador->abrir(tolkien, shatien, shaFile, pathien, pathPublico, tiltien, titulo)) {
-            std::cout << "pase5 " << std::endl;
             int chunkSize = cifrado->chunkSize(FULL + llave2, false);
             while (lector->read(chunkSize)) {
               std::string chunk = lector->getText();
@@ -71,9 +66,9 @@ void ServerInicial::start() {
             }
             procesador->enviar("");
             procesador->disconnect();
-            std::cout << "lo logrue" << std::endl;
           } else {
             ceroPub->restaurarActual(tituloNumero);
+            feedback->agregarFeedback("fallo la comunicacion con el siguiente nodo");
           }
         }
       } else {
