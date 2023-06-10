@@ -26,10 +26,6 @@ void Client::send(std::string message) {
   return socket->send(message);
 }
 
-bool Client::isWorking() {
-  return working;
-}
-
 Client::~Client() {
   delete socket;
 }

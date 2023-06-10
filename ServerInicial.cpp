@@ -41,10 +41,6 @@ void ServerInicial::iniciarProcesador(std::string address, int port, bool fin, s
 }
 
 void ServerInicial::start() {
-  if (!procesador->isWorking()) {
-    feedback->agregarFeedback("No se pudo contactar al siguiente nodo");
-    return;
-  }
   active = true;
   cifrado = new Cifrado(feedback);
   lector = new Lector(feedback);

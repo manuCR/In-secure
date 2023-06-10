@@ -18,7 +18,6 @@ public:
   virtual void enviar(std::string  mensaje) = 0;
   virtual void disconnect() = 0;
   virtual ~Procesador(){};
-  bool isWorking() { return working; }
 };
 
 #endif

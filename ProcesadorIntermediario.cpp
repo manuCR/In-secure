@@ -10,7 +10,6 @@ bool ProcesadorIntermediario::abrir(std::vector<unsigned char>  token,
                                     std::vector<unsigned char> enPath, std::string path,
                                     std::vector<unsigned char> titulo, std::string archivo) {
   client->connect();
-  working = client->isWorking();
   bitacora->add(shaFile);
   client->send(token);
   client->send(enShaFile);
