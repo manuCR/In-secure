@@ -3,7 +3,7 @@
 
 #include "Feedback.h"
 
-#define FULL "/home/manuel.arroyoportilla/"
+#define FULL "/home/manuel.arroyoportilla"
 #define BUFFER 2048
 
 class Lector {
